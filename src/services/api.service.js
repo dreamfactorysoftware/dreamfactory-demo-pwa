@@ -6,44 +6,72 @@ const API_URL = 'http://excel.staging-spg.dreamfactory.com/api/v2/mysql/_table';
 
 
 const ApiService = {
+    departments: [],
+    employees: [],
+    deptEmployees: [],
+
     getDepartments() {
-        return axios.get(`${API_URL}/departments`, {
-            dataType: 'json',
-            headers: {
-                'X-DreamFactory-API-Key': API_KEY,
-                'X-DreamFactory-Session-Token': SESSION_TOKEN
-            }
-        })
-            .then(response => response.data.resource)
-            .catch(e => {
-                console.error(e)
+        if (this.departments.length > 0) {
+            return this.departments;
+        }
+        else {
+            return axios.get(`${API_URL}/departments`, {
+                dataType: 'json',
+                headers: {
+                    'X-DreamFactory-API-Key': API_KEY,
+                    'X-DreamFactory-Session-Token': SESSION_TOKEN
+                }
             })
+                .then(response => {
+                    this.departments = response.data.resource;
+                    return response.data.resource;
+                })
+                .catch(e => {
+                    console.error(e)
+                })
+        }
     },
     getDeptEmployees() {
-        return axios.get(`${API_URL}/dept_emp`, {
-            dataType: 'json',
-            headers: {
-                'X-DreamFactory-API-Key': API_KEY,
-                'X-DreamFactory-Session-Token': SESSION_TOKEN
-            }
-        })
-            .then(response => response.data.resource)
-            .catch(e => {
-                console.error(e)
+        if (this.deptEmployees.length > 0) {
+            return this.deptEmployees;
+        }
+        else {
+            return axios.get(`${API_URL}/dept_emp`, {
+                dataType: 'json',
+                headers: {
+                    'X-DreamFactory-API-Key': API_KEY,
+                    'X-DreamFactory-Session-Token': SESSION_TOKEN
+                }
             })
+                .then(response => {
+                    this.deptEmployees = response.data.resource;
+                    return response.data.resource;
+                })
+                .catch(e => {
+                    console.error(e)
+                })
+        }
     },
     getEmployees() {
-        return axios.get(`${API_URL}/employees`, {
-            dataType: 'json',
-            headers: {
-                'X-DreamFactory-API-Key': API_KEY,
-                'X-DreamFactory-Session-Token': SESSION_TOKEN
-            }
-        })
-            .then(response => response.data.resource)
-            .catch(e => {
-                console.error(e)
+        if (this.employees.length > 0) {
+            return this.employees;
+        }
+        else {
+            return axios.get(`${API_URL}/employees`, {
+                dataType: 'json',
+                headers: {
+                    'X-DreamFactory-API-Key': API_KEY,
+                    'X-DreamFactory-Session-Token': SESSION_TOKEN
+                }
             })
+                .then(response => {
+                    this.employees = response.data.resource;
+                    return response.data.resource;
+                })
+                .catch(e => {
+                    console.error(e)
+                })
+        }
     },
     getEmployeeById(id) {
         return axios.get(`${API_URL}/employees/${id}`, {
