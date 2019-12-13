@@ -47,11 +47,12 @@
     }
 
     .login-form {
-        width: 300px;
+        width: auto;
         height: auto;
         background-color: #ffffff;
         box-shadow: 0 6px 12px rgba(0,0,0,.175);
-        padding: 25px;
+        padding: 20px;
+        margin: 20px;
         border-radius: 5px;
     }
 
