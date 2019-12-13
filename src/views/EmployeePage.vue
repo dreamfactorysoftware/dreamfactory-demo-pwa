@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <div class="container">
-            <div class="employee-name">
+            <div class="employee-information" v-if="employee.emp_no">
                 <h3>{{ `${employee.first_name} ${employee.last_name}` }}</h3>
                 <p>Birth date: <b>{{ employee.birth_date }}</b></p>
                 <p>Gender: {{ getGender() }}</p>

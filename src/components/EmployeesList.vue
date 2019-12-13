@@ -1,7 +1,7 @@
 <template>
 
     <div class="wrapper">
-        <div class="employees-list">
+        <div class="employees-list" v-if="employees.length > 0">
             <div class="employee" v-for="employee in employees">
                 <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
                 <router-link :to="{ name: 'employee', params: { id: employee.emp_no } }"><img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">"></router-link>

@@ -1,7 +1,7 @@
 <template>
 
     <div class="wrapper">
-        <div class="departments-list">
+        <div class="departments-list" v-if="departments.length > 0">
             <div class="department" v-for="department in departments">
                 <h4 class="department-name">{{ department.dept_name }}</h4>
                 <router-link :to="{ name: 'department', params: { id: department.dept_no } }"><img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">"></router-link>
@@ -21,7 +21,7 @@
   },
   data() {
     return {
-      departments: {},
+      departments: [],
     }
   },
   mounted() {
