@@ -1,6 +1,6 @@
 <template>
-
     <div class="wrapper">
+        <h2>Departments</h2>
         <div class="departments-list" v-if="departments.length > 0">
             <div class="department" v-for="department in departments">
                 <h4 class="department-name">{{ department.dept_name }}</h4>

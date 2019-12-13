@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Navbar v-if="$router.currentRoute.path !== '/login'"/>
     <router-view/>
   </div>
 </template>
@@ -13,3 +14,9 @@
   color: #2c3e50;
 }
 </style>
+<script>
+  import Navbar from "./components/Navbar";
+  export default {
+    components: {Navbar}
+  }
+</script>

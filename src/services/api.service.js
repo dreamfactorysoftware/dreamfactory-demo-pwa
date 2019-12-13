@@ -7,6 +7,7 @@ const API_URL = 'http://excel.staging-spg.dreamfactory.com/api/v2/mysql/_table';
 
 const ApiService = {
     departments: [],
+    department: {},
     employees: [],
     deptEmployees: [],
 
@@ -25,6 +26,27 @@ const ApiService = {
                 .then(response => {
                     this.departments = response.data.resource;
                     return response.data.resource;
+                })
+                .catch(e => {
+                    console.error(e)
+                })
+        }
+    },
+    getDepartmentById(id) {
+        if (this.department.length > 0) {
+            return this.department;
+        }
+        else {
+            return axios.get(`${API_URL}/departments/${id}`, {
+                dataType: 'json',
+                headers: {
+                    'X-DreamFactory-API-Key': API_KEY,
+                    'X-DreamFactory-Session-Token': SESSION_TOKEN
+                }
+            })
+                .then(response => {
+                    this.department = response.data.resource;
+                    return response.data;
                 })
                 .catch(e => {
                     console.error(e)

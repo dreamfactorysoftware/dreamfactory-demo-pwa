@@ -1,6 +1,7 @@
 <template>
 
     <div class="wrapper">
+        <h2 v-if="department">{{ department.dept_name }}</h2>
         <div class="employees-list" v-if="employees.length > 0">
             <div class="employee" v-for="employee in employees">
                 <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
@@ -13,21 +14,27 @@
 
 <script>
     import EmployeesService from "../services/employees.service";
+    import ApiService from "../services/api.service";
 
     export default {
         name: "EmployeesList",
         data() {
             return {
-                employees: []
+                employees: [],
+                department: {},
             }
         },
         mounted() {
             this.getEmployees();
+            this.getDepartment();
         },
         methods: {
             async getEmployees() {
                 this.employees = await EmployeesService.getEmployeesByDepartmentId(this.$router.currentRoute.params.id);
-            }
+            },
+            async getDepartment() {
+                this.department = await ApiService.getDepartmentById(this.$router.currentRoute.params.id);
+            },
         },
     }
 </script>
