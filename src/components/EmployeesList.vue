@@ -85,4 +85,18 @@
         }
     }
 
+    @media screen and (min-width: 768px){
+        .employees-list {
+            width: 70%;
+            margin: 0 auto;
+        }
+    }
+
+    @media screen and (min-width: 992px){
+        .employees-list {
+            width: 60%;
+            margin: 0 auto;
+        }
+    }
+
 </style>

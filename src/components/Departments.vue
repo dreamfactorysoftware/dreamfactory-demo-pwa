@@ -88,5 +88,19 @@
         }
     }
 
+    @media screen and (min-width: 768px){
+        .departments-list {
+            width: 70%;
+            margin: 0 auto;
+        }
+    }
+
+    @media screen and (min-width: 992px){
+        .departments-list {
+            width: 60%;
+            margin: 0 auto;
+        }
+    }
+
 
 </style>
