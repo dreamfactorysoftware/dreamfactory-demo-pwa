@@ -13,6 +13,7 @@
 
 <script>
   import ApiService from '../../src/services/api.service';
+  import SearchService from "../services/search.service";
 
   export default {
   name: 'HelloWorld',
@@ -29,13 +30,29 @@
   },
   methods: {
     async getDepartments() {
-      this.departments = await ApiService.getDepartments();
+        this.departments = await ApiService.getDepartments();
+        SearchService.clearSearchList();
+        SearchService.setSearchList(this.departments.map(d => {
+            return {
+                id: d.dept_no,
+                search_item: `${d.dept_name}`
+            }
+        }), 'department');
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    h4 {
+        font-size: 1.1rem;
+    }
+
     .container {
         width: 100%;
         height: auto;

@@ -4,9 +4,20 @@
             <div class="menu-item">
                 <img src="../assets/dream-factory-logo-blue.svg" width="180px" height="auto" alt="DF logo">
             </div>
-            <div class="menu-item searchbar">
+            <div class="menu-item searchbar dropdown">
                 <input type="text" placeholder="Search" v-model="searchQuery">
-                <button v-on:click="search(searchQuery)" :disabled="searchQuery.length < 4"><img class="search-icon" src="../assets/search-icon.svg" alt="search"></button>
+                <button class="dropdown-toggle" v-on:click="search(searchQuery)" :disabled="searchQuery.length < 4" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img class="search-icon" src="../assets/search-icon.svg" alt="search">
+                </button>
+                <div class="search-result dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                    <div class="dropdown-item" v-if="searchResult.list && searchResult.list.length === 0">
+                        <p>No result</p>
+                    </div>
+                    <div class="dropdown-item" v-for="item in searchResult.list">
+                        <p>{{item.search_item}}</p>
+                        <router-link :to="{ name: searchResult.routeName, params: { id: item.id } }"><img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">"></router-link>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -14,22 +25,25 @@
 
 <script>
 
+    import SearchService from "../services/search.service";
+
     export default {
         name: "Navbar",
         data() {
             return {
-                searchQuery: ''
+                searchQuery: '',
+                searchResult: [],
             }
         },
-        mounted() {
-
-        },
         watch: {
-
+            $route() {
+                this.searchQuery = ''
+            }
         },
         methods: {
             search(query) {
-                console.log(query);
+                this.searchResult = SearchService.searchHandler(query);
+                console.log(this.searchResult);
             }
         }
     }
@@ -41,6 +55,9 @@
         margin: 0;
     }
 
+    p {
+        margin: 0;
+    }
 
     .navbar-container {
         top: 0;
@@ -92,6 +109,36 @@
 
     .search-icon {
         width: 15px;
+    }
+
+    .search-result-visible {
+        display: block !important;
+    }
+
+    .search-result {
+        width: 250px;
+        height: auto;
+        border: none;
+        border-radius: 6px;
+        box-shadow: 0 20px 10px -10px rgba(0,0,0,0.15), 0 0 10px 0 rgba(0,0,0,0.1);
+        padding: 15px;
+    }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .right-arrow-icon {
+        width: 25px;
+        padding: 5px;
+        border-radius: 50%;
+        transition: 0.3s ease;
+
+        &:hover {
+            background-color: #f2f2f2;
+        }
     }
 
     @media screen and (min-width: 768px){

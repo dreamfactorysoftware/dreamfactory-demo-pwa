@@ -15,6 +15,7 @@
 <script>
     import EmployeesService from "../services/employees.service";
     import ApiService from "../services/api.service";
+    import SearchService from "../services/search.service";
 
     export default {
         name: "EmployeesList",
@@ -31,15 +32,33 @@
         methods: {
             async getEmployees() {
                 this.employees = await EmployeesService.getEmployeesByDepartmentId(this.$router.currentRoute.params.id);
+                SearchService.clearSearchList();
+                SearchService.setSearchList(this.employees.map(e => {
+                    return {
+                        id: e.emp_no,
+                        search_item: `${e.first_name} ${e.last_name}`
+                    }
+                }), 'employee');
             },
             async getDepartment() {
                 this.department = await ApiService.getDepartmentById(this.$router.currentRoute.params.id);
             },
         },
+        beforeDestroy() {
+            SearchService.clearSearchList();
+        }
     }
 </script>
 
 <style scoped lang="scss">
+
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    h4 {
+        font-size: 1.1rem;
+    }
 
     .container {
         width: 100%;

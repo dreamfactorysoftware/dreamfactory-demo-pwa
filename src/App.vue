@@ -23,6 +23,7 @@ body {
   width: auto;
   height: auto;
   margin: 15px;
+  z-index: 1;
 }
 @media screen and (min-width: 500px){
   .wrapper {
