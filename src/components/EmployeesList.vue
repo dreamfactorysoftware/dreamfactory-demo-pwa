@@ -1,7 +1,7 @@
 <template>
 
-    <div class="wrapper">
-        <h2 v-if="department">{{ department.dept_name }}</h2>
+    <div class="container">
+        <h2 class="page-logo">{{ department.dept_name }}</h2>
         <div class="employees-list" v-if="employees.length > 0">
             <div class="employee" v-for="employee in employees">
                 <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
@@ -41,24 +41,13 @@
 
 <style scoped lang="scss">
 
-    h3 {
-        margin: 40px 0 0;
-    }
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-    li {
-        display: inline-block;
-        margin: 0 10px;
-    }
-    a {
-        color: #42b983;
-    }
-
-    .wrapper {
+    .container {
         width: 100%;
         height: auto;
+    }
+
+    .page-logo {
+        font-family: Merriweather, sans-serif;
     }
 
     .employees-list {
@@ -93,14 +82,14 @@
     }
 
     @media screen and (min-width: 768px){
-        .employees-list {
+        .container {
             width: 70%;
             margin: 0 auto;
         }
     }
 
     @media screen and (min-width: 992px){
-        .employees-list {
+        .container {
             width: 60%;
             margin: 0 auto;
         }

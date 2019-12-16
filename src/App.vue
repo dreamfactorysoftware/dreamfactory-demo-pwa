@@ -1,17 +1,33 @@
 <template>
   <div id="app">
     <Navbar v-if="$router.currentRoute.path !== '/login'"/>
-    <router-view/>
+    <div class="wrapper">
+      <router-view/>
+    </div>
+
   </div>
 </template>
 
 <style lang="scss">
+body {
+  margin: 0;
+}
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #3f3f3f;
+}
+.wrapper {
+  width: auto;
+  height: auto;
+  margin: 15px;
+}
+@media screen and (min-width: 500px){
+  .wrapper {
+    margin: 8px 15px;
+  }
 }
 </style>
 <script>

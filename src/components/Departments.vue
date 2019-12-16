@@ -1,6 +1,6 @@
 <template>
-    <div class="wrapper">
-        <h2>Departments</h2>
+    <div class="container">
+        <h2 class="page-logo">Departments</h2>
         <div class="departments-list" v-if="departments.length > 0">
             <div class="department" v-for="department in departments">
                 <h4 class="department-name">{{ department.dept_name }}</h4>
@@ -36,25 +36,13 @@
 </script>
 
 <style scoped lang="scss">
-
-    h3 {
-      margin: 40px 0 0;
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    li {
-      display: inline-block;
-      margin: 0 10px;
-    }
-    a {
-      color: #42b983;
-    }
-
-    .wrapper {
+    .container {
         width: 100%;
         height: auto;
+    }
+
+    .page-logo {
+        font-family: Merriweather, sans-serif;
     }
 
     .departments-list {
@@ -89,14 +77,14 @@
     }
 
     @media screen and (min-width: 768px){
-        .departments-list {
+        .container {
             width: 70%;
             margin: 0 auto;
         }
     }
 
     @media screen and (min-width: 992px){
-        .departments-list {
+        .container {
             width: 60%;
             margin: 0 auto;
         }
