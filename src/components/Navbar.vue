@@ -8,10 +8,10 @@
             </div>
             <div class="menu-item searchbar dropdown">
                 <input type="text" placeholder="Search" v-model="searchQuery">
-                <button class="dropdown-toggle" v-on:click="search(searchQuery)" :disabled="searchQuery.length < 4" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="dropdown-toggle" v-on:click="search(searchQuery)" :disabled="searchQuery.length < 4" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="search-icon" src="../assets/search-icon.svg" alt="search">
                 </button>
-                <div class="search-result dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <div class="search-result dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
                     <div class="dropdown-item" v-if="searchResult.list && searchResult.list.length === 0">
                         <p>No result</p>
                     </div>
@@ -21,6 +21,15 @@
                     </router-link>
                 </div>
             </div>
+            <div class="menu-item user-info dropdown" v-if="currentUser.username">
+                Hi,
+                <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{currentUser.username.replace('+okta_sso', '')}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                    <button class="dropdown-item" @click="logout()">Logout</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -28,6 +37,7 @@
 <script>
 
     import SearchService from "../services/search.service";
+    import AuthService from "../services/auth.service";
 
     export default {
         name: "Navbar",
@@ -35,7 +45,14 @@
             return {
                 searchQuery: '',
                 searchResult: [],
+                currentUser: {},
             }
+        },
+        mounted() {
+            AuthService.getPayload(this.$route.query.jwt || AuthService.getToken())
+                .then(user => {
+                    this.currentUser = user;
+                });
         },
         watch: {
             $route() {
@@ -46,6 +63,10 @@
             search(query) {
                 this.searchResult = SearchService.searchHandler(query);
                 console.log(this.searchResult);
+            },
+            logout() {
+                AuthService.logout();
+                this.$router.push('login');
             }
         }
     }
@@ -89,9 +110,10 @@
 
 
     .searchbar {
+        order: 2;
 
         &>input {
-            width: 250px;
+            width: 150px;
             border: none;
             border-bottom: 1px solid gray;
             padding: 4px;
@@ -144,14 +166,33 @@
         }
     }
 
+    .user-info {
+        order: 1;
+
+        & > button {
+            padding: 6px 12px 6px 0;
+        }
+    }
+
     @media screen and (min-width: 768px){
         .menu-container {
-            width: 70%;
+            width: 80%;
             margin: 0 auto;
             flex-direction: row;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
         }
+
+        .searchbar {
+            order: 2;
+            margin-left: 30px!important;
+        }
+
+        .user-info {
+            order: 3;
+            margin-left: auto !important;
+        }
+
         .menu-item {
             margin: 0;
         }
@@ -159,8 +200,14 @@
 
     @media screen and (min-width: 992px){
         .menu-container {
-            width: 60%;
+            width: 75%;
             margin: 0 auto;
+        }
+    }
+
+    @media screen and (min-width: 1200px){
+        .searchbar > input {
+            width: 250px;
         }
     }
 

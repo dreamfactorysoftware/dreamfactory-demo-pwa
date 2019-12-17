@@ -5,8 +5,8 @@
         </div>
         <div class="login-form">
             <div class="form-button-row">
-<!--            <a href="http://excel.staging-spg.dreamfactory.com/api/v2/okta_sso/sso" class="signin-button">Sign in with okta</a>-->
-                <router-link to="/" class="signin-button">Sign in with okta</router-link>
+            <a href="http://excel.staging-spg.dreamfactory.com/api/v2/okta_sso/sso" class="signin-button">Sign in with okta</a>
+<!--                <router-link to="/" class="signin-button">Sign in with okta</router-link>-->
             </div>
         </div>
     </div>

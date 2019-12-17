@@ -13,6 +13,7 @@
 
 <script>
     import ApiService from "../services/api.service";
+    import AuthService from "../services/auth.service";
 
     export default {
         name: "EmployeePage",
@@ -23,6 +24,10 @@
         },
         mounted() {
             this.getEmployeeById(this.$router.currentRoute.params.id);
+
+            if (!AuthService.getToken()) {
+                this.$router.push('login');
+            }
         },
         methods: {
             async getEmployeeById(id) {

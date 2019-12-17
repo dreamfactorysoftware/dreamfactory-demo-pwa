@@ -21,6 +21,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 # Using docker
 
+#####For properly register Service Worker your app must be served over HTTPS.
+
 1.  Build docker image
 ```
 docker build . -t my-app
