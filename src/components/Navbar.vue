@@ -2,7 +2,9 @@
     <div class="navbar-container">
         <div class="menu-container">
             <div class="menu-item">
-                <img src="../assets/dream-factory-logo-blue.svg" width="180px" height="auto" alt="DF logo">
+                <a href="https://www.dreamfactory.com/">
+                    <img src="../assets/dream-factory-logo-blue.svg" width="180px" height="auto" alt="DF logo">
+                </a>
             </div>
             <div class="menu-item searchbar dropdown">
                 <input type="text" placeholder="Search" v-model="searchQuery">
@@ -13,10 +15,10 @@
                     <div class="dropdown-item" v-if="searchResult.list && searchResult.list.length === 0">
                         <p>No result</p>
                     </div>
-                    <div class="dropdown-item" v-for="item in searchResult.list">
+                    <router-link :to="{ name: searchResult.routeName, params: { id: item.id } }" class="dropdown-item" v-for="item in searchResult.list">
                         <p>{{item.search_item}}</p>
-                        <router-link :to="{ name: searchResult.routeName, params: { id: item.id } }"><img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">"></router-link>
-                    </div>
+                        <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -121,13 +123,14 @@
         border: none;
         border-radius: 6px;
         box-shadow: 0 20px 10px -10px rgba(0,0,0,0.15), 0 0 10px 0 rgba(0,0,0,0.1);
-        padding: 15px;
+        padding: 10px 0;
     }
 
     .dropdown-item {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        color: inherit;
     }
 
     .right-arrow-icon {

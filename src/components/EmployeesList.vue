@@ -1,11 +1,13 @@
 <template>
 
     <div class="container">
-        <h2 class="page-logo">{{ department.dept_name }}</h2>
+        <h2 class="page-logo">{{ departmentName }}</h2>
         <div class="employees-list" v-if="employees.length > 0">
             <div class="employee" v-for="employee in employees">
-                <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
-                <router-link :to="{ name: 'employee', params: { id: employee.emp_no } }"><img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">"></router-link>
+                <router-link :to="{ name: 'employee', params: { id: employee.emp_no }, query: {name: `${employee.first_name} ${employee.last_name}` } }">
+                    <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
+                    <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
+                </router-link>
             </div>
         </div>
     </div>
@@ -22,12 +24,14 @@
         data() {
             return {
                 employees: [],
-                department: {},
+                departmentName: '',
+                department: {}
             }
         },
         mounted() {
             this.getEmployees();
             this.getDepartment();
+            this.departmentName = this.$router.currentRoute.query.name || this.department.dept_name;
         },
         methods: {
             async getEmployees() {
@@ -67,6 +71,7 @@
 
     .page-logo {
         font-family: Merriweather, sans-serif;
+        height: 30px;
     }
 
     .employees-list {
@@ -80,9 +85,17 @@
 
     .employee {
         border-bottom: 1px solid #e3e3e3;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+
+        &>a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: inherit;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
     }
 
     .employee-name {
