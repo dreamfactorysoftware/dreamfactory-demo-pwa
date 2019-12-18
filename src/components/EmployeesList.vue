@@ -4,7 +4,7 @@
         <h2 class="page-logo">{{ departmentName }}</h2>
         <div class="employees-list" v-if="employees.length > 0">
             <div class="employee" v-for="employee in employees">
-                <router-link :to="{ name: 'employee', params: { id: employee.emp_no }, query: {name: `${employee.first_name} ${employee.last_name}` } }">
+                <router-link :to="{ name: 'employee', params: { id: department.dept_no, eid: employee.emp_no }, query: {name: `${employee.first_name} ${employee.last_name}` } }">
                     <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
                     <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
                 </router-link>

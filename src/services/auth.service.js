@@ -32,7 +32,13 @@ const AuthService = {
                 'X-DreamFactory-Session-Token': ApiService.SESSION_TOKEN
             }
         })
-            .then(response =>response.data)
+            .then(response => {
+                if (!response.data || !response.data.username) {
+                    this.logout();
+                    return false;
+                }
+                return response.data;
+            })
             .catch(e => {
                 console.error(e)
             })

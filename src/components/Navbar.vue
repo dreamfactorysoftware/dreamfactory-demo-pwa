@@ -62,7 +62,6 @@
         methods: {
             search(query) {
                 this.searchResult = SearchService.searchHandler(query);
-                console.log(this.searchResult);
             },
             logout() {
                 AuthService.logout();

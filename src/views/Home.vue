@@ -18,7 +18,7 @@ export default {
 
     if (!AuthService.getToken()) {
       if (!this.$route.query.jwt){
-        this.$router.push('login');
+        this.$router.push({name: 'login'});
       }
     }
 

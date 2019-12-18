@@ -14,17 +14,17 @@ const routes = [
     component: LoginPage
   },
   {
-    path: '/',
+    path: '/departments',
     name: 'home',
     component: Home,
   },
   {
-    path: '/departments/:id',
+    path: '/departments/:id/',
     name: 'department',
     component: DepartmentEmployeesPage,
   },
   {
-    path: '/employee/:id',
+    path: '/departments/:id/employee/:eid',
     name: 'employee',
     component: EmployeePage,
   },

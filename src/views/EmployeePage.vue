@@ -23,10 +23,10 @@
             }
         },
         mounted() {
-            this.getEmployeeById(this.$router.currentRoute.params.id);
+            this.getEmployeeById(this.$router.currentRoute.params.eid);
 
             if (!AuthService.getToken()) {
-                this.$router.push('login');
+                this.$router.push({name: 'login'});
             }
         },
         methods: {

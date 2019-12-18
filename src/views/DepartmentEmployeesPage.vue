@@ -11,7 +11,7 @@
         components: {EmployeesList},
         mounted() {
             if (!AuthService.getToken()) {
-                this.$router.push('login');
+                this.$router.push({name: 'login'});
             }
         },
     }
