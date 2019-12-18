@@ -1,7 +1,7 @@
 <template>
 
     <div class="container">
-        <h2 class="page-logo">{{ departmentName }}</h2>
+        <h2 class="page-logo">Employees from {{ departmentName }}</h2>
         <div class="employees-list" v-if="employees.length > 0 && department.dept_name">
             <div class="employee" v-for="employee in employees">
                 <router-link :to="{ name: 'deptEmployee', params: { id: department.dept_no, eid: employee.emp_no } }">
@@ -71,7 +71,6 @@
 
     .page-logo {
         font-family: Merriweather, sans-serif;
-        height: 30px;
     }
 
     .employees-list {

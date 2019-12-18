@@ -101,7 +101,6 @@
                 this.$router.push({name: 'login'});
             },
             setSearchPlaceholder(route) {
-                console.log(route);
                 if (route.name === 'employees' || route.name === 'department' || route.name === 'departments') this.searchIsNotAllowed = false;
                 else this.searchIsNotAllowed = true;
 
@@ -188,10 +187,6 @@
         width: 15px;
     }
 
-    .search-result-visible {
-        display: block !important;
-    }
-
     .search-result {
         width: 250px;
         height: auto;
@@ -205,7 +200,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        color: inherit;
+        color: #3f3f3f !important;
     }
 
     .right-arrow-icon {

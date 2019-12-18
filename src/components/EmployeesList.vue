@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2 class="page-logo">Employees</h2>
+        <h2 class="page-logo">Employee directory</h2>
         <div class="employees-list" v-if="employees.length > 0">
             <div class="employee" v-for="employee in employees">
                 <router-link :to="{ name: 'employee', params: { eid: employee.emp_no} }">
