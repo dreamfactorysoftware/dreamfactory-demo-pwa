@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <Navbar v-if="$router.currentRoute.path !== '/login'"/>
-    <Breadcrumb v-if="$router.currentRoute.path !== '/login'"/>
     <div class="wrapper">
       <router-view/>
     </div>
@@ -34,8 +33,9 @@ body {
 </style>
 <script>
   import Navbar from "./components/Navbar";
-  import Breadcrumb from "./components/Breadcrumb";
   export default {
-    components: {Breadcrumb, Navbar}
+    components: {
+      Navbar
+    }
   }
 </script>

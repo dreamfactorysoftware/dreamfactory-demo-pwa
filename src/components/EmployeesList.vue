@@ -2,9 +2,9 @@
 
     <div class="container">
         <h2 class="page-logo">{{ departmentName }}</h2>
-        <div class="employees-list" v-if="employees.length > 0">
+        <div class="employees-list" v-if="employees.length > 0 && department.dept_name">
             <div class="employee" v-for="employee in employees">
-                <router-link :to="{ name: 'employee', params: { id: department.dept_no, eid: employee.emp_no }, query: {name: `${employee.first_name} ${employee.last_name}` } }">
+                <router-link :to="{ name: 'employee', params: { id: department.dept_no, eid: employee.emp_no } }">
                     <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
                     <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
                 </router-link>
@@ -31,7 +31,6 @@
         mounted() {
             this.getEmployees();
             this.getDepartment();
-            this.departmentName = this.$router.currentRoute.query.name || this.department.dept_name;
         },
         methods: {
             async getEmployees() {
@@ -46,6 +45,7 @@
             },
             async getDepartment() {
                 this.department = await ApiService.getDepartmentById(this.$router.currentRoute.params.id);
+                this.departmentName = this.department.dept_name;
             },
         },
         beforeDestroy() {

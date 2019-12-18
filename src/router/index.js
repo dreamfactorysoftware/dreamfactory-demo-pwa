@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import LoginPage from "../views/LoginPage";
 import DepartmentEmployeesPage from "../views/DepartmentEmployeesPage";
 import EmployeePage from "../views/EmployeePage";
+import Departments from "../views/Departments";
 
 Vue.use(VueRouter)
 
@@ -14,10 +15,16 @@ const routes = [
     component: LoginPage
   },
   {
-    path: '/departments',
+    path: '/',
     name: 'home',
     component: Home,
   },
+  {
+    path: '/departments',
+    name: 'departments',
+    component: Departments,
+  },
+
   {
     path: '/departments/:id/',
     name: 'department',
