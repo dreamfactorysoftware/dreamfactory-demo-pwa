@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="searchbar dropdown">
-                    <input type="text" :placeholder="`Search ${searchPlaceholder}`" v-model="searchQuery" :disabled="searchIsAllowed">
+                    <input type="text" :placeholder="`Search ${searchPlaceholder}`" v-model="searchQuery" :disabled="searchIsNotAllowed">
                     <button class="dropdown-toggle" v-on:click="search(searchQuery)" :disabled="searchQuery.length < 4" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="search-icon" src="../assets/search-icon.svg" alt="search">
                     </button>
@@ -73,7 +73,7 @@
                 searchResult: [],
                 currentUser: {},
                 showSidebar: false,
-                searchIsAllowed: true,
+                searchIsNotAllowed: true,
                 searchPlaceholder: ''
             }
         },
@@ -85,7 +85,7 @@
             this.setSearchPlaceholder(this.$route);
         },
         watch: {
-            $route(to) {
+            $route(to, from) {
                 this.searchQuery = '';
                 this.showSidebar = false;
 
@@ -101,10 +101,14 @@
                 this.$router.push({name: 'login'});
             },
             setSearchPlaceholder(route) {
-                if(route.name !== 'employees' || route.name !== 'department' || route.name !== 'departments') this.searchIsAllowed = false;
+                console.log(route);
+                if (route.name === 'employees' || route.name === 'department' || route.name === 'departments') this.searchIsNotAllowed = false;
+                else this.searchIsNotAllowed = true;
 
                 if(route.name === 'employees' || route.name === 'department') this.searchPlaceholder = 'for employees';
                 else if(route.name === 'departments') this.searchPlaceholder = 'for departments';
+                else this.searchPlaceholder = '';
+
             },
         }
     }
