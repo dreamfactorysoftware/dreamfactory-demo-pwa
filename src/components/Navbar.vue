@@ -9,13 +9,13 @@
                         </md-button>
                     </div>
                     <div class="menu-item">
-                        <a href="https://www.dreamfactory.com/">
+                        <router-link :to="{name: 'home'}">
                             <img src="../assets/dream-factory-logo-blue.svg" width="180px" height="auto" alt="DF logo">
-                        </a>
+                        </router-link>
                     </div>
                 </div>
                 <div class="searchbar dropdown">
-                    <input type="text" placeholder="Search" v-model="searchQuery">
+                    <input type="text" :placeholder="`Search ${searchPlaceholder}`" v-model="searchQuery" :disabled="searchIsAllowed">
                     <button class="dropdown-toggle" v-on:click="search(searchQuery)" :disabled="searchQuery.length < 4" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="search-icon" src="../assets/search-icon.svg" alt="search">
                     </button>
@@ -73,6 +73,8 @@
                 searchResult: [],
                 currentUser: {},
                 showSidebar: false,
+                searchIsAllowed: true,
+                searchPlaceholder: ''
             }
         },
         mounted() {
@@ -80,11 +82,14 @@
                 .then(user => {
                     this.currentUser = user;
                 });
+            this.setSearchPlaceholder(this.$route);
         },
         watch: {
-            $route() {
+            $route(to) {
                 this.searchQuery = '';
                 this.showSidebar = false;
+
+                this.setSearchPlaceholder(to);
             }
         },
         methods: {
@@ -94,7 +99,13 @@
             logout() {
                 AuthService.logout();
                 this.$router.push({name: 'login'});
-            }
+            },
+            setSearchPlaceholder(route) {
+                if(route.name !== 'employees' || route.name !== 'department' || route.name !== 'departments') this.searchIsAllowed = false;
+
+                if(route.name === 'employees' || route.name === 'department') this.searchPlaceholder = 'for employees';
+                else if(route.name === 'departments') this.searchPlaceholder = 'for departments';
+            },
         }
     }
 </script>

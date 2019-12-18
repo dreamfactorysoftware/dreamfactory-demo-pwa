@@ -1,34 +1,40 @@
 <template>
+
     <div class="container">
-        <h2 class="page-logo">Employees</h2>
-        <div class="employees-list" v-if="employees.length > 0">
+        <h2 class="page-logo">{{ departmentName }}</h2>
+        <div class="employees-list" v-if="employees.length > 0 && department.dept_name">
             <div class="employee" v-for="employee in employees">
-                <router-link :to="{ name: 'employee', params: { eid: employee.emp_no} }">
+                <router-link :to="{ name: 'deptEmployee', params: { id: department.dept_no, eid: employee.emp_no } }">
                     <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
                     <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
                 </router-link>
             </div>
         </div>
     </div>
+
 </template>
 
 <script>
-    import SearchService from "../services/search.service";
+    import EmployeesService from "../services/employees.service";
     import ApiService from "../services/api.service";
+    import SearchService from "../services/search.service";
 
     export default {
-        name: "EmployeesList",
+        name: "EmployeesByDepartmentList",
         data() {
             return {
                 employees: [],
+                departmentName: '',
+                department: {}
             }
         },
         mounted() {
             this.getEmployees();
+            this.getDepartment();
         },
         methods: {
             async getEmployees() {
-                this.employees = await ApiService.getEmployees();
+                this.employees = await EmployeesService.getEmployeesByDepartmentId(this.$router.currentRoute.params.id);
                 SearchService.clearSearchList();
                 SearchService.setSearchList(this.employees.map(e => {
                     return {
@@ -36,6 +42,10 @@
                         search_item: `${e.first_name} ${e.last_name}`
                     }
                 }), 'employee');
+            },
+            async getDepartment() {
+                this.department = await ApiService.getDepartmentById(this.$router.currentRoute.params.id);
+                this.departmentName = this.department.dept_name;
             },
         },
         beforeDestroy() {
@@ -45,6 +55,7 @@
 </script>
 
 <style scoped lang="scss">
+
     h2 {
         font-size: 1.6rem;
     }
@@ -116,4 +127,5 @@
             margin: 0 auto;
         }
     }
+
 </style>

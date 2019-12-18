@@ -1,14 +1,14 @@
 <template>
-    <EmployeesList/>
+    <EmployeesByDepartmentList/>
 </template>
 
 <script>
-    import EmployeesList from "../components/EmployeesList";
     import AuthService from "../services/auth.service";
+    import EmployeesByDepartmentList from "../components/EmployeesByDepartmentList";
 
     export default {
         name: "DepartmentPage",
-        components: {EmployeesList},
+        components: {EmployeesByDepartmentList},
         mounted() {
             if (!AuthService.getToken()) {
                 this.$router.push({name: 'login'});

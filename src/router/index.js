@@ -33,8 +33,13 @@ const routes = [
   },
   {
     path: '/departments/:id/employee/:eid',
-    name: 'employee',
+    name: 'deptEmployee',
     component: EmployeePage,
+  },
+  {
+    path: '/employee/:eid',
+    name: 'employee',
+    component: EmployeePage
   },
   {
     path: '/employees',

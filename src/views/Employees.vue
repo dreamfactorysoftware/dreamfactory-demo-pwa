@@ -1,10 +1,12 @@
 <template>
-
+ <EmployeesList />
 </template>
 
 <script>
+    import EmployeesList from "../components/EmployeesList";
     export default {
-        name: "Employees"
+        name: "Employees",
+        components: {EmployeesList}
     }
 </script>
 
