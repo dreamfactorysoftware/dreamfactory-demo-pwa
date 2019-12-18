@@ -5,7 +5,7 @@
         </div>
         <div class="login-form">
             <div class="form-button-row">
-            <a href="http://excel.staging-spg.dreamfactory.com/api/v2/okta_sso/sso" class="signin-button">Sign in with okta</a>
+            <a href="http://excel.staging-spg.dreamfactory.com/api/v2/okta_sso/sso" class="signin-button md-button">Sign in with okta</a>
 <!--                <router-link to="/" class="signin-button">Sign in with okta</router-link>-->
             </div>
         </div>
@@ -65,6 +65,7 @@
     }
 
     .signin-button {
+        height: auto;
         background-color: #4098e1;
         border: none;
         border-radius: 5px;

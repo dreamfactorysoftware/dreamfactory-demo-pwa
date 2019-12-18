@@ -5,6 +5,7 @@ import LoginPage from "../views/LoginPage";
 import DepartmentEmployeesPage from "../views/DepartmentEmployeesPage";
 import EmployeePage from "../views/EmployeePage";
 import Departments from "../views/Departments";
+import Employees from "../views/Employees";
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,11 @@ const routes = [
     path: '/departments/:id/employee/:eid',
     name: 'employee',
     component: EmployeePage,
+  },
+  {
+    path: '/employees',
+    name: 'employees',
+    component: Employees
   },
   {
     path: '*/*',

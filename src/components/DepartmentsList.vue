@@ -4,8 +4,10 @@
         <h2 class="page-logo">Departments</h2>
         <div class="departments-list" v-if="departments.length > 0">
             <div class="department" v-for="department in departments">
-                <h4 class="department-name">{{ department.dept_name }}</h4>
-                <router-link :to="{ name: 'department', params: { id: department.dept_no } }"><img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">"></router-link>
+                <router-link :to="{ name: 'department', params: { id: department.dept_no } }">
+                    <h4 class="department-name">{{ department.dept_name }}</h4>
+                    <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
+                </router-link>
             </div>
         </div>
     </div>
@@ -74,13 +76,22 @@
 
     .department {
         border-bottom: 1px solid #e3e3e3;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+
+        &>a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &:hover {
+                text-decoration: none;
+                cursor: pointer;
+            }
+        }
     }
 
     .department-name {
         margin: 20px 0;
+        color: #3f3f3f;
     }
 
     .right-arrow-icon {

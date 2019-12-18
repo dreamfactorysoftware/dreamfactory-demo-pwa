@@ -90,16 +90,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: inherit;
 
             &:hover {
                 text-decoration: none;
+                cursor: pointer;
             }
         }
     }
 
     .employee-name {
         margin: 20px 0;
+        color: #3f3f3f;
     }
 
     .right-arrow-icon {

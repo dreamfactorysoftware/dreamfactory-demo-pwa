@@ -1,36 +1,62 @@
 <template>
-    <div class="navbar-container">
-        <div class="menu-container">
-            <div class="menu-item">
-                <a href="https://www.dreamfactory.com/">
-                    <img src="../assets/dream-factory-logo-blue.svg" width="180px" height="auto" alt="DF logo">
-                </a>
-            </div>
-            <div class="menu-item searchbar dropdown">
-                <input type="text" placeholder="Search" v-model="searchQuery">
-                <button class="dropdown-toggle" v-on:click="search(searchQuery)" :disabled="searchQuery.length < 4" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="search-icon" src="../assets/search-icon.svg" alt="search">
-                </button>
-                <div class="search-result dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
-                    <div class="dropdown-item" v-if="searchResult.list && searchResult.list.length === 0">
-                        <p>No result</p>
+    <div class="main-container">
+        <div class="navbar-container">
+            <div class="menu-container">
+                <div class="menu">
+                    <div class="menu-item">
+                        <md-button class="md-icon-button" @click="showSidebar = true">
+                            <md-icon>menu</md-icon>
+                        </md-button>
                     </div>
-                    <router-link :to="{ name: searchResult.routeName, params: { id: item.id } }" class="dropdown-item" v-for="item in searchResult.list">
-                        <p>{{item.search_item}}</p>
-                        <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
-                    </router-link>
+                    <div class="menu-item">
+                        <a href="https://www.dreamfactory.com/">
+                            <img src="../assets/dream-factory-logo-blue.svg" width="180px" height="auto" alt="DF logo">
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="menu-item user-info dropdown" v-if="currentUser.username">
-                Hi,
-                <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{currentUser.username.replace('+okta_sso', '')}}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                    <button class="dropdown-item" @click="logout()">Logout</button>
+                <div class="searchbar dropdown">
+                    <input type="text" placeholder="Search" v-model="searchQuery">
+                    <button class="dropdown-toggle" v-on:click="search(searchQuery)" :disabled="searchQuery.length < 4" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="search-icon" src="../assets/search-icon.svg" alt="search">
+                    </button>
+                    <div class="search-result dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
+                        <div class="dropdown-item" v-if="searchResult.list && searchResult.list.length === 0">
+                            <p>No result</p>
+                        </div>
+                        <router-link :to="{ name: searchResult.routeName, params: { id: item.id } }" class="dropdown-item" v-for="item in searchResult.list">
+                            <p>{{item.search_item}}</p>
+                            <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
+                        </router-link>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="sidebar-container">
+            <md-drawer :md-active.sync="showSidebar" md-swipeable>
+                <div class="sidebar">
+                    <div class="sidebar-item">
+                        <p v-if="currentUser.username" :title="currentUser.username.replace('+okta_sso', '')">Hi, {{currentUser.username.replace('+okta_sso', '')}}</p>
+                    </div>
+                    <div class="sidebar-item sidebar-title">
+                        <h5>Menu</h5>
+                    </div>
+                    <div class="sidebar-item">
+                        <router-link :to="{name: 'departments'}" class="sidebar-link">Departments</router-link>
+                    </div>
+                    <div class="sidebar-item">
+                        <router-link :to="{name: 'employees'}" class="sidebar-link">Employees</router-link>
+                    </div>
+                    <div class="sidebar-item">
+                        <a href="https://www.dreamfactory.com/support/" class="sidebar-link">Contact support</a>
+                    </div>
+                    <div class="sidebar-item">
+                        <button @click="logout()" class="btn btn-secondary">Logout</button>
+                    </div>
+                </div>
+            </md-drawer>
+        </div>
+
     </div>
 </template>
 
@@ -46,6 +72,7 @@
                 searchQuery: '',
                 searchResult: [],
                 currentUser: {},
+                showSidebar: false,
             }
         },
         mounted() {
@@ -56,7 +83,8 @@
         },
         watch: {
             $route() {
-                this.searchQuery = ''
+                this.searchQuery = '';
+                this.showSidebar = false;
             }
         },
         methods: {
@@ -81,19 +109,32 @@
         margin: 0;
     }
 
+    .main-container {
+        width: 100%;
+        margin-bottom: 40px;
+    }
+
     .navbar-container {
+        width: 100%;
         top: 0;
         height: auto;
-        background-color: #ffffff;
+        background-color: #f6f6f6;
         transition: 0.3s ease;
+        box-shadow: 0 30px 30px -25px rgba(0,0, 0, 0.1);
     }
 
     .menu-container {
         padding: 25px 15px;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
+    }
+
+    .menu {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
     }
 
     .menu-item {
@@ -103,20 +144,18 @@
         margin-bottom: 15px;
     }
 
-    .menu-logo {
-        justify-content: center;
-    }
-
-
+    /* SEARCH BAR STYLES */
     .searchbar {
-        order: 2;
+        width: 100%;
+        margin: 0 auto;
 
         &>input {
-            width: 150px;
+            width: 80%;
             border: none;
             border-bottom: 1px solid gray;
             padding: 4px;
             font-size: 16px;
+            background-color: inherit;
         }
 
         &>button {
@@ -165,30 +204,72 @@
         }
     }
 
-    .user-info {
-        order: 1;
 
-        & > button {
-            padding: 6px 12px 6px 0;
+
+    /* SIDEBAR STYLES */
+
+    .md-drawer {
+        position: fixed;
+        width: 280px;
+        height: 100vh;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 20px;
+    }
+    .sidebar-item {
+        font-family: Lato, sans-serif;
+        font-size: 16px;
+        text-align: left;
+        padding: 5px 0;
+        margin: 10px 0;
+
+        &:first-of-type {
+            margin-bottom: 50px;
+
+            & > p {
+                word-break: break-all;
+            }
+        }
+
+        &:last-of-type {
+            margin-top: 50px;
         }
     }
 
+    .sidebar-link {
+        color: #3f3f3f !important;
+
+        &:hover {
+            text-decoration: none;
+            cursor: pointer;
+        }
+    }
+
+
+
+    /* MEDIA QUERY*/
     @media screen and (min-width: 768px){
         .menu-container {
             width: 80%;
             margin: 0 auto;
             flex-direction: row;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: space-between;
         }
 
         .searchbar {
-            order: 2;
-            margin-left: 30px!important;
+            width: auto;
+            margin: 0;
         }
 
         .user-info {
-            order: 3;
             margin-left: auto !important;
         }
 
