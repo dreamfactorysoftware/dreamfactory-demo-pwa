@@ -275,7 +275,7 @@
         }
 
         .searchbar {
-            width: auto;
+            width: 300px;
             margin: 0;
         }
 
@@ -296,8 +296,8 @@
     }
 
     @media screen and (min-width: 1200px){
-        .searchbar > input {
-            width: 250px;
+        .searchbar {
+            width: 300px;
         }
     }
 
