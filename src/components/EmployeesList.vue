@@ -45,11 +45,15 @@
                     this.pageCount = Math.floor(d / PaginateService.pageSize);
                 });
             },
+
             selectPageHandler(pageNumber) {
                 PaginateService.getEmployeesForPage(pageNumber).then(e => {
                     this.employees = e;
+                    this.setSearch();
                 });
+            },
 
+            setSearch() {
                 SearchService.clearSearchList();
                 SearchService.setSearchList(this.employees.map(e => {
                     return {
@@ -57,7 +61,7 @@
                         search_item: `${e.first_name} ${e.last_name}`
                     }
                 }), 'employee');
-            }
+            },
         },
         beforeDestroy() {
             SearchService.clearSearchList();

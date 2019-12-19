@@ -34,7 +34,11 @@
                 ApiService.getEmployeesByDeptId(this.$router.currentRoute.params.id).then(dept => {
                     this.department = dept;
                     this.employees = dept.employees_by_dept_emp;
+                    this.setSearch();
                 });
+            },
+
+            setSearch() {
                 SearchService.clearSearchList();
                 SearchService.setSearchList(this.employees.map(e => {
                     return {
@@ -42,7 +46,7 @@
                         search_item: `${e.first_name} ${e.last_name}`
                     }
                 }), 'employee');
-            },
+            }
         },
         beforeDestroy() {
             SearchService.clearSearchList();

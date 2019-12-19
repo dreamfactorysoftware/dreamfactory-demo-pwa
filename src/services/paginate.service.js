@@ -3,7 +3,7 @@ import ApiService from "./api.service";
 
 const PaginateService = {
 
-    pageSize: 15,
+    pageSize: 25,
 
     getEmployeesForPage(pageNumber) {
         return ApiService.getEmployeesWithPagination(this.pageSize, this.pageSize * (pageNumber-1));

@@ -19,28 +19,30 @@
   import SearchService from "../services/search.service";
 
   export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
+  name: 'DepartmentsList',
   data() {
     return {
       departments: [],
     }
   },
   mounted() {
-    this.getDepartments();
+    this.getDepartmentsList();
   },
   methods: {
-    async getDepartments() {
-        this.departments = await ApiService.getDepartments();
-        SearchService.clearSearchList();
-        SearchService.setSearchList(this.departments.map(d => {
-            return {
-                id: d.dept_no,
-                search_item: `${d.dept_name}`
-            }
-        }), 'department');
+    getDepartmentsList() {
+        ApiService.getDepartments().then(d => {
+            this.departments = d;
+            this.setSearch();
+        });
+    },
+    setSearch() {
+      SearchService.clearSearchList();
+      SearchService.setSearchList(this.departments.map(d => {
+          return {
+              id: d.dept_no,
+              search_item: `${d.dept_name}`
+          }
+      }), 'department');
     }
   }
 }

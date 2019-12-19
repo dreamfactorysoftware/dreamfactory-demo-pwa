@@ -10,18 +10,18 @@ import AuthService from "../services/auth.service";
 export default {
   name: 'home',
 
-mounted() {
+    mounted() {
 
-    if (!AuthService.getToken()) {
-        if (!this.$route.query.jwt){
-            this.$router.push({name: 'login'});
+        if (!AuthService.getToken()) {
+            if (!this.$route.query.jwt){
+                this.$router.push({name: 'login'});
+            }
         }
-    }
 
-    if (this.$route.query.jwt && !AuthService.getToken()) {
-        AuthService.setToken(this.$route.query.jwt);
-    }
+        if (this.$route.query.jwt && !AuthService.getToken()) {
+            AuthService.setToken(this.$route.query.jwt);
+        }
 
-}
+    }
 }
 </script>
