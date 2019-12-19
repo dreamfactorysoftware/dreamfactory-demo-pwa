@@ -9,26 +9,47 @@
                 </router-link>
             </div>
         </div>
+        <div class="pagination-container" v-if="pageCount !== 0">
+            <paginate
+                    :page-count="pageCount"
+                    :click-handler="selectPageHandler"
+                    :prev-text="'Prev'"
+                    :next-text="'Next'"
+                    :container-class="'pagination'">
+            </paginate>
+        </div>
     </div>
 </template>
 
 <script>
     import SearchService from "../services/search.service";
     import ApiService from "../services/api.service";
+    import PaginateService from "../services/paginate.service";
+    import '../assets/styles/pagination.scss';
 
     export default {
         name: "EmployeesList",
         data() {
             return {
                 employees: [],
+                pageCount: 0
             }
         },
         mounted() {
-            this.getEmployees();
+            this.getPageCount();
+            this.selectPageHandler(1);
         },
         methods: {
-            async getEmployees() {
-                this.employees = await ApiService.getEmployees();
+            getPageCount() {
+                ApiService.getAllEmployeesCount().then(d => {
+                    this.pageCount = Math.floor(d / PaginateService.pageSize);
+                });
+            },
+            selectPageHandler(pageNumber) {
+                PaginateService.getEmployeesForPage(pageNumber).then(e => {
+                    this.employees = e;
+                });
+
                 SearchService.clearSearchList();
                 SearchService.setSearchList(this.employees.map(e => {
                     return {
@@ -36,7 +57,7 @@
                         search_item: `${e.first_name} ${e.last_name}`
                     }
                 }), 'employee');
-            },
+            }
         },
         beforeDestroy() {
             SearchService.clearSearchList();
@@ -61,6 +82,7 @@
     .page-logo {
         font-family: Merriweather, sans-serif;
         height: 30px;
+        margin-left: 10px;
     }
 
     .employees-list {
@@ -79,10 +101,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding-left: 10px;
 
             &:hover {
                 text-decoration: none;
                 cursor: pointer;
+                background-color: #fbfbfb;
             }
         }
     }

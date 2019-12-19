@@ -1,7 +1,7 @@
 <template>
 
     <div class="container">
-        <h2 class="page-logo">Employees from {{ departmentName }}</h2>
+        <h2 class="page-logo">Employees from {{ department.dept_name }}</h2>
         <div class="employees-list" v-if="employees.length > 0 && department.dept_name">
             <div class="employee" v-for="employee in employees">
                 <router-link :to="{ name: 'deptEmployee', params: { id: department.dept_no, eid: employee.emp_no } }">
@@ -15,7 +15,6 @@
 </template>
 
 <script>
-    import EmployeesService from "../services/employees.service";
     import ApiService from "../services/api.service";
     import SearchService from "../services/search.service";
 
@@ -24,17 +23,18 @@
         data() {
             return {
                 employees: [],
-                departmentName: '',
                 department: {}
             }
         },
         mounted() {
-            this.getEmployees();
-            this.getDepartment();
+            this.getDeptEmployees();
         },
         methods: {
-            async getEmployees() {
-                this.employees = await EmployeesService.getEmployeesByDepartmentId(this.$router.currentRoute.params.id);
+            getDeptEmployees() {
+                ApiService.getEmployeesByDeptId(this.$router.currentRoute.params.id).then(dept => {
+                    this.department = dept;
+                    this.employees = dept.employees_by_dept_emp;
+                });
                 SearchService.clearSearchList();
                 SearchService.setSearchList(this.employees.map(e => {
                     return {
@@ -42,10 +42,6 @@
                         search_item: `${e.first_name} ${e.last_name}`
                     }
                 }), 'employee');
-            },
-            async getDepartment() {
-                this.department = await ApiService.getDepartmentById(this.$router.currentRoute.params.id);
-                this.departmentName = this.department.dept_name;
             },
         },
         beforeDestroy() {
@@ -71,6 +67,7 @@
 
     .page-logo {
         font-family: Merriweather, sans-serif;
+        padding-left: 10px;
     }
 
     .employees-list {
@@ -89,10 +86,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding-left: 10px;
 
             &:hover {
                 text-decoration: none;
                 cursor: pointer;
+                background-color: #fbfbfb;
             }
         }
     }

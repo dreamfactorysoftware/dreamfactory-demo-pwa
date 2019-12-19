@@ -46,27 +46,6 @@ const ApiService = {
                 console.error(e)
             })
     },
-    getDeptEmployees() {
-        if (this.deptEmployees.length > 0) {
-            return this.deptEmployees;
-        }
-        else {
-            return axios.get(`${this.API_URL}/dept_emp`, {
-                dataType: 'json',
-                headers: {
-                    'X-DreamFactory-API-Key': this.API_KEY,
-                    'X-DreamFactory-Session-Token': this.SESSION_TOKEN
-                }
-            })
-                .then(response => {
-                    this.deptEmployees = response.data.resource;
-                    return response.data.resource;
-                })
-                .catch(e => {
-                    console.error(e)
-                })
-        }
-    },
     getEmployees() {
         if (this.employees.length > 0) {
             return this.employees;
@@ -101,6 +80,52 @@ const ApiService = {
                 console.error(e)
             })
     },
+
+    getEmployeesByDeptId(id) {
+            return axios.get(`${this.API_URL}/departments/${id}?related=employees_by_dept_emp`, {
+                dataType: 'json',
+                headers: {
+                    'X-DreamFactory-API-Key': this.API_KEY,
+                    'X-DreamFactory-Session-Token': this.SESSION_TOKEN
+                }
+            })
+                .then(response => response.data)
+                .catch(e => {
+                    console.error(e)
+                })
+    },
+
+    getAllEmployeesCount() {
+        return axios.get(`${this.API_URL}/employees?count_only=true`, {
+            dataType: 'json',
+            headers: {
+                'X-DreamFactory-API-Key': this.API_KEY,
+                'X-DreamFactory-Session-Token': this.SESSION_TOKEN
+            }
+        })
+            .then(response => {
+                return response.data;
+            })
+            .catch(e => {
+                console.error(e)
+            })
+    },
+
+    getEmployeesWithPagination(pageSize, offset) {
+        return axios.get(`${this.API_URL}/employees?limit=${pageSize}&offset=${offset}`, {
+            dataType: 'json',
+            headers: {
+                'X-DreamFactory-API-Key': this.API_KEY,
+                'X-DreamFactory-Session-Token': this.SESSION_TOKEN
+            }
+        })
+            .then(response => {
+                return response.data.resource;
+            })
+            .catch(e => {
+                console.error(e)
+            })
+    }
 
 };
 

@@ -63,6 +63,7 @@
 
     .page-logo {
         font-family: Merriweather, sans-serif;
+        padding-left: 10px;
     }
 
     .departments-list {
@@ -81,10 +82,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding-left: 10px;
 
             &:hover {
                 text-decoration: none;
                 cursor: pointer;
+                background-color: #fbfbfb;
             }
         }
     }

@@ -36,7 +36,7 @@
             <md-drawer :md-active.sync="showSidebar" md-swipeable>
                 <div class="sidebar">
                     <div class="sidebar-item">
-                        <p v-if="currentUser.username" :title="currentUser.username.replace('+okta_sso', '')">Hi, {{currentUser.username.replace('+okta_sso', '')}}</p>
+                        <p v-if="currentUser.username" :title="currentUser.username.replace('+okta_sso', '')">Hi {{currentUser.username.replace('+okta_sso', '')}}</p>
                     </div>
                     <div class="sidebar-item sidebar-title">
                         <h5>Menu</h5>
