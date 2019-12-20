@@ -28,7 +28,6 @@
     import SearchService from "../services/search.service";
     import ApiService from "../services/api.service";
     import PaginateService from "../services/paginate.service";
-    import '../assets/styles/pagination.scss';
 
     export default {
         name: "EmployeesList",
@@ -74,11 +73,11 @@
 
 <style scoped lang="scss">
     h2 {
-        font-size: 1.6rem;
+        font-size: $block-header-size;
     }
 
     h4 {
-        font-size: 1.1rem;
+        font-size: $list-header-size;
     }
 
     .container {
@@ -102,7 +101,7 @@
     }
 
     .employee {
-        border-bottom: 1px solid #e3e3e3;
+        border-bottom: 1px solid $light-gray;
 
         &>a {
             display: flex;
@@ -113,7 +112,7 @@
             &:hover {
                 text-decoration: none;
                 cursor: pointer;
-                background-color: #fbfbfb;
+                background-color: $hover-ghost-white;
             }
         }
     }
@@ -127,11 +126,11 @@
 
     .employee-name {
         margin: 20px 0 5px 0;
-        color: #3f3f3f;
+        color: $dark-blue;
     }
 
     .employee-email {
-        color: #949494;
+        color: $dark-blue-gray;
     }
 
     .right-arrow-icon {
@@ -141,7 +140,7 @@
         transition: 0.3s ease;
 
         &:hover {
-            background-color: #f2f2f2;
+            background-color: $light-gray;
         }
     }
 

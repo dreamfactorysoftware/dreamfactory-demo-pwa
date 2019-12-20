@@ -10,7 +10,7 @@
                     </div>
                     <div class="menu-item">
                         <router-link :to="{name: 'home'}">
-                            <img src="../assets/dream-factory-logo-blue.svg" width="180px" height="auto" alt="DF logo">
+                            <img src="../assets/acme-logo.png" width="150px" height="auto" alt="Acme logo">
                         </router-link>
                     </div>
                 </div>
@@ -41,14 +41,14 @@
                     <div class="sidebar-item sidebar-title">
                         <h5>Menu</h5>
                     </div>
-                    <div class="sidebar-item">
+                    <div class="sidebar-item" @click="showSidebar = false">
                         <router-link :to="{name: 'departments'}" class="sidebar-link">Departments</router-link>
                     </div>
-                    <div class="sidebar-item">
+                    <div class="sidebar-item" @click="showSidebar = false">
                         <router-link :to="{name: 'employees'}" class="sidebar-link">Employees</router-link>
                     </div>
-                    <div class="sidebar-item">
-                        <a href="https://www.dreamfactory.com/support/" class="sidebar-link">Contact support</a>
+                    <div class="sidebar-item" @click="showSidebar = false">
+                        <a href="#" class="sidebar-link">Contact support</a>
                     </div>
                     <div class="sidebar-item">
                         <button @click="logout()" class="btn btn-secondary">Logout</button>
@@ -132,7 +132,7 @@
         width: 100%;
         top: 0;
         height: auto;
-        background-color: #f6f6f6;
+        background-color: #f4f4f9;
         transition: 0.3s ease;
         box-shadow: 0 30px 30px -25px rgba(0,0, 0, 0.1);
     }
@@ -168,7 +168,7 @@
             border: none;
             border-bottom: 1px solid gray;
             padding: 4px;
-            font-size: 16px;
+            font-size: $default-text-size;
             background-color: inherit;
         }
 
@@ -200,7 +200,16 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        color: #3f3f3f !important;
+        color: $dark-blue !important;
+
+        &:active {
+            background-color: $light-gray;
+        }
+
+        &:hover {
+            text-decoration: none;
+        }
+
     }
 
     .right-arrow-icon {
@@ -210,7 +219,7 @@
         transition: 0.3s ease;
 
         &:hover {
-            background-color: #f2f2f2;
+            background-color: $light-gray;
         }
     }
 
@@ -235,7 +244,7 @@
     }
     .sidebar-item {
         font-family: Lato, sans-serif;
-        font-size: 16px;
+        font-size: $default-text-size;
         text-align: left;
         padding: 5px 0;
         margin: 10px 0;
@@ -254,7 +263,7 @@
     }
 
     .sidebar-link {
-        color: #3f3f3f !important;
+        color: $dark-blue !important;
 
         &:hover {
             text-decoration: none;
@@ -267,7 +276,7 @@
     /* MEDIA QUERY*/
     @media screen and (min-width: 768px){
         .menu-container {
-            width: 80%;
+            width: 70%;
             margin: 0 auto;
             flex-direction: row;
             align-items: center;
@@ -279,10 +288,6 @@
             margin: 0;
         }
 
-        .user-info {
-            margin-left: auto !important;
-        }
-
         .menu-item {
             margin: 0;
         }
@@ -290,7 +295,7 @@
 
     @media screen and (min-width: 992px){
         .menu-container {
-            width: 75%;
+            width: 60%;
             margin: 0 auto;
         }
     }

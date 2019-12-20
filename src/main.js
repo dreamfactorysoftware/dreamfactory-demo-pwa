@@ -14,6 +14,10 @@ import { MdApp, MdDrawer, MdToolbar, MdButton, MdIcon } from 'vue-material/dist/
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 
+// Styles
+
+import './assets/styles/pagination.scss';
+
 
 Vue.use(MdApp);
 Vue.use(MdDrawer);

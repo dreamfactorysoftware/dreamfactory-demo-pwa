@@ -36,13 +36,13 @@
     }
 
     .login-title > h2 {
-        font-size: 26px;
+        font-size: $block-header-size;
         font-weight: 600;
         font-stretch: normal;
         font-style: normal;
         line-height: 1.36;
         letter-spacing: normal;
-        color: #000000;
+        color: $dark-blue;
         margin: 0;
     }
 
@@ -66,11 +66,11 @@
 
     .signin-button {
         height: auto;
-        background-color: #4098e1;
+        background-color: $light-blue;
         border: none;
         border-radius: 5px;
         padding: 15px 20px;
-        color: #ffffff;
+        color: $ghost-white;
         font-weight: bold;
         transition: .3s ease;
         text-decoration: none;
@@ -78,7 +78,7 @@
 
     .signin-button:hover {
         text-decoration: none;
-        color: #ffffff;
+        color: $ghost-white;
         box-shadow: 0 6px 12px rgba(0,0,0,.175);
     }
 

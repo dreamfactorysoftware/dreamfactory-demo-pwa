@@ -9,26 +9,28 @@
 </template>
 
 <style lang="scss">
-body {
-  margin: 0;
-}
-#app {
-  font-family: 'Lato', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #3f3f3f;
-}
-.wrapper {
-  width: auto;
-  height: auto;
-  margin: 15px;
-  z-index: 1;
-}
-@media screen and (min-width: 500px){
-  .wrapper {
-    margin: 8px 15px;
+
+  body {
+    margin: 0;
+    background-color: $ghost-white !important;
   }
-}
+  #app {
+    font-family: 'Lato', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $dark-blue;
+  }
+  .wrapper {
+    width: auto;
+    height: auto;
+    margin: 15px;
+    z-index: 1;
+  }
+  @media screen and (min-width: 500px){
+    .wrapper {
+      margin: 8px 15px;
+    }
+  }
 </style>
 <script>
   import Navbar from "./components/Navbar";

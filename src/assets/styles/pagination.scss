@@ -16,7 +16,7 @@
       text-decoration: none;
       color: inherit;
       background-color: #ffffff;
-      border: 1px solid #dddddd;
+      border: 1px solid $light-gray;
       margin-left: -1px;
     }
     &:first-child {
@@ -41,9 +41,9 @@
     &:hover,
     &:focus {
       outline: none;
-      color: #23527c;
+      color: $light-blue;
       background-color: #eeeeee;
-      border-color: #dddddd;
+      border-color: $light-gray;
       text-decoration: none;
     }
   }
@@ -55,9 +55,9 @@
     &:focus {
       outline: none;
       z-index: 2;
-      color: #ffffff!important;
-      background-color: #337ab7;
-      border-color: #337ab7;
+      color: $ghost-white!important;
+      background-color: $light-blue;
+      border-color: $light-blue;
       cursor: default;
     }
   }
@@ -69,9 +69,9 @@
     > a,
     > a:hover,
     > a:focus {
-      color: #777;
-      background-color: #fff;
-      border-color: #ddd;
+      color: #9d9d9d;
+      background-color: #ffffff;
+      border-color: $light-gray;
       cursor: not-allowed;
     }
   }

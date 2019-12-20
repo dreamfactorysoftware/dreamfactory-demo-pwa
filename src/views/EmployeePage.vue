@@ -80,10 +80,11 @@
         margin-bottom: 30px;
 
         &>a {
-            color: #3f3f3f !important;
-            font-size: 18px;
+            color: $dark-blue !important;
+            font-size: $default-text-size;
             display: flex;
             align-items: center;
+            text-decoration: none;
         }
     }
 
@@ -95,7 +96,7 @@
         transform: rotate(180deg);
 
         &:hover {
-            background-color: #f2f2f2;
+            background-color: $light-gray;
         }
     }
 
@@ -106,7 +107,7 @@
         }
 
         &>p {
-            font-size: 16px;
+            font-size: $default-text-size;
             line-height: 1.5;
         }
     }
