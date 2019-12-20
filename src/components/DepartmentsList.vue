@@ -82,7 +82,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-left: 10px;
+            padding: 0 10px;
 
             &:hover {
                 text-decoration: none;

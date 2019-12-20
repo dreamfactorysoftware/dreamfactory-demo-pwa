@@ -4,7 +4,10 @@
         <div class="employees-list" v-if="employees.length > 0">
             <div class="employee" v-for="employee in employees">
                 <router-link :to="{ name: 'employee', params: { eid: employee.emp_no} }">
-                    <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
+                    <div class="user-info">
+                        <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
+                        <p class="employee-email">email@email.com</p>
+                    </div>
                     <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
                 </router-link>
             </div>
@@ -105,7 +108,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-left: 10px;
+            padding: 0 10px;
 
             &:hover {
                 text-decoration: none;
@@ -115,9 +118,20 @@
         }
     }
 
+    .user-info {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
     .employee-name {
-        margin: 20px 0;
+        margin: 20px 0 5px 0;
         color: #3f3f3f;
+    }
+
+    .employee-email {
+        color: #949494;
     }
 
     .right-arrow-icon {

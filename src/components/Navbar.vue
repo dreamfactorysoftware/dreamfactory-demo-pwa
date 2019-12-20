@@ -23,7 +23,7 @@
                         <div class="dropdown-item" v-if="searchResult.list && searchResult.list.length === 0">
                             <p>No result</p>
                         </div>
-                        <router-link :to="{ name: searchResult.routeName, params: { id: item.id } }" class="dropdown-item" v-for="item in searchResult.list">
+                        <router-link :to="{ name: searchResult.routeName, params: { eid: item.id } }" class="dropdown-item" v-for="item in searchResult.list">
                             <p>{{item.search_item}}</p>
                             <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
                         </router-link>
