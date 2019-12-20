@@ -2,13 +2,22 @@
 
     <div class="container">
         <h2 class="page-logo">Employees from {{ department.dept_name }}</h2>
-        <div class="employees-list" v-if="employees.length > 0 && department.dept_name">
-            <div class="employee" v-for="employee in employees">
+        <div class="employees-list" v-if="pageEmployees.length > 0 && department.dept_name">
+            <div class="employee" v-for="employee in pageEmployees">
                 <router-link :to="{ name: 'deptEmployee', params: { id: department.dept_no, eid: employee.emp_no } }">
                     <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
                     <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
                 </router-link>
             </div>
+        </div>
+        <div class="pagination-container" v-if="pageCount !== 0">
+            <paginate
+                    :page-count="pageCount"
+                    :click-handler="selectPageHandler"
+                    :prev-text="'Prev'"
+                    :next-text="'Next'"
+                    :container-class="'pagination'">
+            </paginate>
         </div>
     </div>
 
@@ -17,13 +26,16 @@
 <script>
     import ApiService from "../services/api.service";
     import SearchService from "../services/search.service";
+    import PaginateService from "../services/paginate.service";
 
     export default {
         name: "EmployeesByDepartmentList",
         data() {
             return {
-                employees: [],
-                department: {}
+                allDeptEmployees: [],
+                department: {},
+                pageEmployees: [],
+                pageCount: 0
             }
         },
         mounted() {
@@ -33,14 +45,20 @@
             getDeptEmployees() {
                 ApiService.getEmployeesByDeptId(this.$router.currentRoute.params.id).then(dept => {
                     this.department = dept;
-                    this.employees = dept.employees_by_dept_emp;
+                    this.allDeptEmployees = dept.employees_by_dept_emp;
                     this.setSearch();
+                    this.pageCount = Math.floor(this.allDeptEmployees.length / PaginateService.pageSize);
+                    this.selectPageHandler(1);
                 });
+            },
+
+            selectPageHandler(pageNumber) {
+                this.pageEmployees = PaginateService.getDeptEmployeesForPage(this.allDeptEmployees, pageNumber);
             },
 
             setSearch() {
                 SearchService.clearSearchList();
-                SearchService.setSearchList(this.employees.map(e => {
+                SearchService.setSearchList(this.pageEmployees.map(e => {
                     return {
                         id: e.emp_no,
                         search_item: `${e.first_name} ${e.last_name}`

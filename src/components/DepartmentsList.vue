@@ -27,13 +27,11 @@
   },
   mounted() {
     this.getDepartmentsList();
+    this.setSearch();
   },
   methods: {
-    getDepartmentsList() {
-        ApiService.getDepartments().then(d => {
-            this.departments = d;
-            this.setSearch();
-        });
+    async getDepartmentsList() {
+        this.departments = await ApiService.getDepartments();
     },
     setSearch() {
       SearchService.clearSearchList();

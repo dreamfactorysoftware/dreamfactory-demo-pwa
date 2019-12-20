@@ -7,6 +7,10 @@ const PaginateService = {
 
     getEmployeesForPage(pageNumber) {
         return ApiService.getEmployeesWithPagination(this.pageSize, this.pageSize * (pageNumber-1));
+    },
+
+    getDeptEmployeesForPage(employees, pageNumber) {
+        return employees.slice(this.pageSize * (pageNumber-1), this.pageSize * (pageNumber));
     }
 
 
