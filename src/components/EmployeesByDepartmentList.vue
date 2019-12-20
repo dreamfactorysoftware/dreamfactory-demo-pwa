@@ -2,6 +2,9 @@
 
     <div class="container">
         <h2 class="page-logo">Employees from {{ department.dept_name }}</h2>
+        <div class="top-link">
+            <router-link :to="{name: 'departments'}"><img src="../assets/right-arrow-icon.svg" class="top-link-right-arrow-icon" alt="back">Go to departments directory</router-link>
+        </div>
         <div class="employees-list" v-if="pageEmployees.length > 0 && department.dept_name">
             <div class="employee" v-for="employee in pageEmployees">
                 <router-link :to="{ name: 'deptEmployee', params: { id: department.dept_no, eid: employee.emp_no } }">
@@ -142,6 +145,33 @@
         padding: 5px;
         border-radius: 50%;
         transition: 0.3s ease;
+
+        &:hover {
+            background-color: $light-gray;
+        }
+    }
+
+    .top-link {
+        margin: 20px 0;
+
+        &>a {
+            color: $dark-blue !important;
+            font-size: $default-text-size;
+            display: flex;
+            align-items: center;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
+
+    .top-link-right-arrow-icon {
+        width: 30px;
+        padding: 5px;
+        border-radius: 50%;
+        transition: 0.3s ease;
+        transform: rotate(180deg);
 
         &:hover {
             background-color: $light-gray;

@@ -84,7 +84,10 @@
             font-size: $default-text-size;
             display: flex;
             align-items: center;
-            text-decoration: none;
+
+            &:hover {
+                text-decoration: none;
+            }
         }
     }
 
