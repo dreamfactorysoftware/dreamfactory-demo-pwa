@@ -4,17 +4,22 @@
             <router-link :to="goToEmployeesRoute"><img src="../assets/right-arrow-icon.svg" class="right-arrow-icon" alt="back">Go to employee directory</router-link>
         </div>
         <div class="employee-information" v-if="employee.emp_no">
-            <h3>{{ `${employee.first_name} ${employee.last_name}` }}</h3>
+            <h2>{{ `${employee.first_name} ${employee.last_name}` }}</h2>
             <p><b>Birth date:</b> {{ employee.birth_date }}</p>
             <p><b>Gender:</b> {{ getGender() }}</p>
             <p><b>Hire date:</b> {{ employee.hire_date }}</p>
-            <p><b>Email:</b> example@example.com</p>
-            <p><b>Office address:</b> <br>
-                1234 Jump Street <br>
-                Suite 456 <br>
-                New York, New York 45678 <br>
-                USA
-            </p>
+            <h4 v-if="employee.email && employee.telephone">Contacts:</h4>
+            <p v-if="employee.email"><b>Email:</b> {{employee.email}}</p>
+            <p v-if="employee.telephone"><b>Phone number:</b> {{employee.telephone}}</p>
+            <div class="address-block" v-if="employee.street1 && employee.street2 && employee.city && employee.state && employee.zip">
+                <h4>Address:</h4>
+                <p v-if="employee.city"><b>City:</b> {{employee.city}}</p>
+                <p v-if="employee.street1"><b>Street name:</b> {{employee.street1}}</p>
+                <p v-if="employee.street2"><b>Street address:</b> {{employee.street2}}</p>
+                <p v-if="employee.zip"><b>Postcode:</b> {{employee.zip}}</p>
+                <p v-if="employee.state"><b>State:</b> {{employee.state}}</p>
+            </div>
+
         </div>
     </div>
 </template>
@@ -105,9 +110,22 @@
 
     .employee-information {
 
-        &>h3 {
+        &>h2 {
+            margin-bottom: 20px;
+        }
+
+        h4 {
+            margin-top: 40px;
             margin-bottom: 15px;
         }
+
+        &>p {
+            font-size: $default-text-size;
+            line-height: 1.5;
+        }
+    }
+
+    .address-block {
 
         &>p {
             font-size: $default-text-size;

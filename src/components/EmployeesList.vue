@@ -6,7 +6,7 @@
                 <router-link :to="{ name: 'employee', params: { eid: employee.emp_no} }">
                     <div class="user-info">
                         <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
-                        <p class="employee-email">email@email.com</p>
+                        <p class="employee-email">{{employee.email}}</p>
                     </div>
                     <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
                 </router-link>
