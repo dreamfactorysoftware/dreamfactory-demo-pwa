@@ -18,6 +18,19 @@ import 'vue-material/dist/theme/default.css'
 
 import './assets/styles/pagination.scss';
 
+import * as VueGoogleMaps from "vue2-google-maps";
+
+import GmapCluster from 'vue2-google-maps/dist/components/cluster';
+
+Vue.component('gmap-cluster', GmapCluster);
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: "AIzaSyCfhBJB2-pB1_O0VYJiz-EYShU4M4p1O-4",
+    libraries: "places" // necessary for places input
+  }
+});
+
 
 Vue.use(MdApp);
 Vue.use(MdDrawer);

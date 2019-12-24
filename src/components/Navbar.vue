@@ -47,6 +47,9 @@
                     <div class="sidebar-item" @click="showSidebar = false">
                         <router-link :to="{name: 'employees'}" class="sidebar-link">Employees</router-link>
                     </div>
+                    <div class="sidebar-item" v-if @click="showSidebar = false">
+                        <router-link :to="{name: 'map'}" class="sidebar-link">Map</router-link>
+                    </div>
                     <div class="sidebar-item" @click="showSidebar = false">
                         <a href="#" class="sidebar-link">Contact support</a>
                     </div>
@@ -125,7 +128,6 @@
 
     .main-container {
         width: 100%;
-        margin-bottom: 40px;
     }
 
     .navbar-container {

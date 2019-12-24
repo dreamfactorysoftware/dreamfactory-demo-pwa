@@ -59,6 +59,7 @@
     .container {
         width: 100%;
         height: auto;
+        margin-top: 40px;
     }
 
     .page-logo {
@@ -111,14 +112,14 @@
     @media screen and (min-width: 768px){
         .container {
             width: 70%;
-            margin: 0 auto;
+            margin: 40px auto 0;
         }
     }
 
     @media screen and (min-width: 992px){
         .container {
             width: 60%;
-            margin: 0 auto;
+            margin: 40px auto 0;
         }
     }
 
