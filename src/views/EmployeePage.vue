@@ -16,7 +16,7 @@
                 <p v-if="employee.city"><b>City:</b> {{employee.city}}</p>
                 <p v-if="employee.street1"><b>Street name:</b> {{employee.street1}}</p>
                 <p v-if="employee.street2"><b>Street address:</b> {{employee.street2}}</p>
-                <p v-if="employee.zip"><b>Postcode:</b> {{employee.zip}}</p>
+                <p v-if="employee.zip"><b>Postcode:</b> {{employee.zip}} <router-link class="btn btn-link map-link" :to="{name: 'map', query: {latitude: employee.zip_coordinates_by_zip.latitude, longitude: employee.zip_coordinates_by_zip.longitude }}">look on map</router-link></p>
                 <p v-if="employee.state"><b>State:</b> {{employee.state}}</p>
             </div>
 
@@ -79,7 +79,7 @@
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
-        margin-top: 40px;
+        margin: 40px 0;
     }
 
     .top-link {
@@ -132,6 +132,12 @@
             font-size: $default-text-size;
             line-height: 1.5;
         }
+    }
+
+    .map-link {
+        font-size: $default-text-size;
+        padding: 0;
+        vertical-align: inherit;
     }
 
     @media screen and (min-width: 768px){
