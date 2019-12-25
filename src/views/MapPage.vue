@@ -3,7 +3,7 @@
         <gmap-map
                 class="gmap"
                 :center="center"
-                :zoom="8"
+                :zoom="zoom"
         >
             <gmap-cluster>
                 <gmap-marker
@@ -29,6 +29,7 @@
           return {
               center: { lat: 40.7128, lng: -74.0060 },
               markers: [],
+              zoom: 8
           }
         },
         mounted() {
@@ -42,6 +43,13 @@
                     }
                 });
             });
+
+            if (this.$route.query.latitude && this.$route.query.longitude) {
+                this.center.lat = this.$route.query.latitude;
+                this.center.lng = this.$route.query.longitude;
+                this.zoom = 15;
+            }
+
         },
     }
 </script>

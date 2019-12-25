@@ -70,7 +70,7 @@ const ApiService = {
     },
 
     getEmployeeById(id) {
-        return axios.get(`${this.API_URL}/employees/${id}`, {
+        return axios.get(`${this.API_URL}/employees/${id}?related=zip_coordinates_by_zip`, {
             dataType: 'json',
             headers: {
                 'X-DreamFactory-API-Key': this.API_KEY,
