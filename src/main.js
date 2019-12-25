@@ -2,42 +2,35 @@ import Vue from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
-
 import Paginate from 'vuejs-paginate'
-
 // bootstrap
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
-
 // vue material
 import { MdApp, MdDrawer, MdToolbar, MdButton, MdIcon } from 'vue-material/dist/components'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
-
 // Styles
-
 import './assets/styles/pagination.scss';
-
+// map
 import * as VueGoogleMaps from "vue2-google-maps";
-
 import GmapCluster from 'vue2-google-maps/dist/components/cluster';
 
-Vue.component('gmap-cluster', GmapCluster);
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyCfhBJB2-pB1_O0VYJiz-EYShU4M4p1O-4",
+    key: "", // google maps api key
     libraries: "places" // necessary for places input
   }
 });
-
-
 Vue.use(MdApp);
 Vue.use(MdDrawer);
 Vue.use(MdToolbar);
 Vue.use(MdButton);
 Vue.use(MdIcon);
 
+
+Vue.component('gmap-cluster', GmapCluster);
 Vue.component('paginate', Paginate);
 
 Vue.config.productionTip = false;
