@@ -39,10 +39,6 @@
         mounted() {
             this.getEmployeeById(this.$router.currentRoute.params.eid);
 
-            if (!AuthService.getToken()) {
-                this.$router.push({name: 'login'});
-            }
-
             this.setEmployeesRoute();
         },
         methods: {
