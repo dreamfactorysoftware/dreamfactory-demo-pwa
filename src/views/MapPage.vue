@@ -22,6 +22,7 @@
 
 <script>
     import ApiService from "../services/api.service";
+    import AuthService from "../services/auth.service";
 
     export default {
         name: "MapPage",
@@ -33,6 +34,10 @@
           }
         },
         mounted() {
+            if (!AuthService.getToken()) {
+                this.$router.push({name: 'login'});
+            }
+
             ApiService.getEmployeesWithZipCoordinates().then(employees => {
                 this.markers = employees.map(e => {
                     return {
