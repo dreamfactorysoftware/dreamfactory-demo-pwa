@@ -6,7 +6,6 @@ const AuthService = {
 
     setToken(token) {
         localStorage.setItem('jwt', token);
-        this.jwt = token;
     },
 
     getToken() {

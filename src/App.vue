@@ -34,9 +34,33 @@
 </style>
 <script>
   import Navbar from "./components/Navbar";
+  import AuthService from "./services/auth.service";
   export default {
     components: {
       Navbar
+    },
+
+    watch: {
+      $route() {
+        this.isAuthenticated();
+      }
+    },
+
+    mounted() {
+      this.isAuthenticated();
+    },
+
+    methods: {
+      isAuthenticated() {
+        let isEmptyJWT = typeof this.$route.query.jwt === 'undefined' || !this.$route.query.jwt;
+        if (this.$router.currentRoute.name !== 'login' && !AuthService.getToken() && isEmptyJWT) {
+          this.$router.push({name: 'login'});
+        }
+        else if (this.$route.query.jwt){
+          AuthService.setToken(this.$route.query.jwt);
+        }
+      }
+
     }
   }
 </script>
