@@ -8,7 +8,7 @@ const AuthService = {
     },
 
     getToken() {
-        return localStorage.getItem('jwt') | '';
+        return localStorage.getItem('jwt') || '';
     },
 
     getPayload(jwt) {
