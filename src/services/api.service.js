@@ -8,6 +8,7 @@ const ApiService = {
     API_KEY: 'ff53688348ae43bfab920d08dd7bbe1379b63dba31f7067b840b77d094ac0e2c',
     API_URL: 'http://excel.staging-spg.dreamfactory.com/api/v2',
     MYSQL_API_URL: 'http://excel.staging-spg.dreamfactory.com/api/v2/mysql/_table',
+    EMAIL_POST_URL: 'http://excel.staging-spg.dreamfactory.com/api/v2/mailgun/',
 
     getDepartments() {
         if (this.departments.length > 0) {
@@ -88,6 +89,33 @@ const ApiService = {
                 console.error(e)
             })
     },
+
+    // add your email in "to" field
+
+    sendEmail(name, emailAddress, message = '') {
+        return axios.post(this.EMAIL_POST_URL, {
+                "to": [{
+                    "name": "Support",
+                    "email": "YOUR EMAIL HERE"
+                }],
+                "subject": `Support email from ${emailAddress}`,
+                "body_html": `<h2>New support email</h2><p><b>Name:</b> ${name}</p><p><b>Email address:</b> ${emailAddress}</p><p><b>Message:</b> ${message}</p>`,
+                "from_name": `${name}`,
+                "from_email": `${emailAddress}`,
+                "reply_to_name": `${name}`,
+                "reply_to_email": `${emailAddress}`
+            },
+            {
+                headers: {
+                    'X-DreamFactory-API-Key': this.API_KEY,
+                    'X-DreamFactory-Session-Token': this.SESSION_TOKEN
+                }
+            }
+        )
+            .then(response => response)
+            .catch(e => console.error(e));
+    },
+
 
     // PRIVATE
 
