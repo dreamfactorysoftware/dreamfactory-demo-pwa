@@ -63,7 +63,9 @@ const ApiService = {
 
     getEmployeesWithZipCoordinates() {
         if (this.employees.length > 0) {
-            return this.employees
+            return new Promise((resolve) => {
+                resolve(this.employees);
+            });
         } else {
             return this._getFromMysql('/employees', 'zip_coordinates_by_zip')
                 .then(response => {
@@ -90,13 +92,14 @@ const ApiService = {
             })
     },
 
-    // add your email in "to" field
+
 
     sendEmail(name, emailAddress, message = '') {
+
         return axios.post(this.EMAIL_POST_URL, {
                 "to": [{
                     "name": "Support",
-                    "email": "YOUR EMAIL HERE"
+                    "email": "your@email.com" // add your email here
                 }],
                 "subject": `Support email from ${emailAddress}`,
                 "body_html": `<h2>New support email</h2><p><b>Name:</b> ${name}</p><p><b>Email address:</b> ${emailAddress}</p><p><b>Message:</b> ${message}</p>`,
@@ -108,7 +111,7 @@ const ApiService = {
             {
                 headers: {
                     'X-DreamFactory-API-Key': this.API_KEY,
-                    'X-DreamFactory-Session-Token': this.SESSION_TOKEN
+                    'X-DreamFactory-Session-Token': AuthService.getToken()
                 }
             }
         )
@@ -118,6 +121,17 @@ const ApiService = {
 
 
     // PRIVATE
+
+    _post(url, data) {
+        return axios.post(url, data, {
+            dataType: 'json',
+                headers: {
+                    'X-DreamFactory-API-Key': this.API_KEY,
+                    'X-DreamFactory-Session-Token': AuthService.getToken()
+            }
+        });
+
+    },
 
     _get(url) {
         return axios.get(url, {
