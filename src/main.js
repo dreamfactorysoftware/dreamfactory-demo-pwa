@@ -7,7 +7,7 @@ import Paginate from 'vuejs-paginate'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
 // vue material
-import { MdApp, MdDrawer, MdToolbar, MdButton, MdIcon } from 'vue-material/dist/components'
+import { MdApp, MdDrawer, MdToolbar, MdButton, MdIcon, MdBottomBar } from 'vue-material/dist/components'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 // Styles
@@ -28,6 +28,7 @@ Vue.use(MdDrawer);
 Vue.use(MdToolbar);
 Vue.use(MdButton);
 Vue.use(MdIcon);
+Vue.use(MdBottomBar);
 
 
 Vue.component('gmap-cluster', GmapCluster);
