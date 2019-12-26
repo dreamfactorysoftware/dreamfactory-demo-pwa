@@ -1,32 +1,55 @@
 <template>
-
-    <div class="container">
-        <h2 class="page-logo">Employees from {{ department.dept_name }}</h2>
-        <div class="top-link">
-            <router-link :to="{name: 'departments'}"><img src="../assets/right-arrow-icon.svg" class="top-link-right-arrow-icon" alt="back">Go to departments directory</router-link>
-        </div>
-        <div class="employees-list" v-if="pageEmployees.length > 0 && department.dept_name">
-            <div class="employee" v-for="employee in pageEmployees">
-                <router-link :to="{ name: 'deptEmployee', params: { id: department.dept_no, eid: employee.emp_no } }">
-                    <div class="user-info">
-                        <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
-                        <p class="employee-email">{{employee.email}}</p>
-                    </div>
-                    <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
-                </router-link>
-            </div>
-        </div>
-        <div class="pagination-container" v-if="pageCount !== 0">
-            <paginate
-                    :page-count="pageCount"
-                    :click-handler="selectPageHandler"
-                    :prev-text="'Prev'"
-                    :next-text="'Next'"
-                    :container-class="'pagination'">
-            </paginate>
-        </div>
+  <div class="container">
+    <h2 class="page-logo">
+      Employees from {{ department.dept_name }}
+    </h2>
+    <div class="top-link">
+      <router-link :to="{name: 'departments'}">
+        <img
+          src="../assets/right-arrow-icon.svg"
+          class="top-link-right-arrow-icon"
+          alt="back"
+        >Go to departments directory
+      </router-link>
     </div>
-
+    <div
+      v-if="pageEmployees.length > 0 && department.dept_name"
+      class="employees-list"
+    >
+      <div
+        v-for="employee in pageEmployees"
+        class="employee"
+      >
+        <router-link :to="{ name: 'deptEmployee', params: { id: department.dept_no, eid: employee.emp_no } }">
+          <div class="user-info">
+            <h4 class="employee-name">
+              {{ `${employee.first_name} ${employee.last_name}` }}
+            </h4>
+            <p class="employee-email">
+              {{ employee.email }}
+            </p>
+          </div>
+          <img
+            class="right-arrow-icon"
+            src="../assets/right-arrow-icon.svg"
+            alt=">"
+          >
+        </router-link>
+      </div>
+    </div>
+    <div
+      v-if="pageCount !== 0"
+      class="pagination-container"
+    >
+      <paginate
+        :page-count="pageCount"
+        :click-handler="selectPageHandler"
+        :prev-text="'Prev'"
+        :next-text="'Next'"
+        :container-class="'pagination'"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -46,6 +69,9 @@
         },
         mounted() {
             this.getDeptEmployees();
+        },
+        beforeDestroy() {
+            SearchService.clearSearchList();
         },
         methods: {
             getDeptEmployees() {
@@ -71,9 +97,6 @@
                     }
                 }), 'employee');
             }
-        },
-        beforeDestroy() {
-            SearchService.clearSearchList();
         }
     }
 </script>

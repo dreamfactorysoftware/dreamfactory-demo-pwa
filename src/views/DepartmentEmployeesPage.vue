@@ -1,5 +1,5 @@
 <template>
-    <EmployeesByDepartmentList/>
+  <EmployeesByDepartmentList />
 </template>
 
 <script>

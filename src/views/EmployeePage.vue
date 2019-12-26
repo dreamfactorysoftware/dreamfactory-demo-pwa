@@ -1,27 +1,59 @@
 <template>
-    <div class="container">
-        <div class="top-link">
-            <router-link :to="goToEmployeesRoute"><img src="../assets/right-arrow-icon.svg" class="right-arrow-icon" alt="back">Go to employee directory</router-link>
-        </div>
-        <div class="employee-information" v-if="employee.emp_no">
-            <h2>{{ `${employee.first_name} ${employee.last_name}` }}</h2>
-            <p><b>Birth date:</b> {{ employee.birth_date }}</p>
-            <p><b>Gender:</b> {{ getGender() }}</p>
-            <p><b>Hire date:</b> {{ employee.hire_date }}</p>
-            <h4 v-if="employee.email && employee.telephone">Contacts:</h4>
-            <p v-if="employee.email"><b>Email:</b> {{employee.email}}</p>
-            <p v-if="employee.telephone"><b>Phone number:</b> {{employee.telephone}}</p>
-            <div class="address-block" v-if="employee.street1 && employee.street2 && employee.city && employee.state && employee.zip">
-                <h4>Address:</h4>
-                <p v-if="employee.city"><b>City:</b> {{employee.city}}</p>
-                <p v-if="employee.street1"><b>Street name:</b> {{employee.street1}}</p>
-                <p v-if="employee.street2"><b>Street address:</b> {{employee.street2}}</p>
-                <p v-if="employee.zip"><b>Postcode:</b> {{employee.zip}} <router-link class="btn btn-link map-link" :to="{name: 'map', query: {latitude: employee.zip_coordinates_by_zip.latitude, longitude: employee.zip_coordinates_by_zip.longitude }}">look on map</router-link></p>
-                <p v-if="employee.state"><b>State:</b> {{employee.state}}</p>
-            </div>
-
-        </div>
+  <div class="container">
+    <div class="top-link">
+      <router-link :to="goToEmployeesRoute">
+        <img
+          src="../assets/right-arrow-icon.svg"
+          class="right-arrow-icon"
+          alt="back"
+        >Go to employee directory
+      </router-link>
     </div>
+    <div
+      v-if="employee.emp_no"
+      class="employee-information"
+    >
+      <h2>{{ `${employee.first_name} ${employee.last_name}` }}</h2>
+      <p><b>Birth date:</b> {{ employee.birth_date }}</p>
+      <p><b>Gender:</b> {{ getGender() }}</p>
+      <p><b>Hire date:</b> {{ employee.hire_date }}</p>
+      <h4 v-if="employee.email && employee.telephone">
+        Contacts:
+      </h4>
+      <p v-if="employee.email">
+        <b>Email:</b> {{ employee.email }}
+      </p>
+      <p v-if="employee.telephone">
+        <b>Phone number:</b> {{ employee.telephone }}
+      </p>
+      <div
+        v-if="employee.street1 && employee.street2 && employee.city && employee.state && employee.zip"
+        class="address-block"
+      >
+        <h4>Address:</h4>
+        <p v-if="employee.city">
+          <b>City:</b> {{ employee.city }}
+        </p>
+        <p v-if="employee.street1">
+          <b>Street name:</b> {{ employee.street1 }}
+        </p>
+        <p v-if="employee.street2">
+          <b>Street address:</b> {{ employee.street2 }}
+        </p>
+        <p v-if="employee.zip">
+          <b>Postcode:</b> {{ employee.zip }} <router-link
+            class="btn btn-link map-link"
+            :to="{name: 'map', query: {latitude: employee.zip_coordinates_by_zip.latitude, longitude: employee.zip_coordinates_by_zip.longitude }}"
+          >
+            look on map
+          </router-link>
+        </p>
+        <p v-if="employee.state">
+          <b>State:</b> {{ employee.state }}
+        </p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
