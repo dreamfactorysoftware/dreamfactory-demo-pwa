@@ -1,28 +1,19 @@
 import axios from 'axios';
-
-
-
+import AuthService from "./auth.service";
 
 const ApiService = {
     departments: [],
     employees: [],
 
-    API_KEY: '4f62f758995f8ac02ff0db2887ecdecd282bc7852ffb87524c247daa29c7b72d',
-    SESSION_TOKEN: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4ZWIxYjUyMmY2MGQxMWZhODk3ZGUxZGM2MzUxYjdlOCIsImlzcyI6Imh0dHA6Ly9leGNlbC5zdGFnaW5nLXNwZy5kcmVhbWZhY3RvcnkuY29tL2FwaS92Mi9zeXN0ZW0vYWRtaW4vc2Vzc2lvbiIsImlhdCI6MTU3NjIyNTg5NywiZXhwIjoxNTc5ODI1ODk3LCJuYmYiOjE1NzYyMjU4OTcsImp0aSI6ImhGVU83aW9TVlhkakFERGgiLCJ1c2VyX2lkIjoxLCJmb3JldmVyIjpmYWxzZX0.6aMMemEMvwmLlwdoiyu6fY9FnNznME358DJTgvtVSc0',
-    API_URL : 'http://excel.staging-spg.dreamfactory.com/api/v2/mysql/_table',
+    API_KEY: 'ff53688348ae43bfab920d08dd7bbe1379b63dba31f7067b840b77d094ac0e2c',
+    API_URL: 'http://excel.staging-spg.dreamfactory.com/api/v2',
+    MYSQL_API_URL: 'http://excel.staging-spg.dreamfactory.com/api/v2/mysql/_table',
 
     getDepartments() {
         if (this.departments.length > 0) {
             return this.departments
-        }
-        else {
-            return axios.get(`${this.API_URL}/departments`, {
-                dataType: 'json',
-                headers: {
-                    'X-DreamFactory-API-Key': this.API_KEY,
-                    'X-DreamFactory-Session-Token': this.SESSION_TOKEN
-                }
-            })
+        } else {
+            return this._getFromMysql('/departments')
                 .then(response => {
                     this.departments = response.data.resource;
                     return response.data.resource;
@@ -33,50 +24,8 @@ const ApiService = {
         }
     },
 
-    getDepartmentById(id) {
-        return axios.get(`${this.API_URL}/departments/${id}`, {
-            dataType: 'json',
-            headers: {
-                'X-DreamFactory-API-Key': this.API_KEY,
-                'X-DreamFactory-Session-Token': this.SESSION_TOKEN
-            }
-        })
-            .then(response => response.data)
-            .catch(e => {
-                console.error(e)
-            })
-    },
-
-    getEmployees() {
-        if (this.employees.length > 0) {
-            return this.employees;
-        }
-        else {
-            return axios.get(`${this.API_URL}/employees`, {
-                dataType: 'json',
-                headers: {
-                    'X-DreamFactory-API-Key': this.API_KEY,
-                    'X-DreamFactory-Session-Token': this.SESSION_TOKEN
-                }
-            })
-                .then(response => {
-                    this.employees = response.data.resource;
-                    return response.data.resource;
-                })
-                .catch(e => {
-                    console.error(e)
-                })
-        }
-    },
-
     getEmployeeById(id) {
-        return axios.get(`${this.API_URL}/employees/${id}?related=zip_coordinates_by_zip`, {
-            dataType: 'json',
-            headers: {
-                'X-DreamFactory-API-Key': this.API_KEY,
-                'X-DreamFactory-Session-Token': this.SESSION_TOKEN
-            }
-        })
+        return this._getFromMysql(`/employees/${id}`, 'zip_coordinates_by_zip')
             .then(response => response.data)
             .catch(e => {
                 console.error(e)
@@ -84,27 +33,15 @@ const ApiService = {
     },
 
     getEmployeesByDeptId(id) {
-            return axios.get(`${this.API_URL}/departments/${id}?related=employees_by_dept_emp`, {
-                dataType: 'json',
-                headers: {
-                    'X-DreamFactory-API-Key': this.API_KEY,
-                    'X-DreamFactory-Session-Token': this.SESSION_TOKEN
-                }
+        return this._getFromMysql(`/departments/${id}`, 'employees_by_dept_emp')
+            .then(response => response.data)
+            .catch(e => {
+                console.error(e)
             })
-                .then(response => response.data)
-                .catch(e => {
-                    console.error(e)
-                })
     },
 
     getAllEmployeesCount() {
-        return axios.get(`${this.API_URL}/employees?count_only=true`, {
-            dataType: 'json',
-            headers: {
-                'X-DreamFactory-API-Key': this.API_KEY,
-                'X-DreamFactory-Session-Token': this.SESSION_TOKEN
-            }
-        })
+        return this._getFromMysql('/employees?count_only=true')
             .then(response => {
                 return response.data;
             })
@@ -114,13 +51,7 @@ const ApiService = {
     },
 
     getEmployeesWithPagination(pageSize, offset) {
-        return axios.get(`${this.API_URL}/employees?limit=${pageSize}&offset=${offset}`, {
-            dataType: 'json',
-            headers: {
-                'X-DreamFactory-API-Key': this.API_KEY,
-                'X-DreamFactory-Session-Token': this.SESSION_TOKEN
-            }
-        })
+        return this._getFromMysql('/employees', '', pageSize, offset)
             .then(response => {
                 return response.data.resource;
             })
@@ -130,19 +61,55 @@ const ApiService = {
     },
 
     getEmployeesWithZipCoordinates() {
-        return axios.get(`${this.API_URL}/employees?related=zip_coordinates_by_zip`, {
-            dataType: 'json',
-            headers: {
-                'X-DreamFactory-API-Key': this.API_KEY,
-                'X-DreamFactory-Session-Token': this.SESSION_TOKEN
-            }
-        })
+        if (this.employees.length > 0) {
+            return this.employees
+        } else {
+            return this._getFromMysql('/employees', 'zip_coordinates_by_zip')
+                .then(response => {
+                    this.employees = response.data.resource;
+                    return this.employees;
+                })
+                .catch(e => {
+                    console.error(e)
+                })
+        }
+    },
+
+    getUserById(id) {
+        return this._get(`${this.API_URL}/system/user/${id}`)
             .then(response => {
-                return response.data.resource;
+                if (!response.data || !response.data.username) {
+                    AuthService.logout();
+                    return false;
+                }
+                return response.data;
             })
             .catch(e => {
                 console.error(e)
             })
+    },
+
+    // PRIVATE
+
+    _get(url) {
+        return axios.get(url, {
+            dataType: 'json',
+            headers: {
+                'X-DreamFactory-API-Key': this.API_KEY,
+                'X-DreamFactory-Session-Token': AuthService.getToken()
+            }
+        });
+    },
+
+    _getFromMysql(url, related = '', limit = '', offset = '') {
+        let hasQuestionMark = url.includes('?');
+        return axios.get(`${this.MYSQL_API_URL}${url}${hasQuestionMark ? '&' : '?'}limit=${limit}&offset=${offset}&related=${related}`, {
+            dataType: 'json',
+            headers: {
+                'X-DreamFactory-API-Key': this.API_KEY,
+                'X-DreamFactory-Session-Token': AuthService.getToken()
+            }
+        });
     }
 
 };
