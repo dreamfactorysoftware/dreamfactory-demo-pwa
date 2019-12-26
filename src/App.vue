@@ -45,7 +45,7 @@
       }
     },
 
-    beforeCreate() {
+    mounted() {
       this.isAuthenticated();
     },
 
