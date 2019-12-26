@@ -1,15 +1,18 @@
 <template>
-    <div class="container">
-        <div class="login-title">
-            <h2>Login to Your Account</h2>
-        </div>
-        <div class="login-form">
-            <div class="form-button-row">
-            <a href="http://excel.staging-spg.dreamfactory.com/api/v2/okta_sso/sso" class="signin-button md-button">Sign in with okta</a>
-<!--                <router-link to="/" class="signin-button">Sign in with okta</router-link>-->
-            </div>
-        </div>
+  <div class="container">
+    <div class="login-title">
+      <h2>Login to Your Account</h2>
     </div>
+    <div class="login-form">
+      <div class="form-button-row">
+        <a
+          href="http://excel.staging-spg.dreamfactory.com/api/v2/okta_sso/sso"
+          class="signin-button md-button"
+        >Sign in with okta</a>
+        <!--                <router-link to="/" class="signin-button">Sign in with okta</router-link>-->
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

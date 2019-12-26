@@ -1,17 +1,29 @@
 <template>
-
-    <div class="container">
-        <h2 class="page-logo">Departments</h2>
-        <div class="departments-list" v-if="departments.length > 0">
-            <div class="department" v-for="department in departments">
-                <router-link :to="{ name: 'department', params: { id: department.dept_no } }">
-                    <h4 class="department-name">{{ department.dept_name }}</h4>
-                    <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
-                </router-link>
-            </div>
-        </div>
+  <div class="container">
+    <h2 class="page-logo">
+      Departments
+    </h2>
+    <div
+      v-if="departments.length > 0"
+      class="departments-list"
+    >
+      <div
+        v-for="department in departments"
+        class="department"
+      >
+        <router-link :to="{ name: 'department', params: { id: department.dept_no } }">
+          <h4 class="department-name">
+            {{ department.dept_name }}
+          </h4>
+          <img
+            class="right-arrow-icon"
+            src="../assets/right-arrow-icon.svg"
+            alt=">"
+          >
+        </router-link>
+      </div>
     </div>
-
+  </div>
 </template>
 
 <script>

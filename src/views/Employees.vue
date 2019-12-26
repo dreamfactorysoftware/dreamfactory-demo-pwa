@@ -1,5 +1,5 @@
 <template>
- <EmployeesList />
+  <EmployeesList />
 </template>
 
 <script>

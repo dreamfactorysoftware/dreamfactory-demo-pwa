@@ -1,66 +1,148 @@
 <template>
-    <div class="main-container">
-        <div class="navbar-container">
-            <div class="menu-container">
-                <div class="menu">
-                    <div class="menu-item">
-                        <md-button class="md-icon-button" @click="showSidebar = true">
-                            <md-icon>menu</md-icon>
-                        </md-button>
-                    </div>
-                    <div class="menu-item">
-                        <router-link :to="{name: 'home'}">
-                            <img src="../assets/acme-logo.png" width="150px" height="auto" alt="Acme logo">
-                        </router-link>
-                    </div>
-                </div>
-                <div class="searchbar dropdown">
-                    <input type="text" :placeholder="`Search ${searchPlaceholder}`" v-model="searchQuery" :disabled="searchIsNotAllowed">
-                    <button class="dropdown-toggle" v-on:click="search(searchQuery)" :disabled="searchQuery.length < 4" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="search-icon" src="../assets/search-icon.svg" alt="search">
-                    </button>
-                    <div class="search-result dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
-                        <div class="dropdown-item" v-if="searchResult.list && searchResult.list.length === 0">
-                            <p>No result</p>
-                        </div>
-                        <router-link :to="{ name: searchResult.routeName, params: { eid: item.id } }" class="dropdown-item" v-for="item in searchResult.list">
-                            <p>{{item.search_item}}</p>
-                            <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
-                        </router-link>
-                    </div>
-                </div>
+  <div class="main-container">
+    <div class="navbar-container">
+      <div class="menu-container">
+        <div class="menu">
+          <div class="menu-item">
+            <md-button
+              class="md-icon-button"
+              @click="showSidebar = true"
+            >
+              <md-icon>menu</md-icon>
+            </md-button>
+          </div>
+          <div class="menu-item">
+            <router-link :to="{name: 'home'}">
+              <img
+                src="../assets/acme-logo.png"
+                width="150px"
+                height="auto"
+                alt="Acme logo"
+              >
+            </router-link>
+          </div>
+        </div>
+        <div class="searchbar dropdown">
+          <input
+            v-model="searchQuery"
+            type="text"
+            :placeholder="`Search ${searchPlaceholder}`"
+            :disabled="searchIsNotAllowed"
+          >
+          <button
+            id="dropdownMenuButton1"
+            class="dropdown-toggle"
+            :disabled="searchQuery.length < 4"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            @click="search(searchQuery)"
+          >
+            <img
+              class="search-icon"
+              src="../assets/search-icon.svg"
+              alt="search"
+            >
+          </button>
+          <div
+            class="search-result dropdown-menu dropdown-menu-right"
+            aria-labelledby="dropdownMenuButton1"
+          >
+            <div
+              v-if="searchResult.list && searchResult.list.length === 0"
+              class="dropdown-item"
+            >
+              <p>No result</p>
             </div>
+            <router-link
+              v-for="item in searchResult.list"
+              :to="{ name: searchResult.routeName, params: { eid: item.id } }"
+              class="dropdown-item"
+            >
+              <p>{{ item.search_item }}</p>
+              <img
+                class="right-arrow-icon"
+                src="../assets/right-arrow-icon.svg"
+                alt=">"
+              >
+            </router-link>
+          </div>
         </div>
-
-        <div class="sidebar-container">
-            <md-drawer :md-active.sync="showSidebar" md-swipeable>
-                <div class="sidebar">
-                    <div class="sidebar-item">
-                        <p v-if="currentUser.username" :title="currentUser.username.replace('+okta_sso', '')">Hi {{currentUser.username.replace('+okta_sso', '')}}</p>
-                    </div>
-                    <div class="sidebar-item sidebar-title">
-                        <h5>Menu</h5>
-                    </div>
-                    <div class="sidebar-item" @click="showSidebar = false">
-                        <router-link :to="{name: 'departments'}" class="sidebar-link">Departments</router-link>
-                    </div>
-                    <div class="sidebar-item" @click="showSidebar = false">
-                        <router-link :to="{name: 'employees'}" class="sidebar-link">Employees</router-link>
-                    </div>
-                    <div class="sidebar-item" v-if @click="showSidebar = false">
-                        <router-link :to="{name: 'map'}" class="sidebar-link">Map</router-link>
-                    </div>
-                    <div class="sidebar-item" @click="showSidebar = false">
-                        <a href="#" class="sidebar-link">Contact support</a>
-                    </div>
-                    <div class="sidebar-item">
-                        <button @click="logout()" class="btn btn-secondary">Logout</button>
-                    </div>
-                </div>
-            </md-drawer>
-        </div>
-
+      </div>
     </div>
+
+    <div class="sidebar-container">
+      <md-drawer
+        :md-active.sync="showSidebar"
+        md-swipeable
+      >
+        <div class="sidebar">
+          <div class="sidebar-item">
+            <p
+              v-if="currentUser.username"
+              :title="currentUser.username.replace('+okta_sso', '')"
+            >
+              Hi {{ currentUser.username.replace('+okta_sso', '') }}
+            </p>
+          </div>
+          <div class="sidebar-item sidebar-title">
+            <h5>Menu</h5>
+          </div>
+          <div
+            class="sidebar-item"
+            @click="showSidebar = false"
+          >
+            <router-link
+              :to="{name: 'departments'}"
+              class="sidebar-link"
+            >
+              Departments
+            </router-link>
+          </div>
+          <div
+            class="sidebar-item"
+            @click="showSidebar = false"
+          >
+            <router-link
+              :to="{name: 'employees'}"
+              class="sidebar-link"
+            >
+              Employees
+            </router-link>
+          </div>
+          <div
+            v-if
+            class="sidebar-item"
+            @click="showSidebar = false"
+          >
+            <router-link
+              :to="{name: 'map'}"
+              class="sidebar-link"
+            >
+              Map
+            </router-link>
+          </div>
+          <div
+            class="sidebar-item"
+            @click="showSidebar = false"
+          >
+            <a
+              href="#"
+              class="sidebar-link"
+            >Contact support</a>
+          </div>
+          <div class="sidebar-item">
+            <button
+              class="btn btn-secondary"
+              @click="logout()"
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </md-drawer>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -80,13 +162,6 @@
                 searchPlaceholder: ''
             }
         },
-        mounted() {
-            AuthService.getPayload(this.$route.query.jwt || AuthService.getToken())
-                .then(user => {
-                    this.currentUser = user;
-                });
-            this.setSearchPlaceholder(this.$route);
-        },
         watch: {
             $route(to, from) {
                 this.searchQuery = '';
@@ -94,6 +169,13 @@
 
                 this.setSearchPlaceholder(to);
             }
+        },
+        mounted() {
+            AuthService.getPayload(this.$route.query.jwt || AuthService.getToken())
+                .then(user => {
+                    this.currentUser = user;
+                });
+            this.setSearchPlaceholder(this.$route);
         },
         methods: {
             search(query) {

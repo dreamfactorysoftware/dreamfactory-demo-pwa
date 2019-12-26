@@ -15,6 +15,11 @@ npm run serve
 npm run build
 ```
 
+### ESLint
+Run ```eslint --ext .js,.vue src``` to see lint problems
+
+Add ```--fix``` flag to fix problems
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 

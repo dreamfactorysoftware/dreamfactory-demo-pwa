@@ -1,27 +1,46 @@
 <template>
-    <div class="container">
-        <h2 class="page-logo">Employee directory</h2>
-        <div class="employees-list" v-if="employees.length > 0">
-            <div class="employee" v-for="employee in employees">
-                <router-link :to="{ name: 'employee', params: { eid: employee.emp_no} }">
-                    <div class="user-info">
-                        <h4 class="employee-name">{{ `${employee.first_name} ${employee.last_name}` }}</h4>
-                        <p class="employee-email">{{employee.email}}</p>
-                    </div>
-                    <img class="right-arrow-icon" src="../assets/right-arrow-icon.svg" alt=">">
-                </router-link>
-            </div>
-        </div>
-        <div class="pagination-container" v-if="pageCount !== 0">
-            <paginate
-                    :page-count="pageCount"
-                    :click-handler="selectPageHandler"
-                    :prev-text="'Prev'"
-                    :next-text="'Next'"
-                    :container-class="'pagination'">
-            </paginate>
-        </div>
+  <div class="container">
+    <h2 class="page-logo">
+      Employee directory
+    </h2>
+    <div
+      v-if="employees.length > 0"
+      class="employees-list"
+    >
+      <div
+        v-for="employee in employees"
+        class="employee"
+      >
+        <router-link :to="{ name: 'employee', params: { eid: employee.emp_no} }">
+          <div class="user-info">
+            <h4 class="employee-name">
+              {{ `${employee.first_name} ${employee.last_name}` }}
+            </h4>
+            <p class="employee-email">
+              {{ employee.email }}
+            </p>
+          </div>
+          <img
+            class="right-arrow-icon"
+            src="../assets/right-arrow-icon.svg"
+            alt=">"
+          >
+        </router-link>
+      </div>
     </div>
+    <div
+      v-if="pageCount !== 0"
+      class="pagination-container"
+    >
+      <paginate
+        :page-count="pageCount"
+        :click-handler="selectPageHandler"
+        :prev-text="'Prev'"
+        :next-text="'Next'"
+        :container-class="'pagination'"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -40,6 +59,9 @@
         mounted() {
             this.getPageCount();
             this.selectPageHandler(1);
+        },
+        beforeDestroy() {
+            SearchService.clearSearchList();
         },
         methods: {
             getPageCount() {
@@ -64,9 +86,6 @@
                     }
                 }), 'employee');
             },
-        },
-        beforeDestroy() {
-            SearchService.clearSearchList();
         }
     }
 </script>

@@ -1,10 +1,9 @@
 <template>
   <div id="app">
-    <Navbar v-if="$router.currentRoute.path !== '/login'"/>
+    <Navbar v-if="$router.currentRoute.path !== '/login'" />
     <div class="wrapper">
-      <router-view/>
+      <router-view />
     </div>
-
   </div>
 </template>
 
@@ -46,7 +45,7 @@
       }
     },
 
-    mounted() {
+    beforeCreate() {
       this.isAuthenticated();
     },
 
@@ -56,7 +55,7 @@
         if (this.$router.currentRoute.name !== 'login' && !AuthService.getToken() && isEmptyJWT) {
           this.$router.push({name: 'login'});
         }
-        else if (this.$route.query.jwt){
+        else if (this.$route.query.jwt) {
           AuthService.setToken(this.$route.query.jwt);
         }
       }

@@ -1,23 +1,22 @@
 <template>
-    <div class="map-container">
-        <gmap-map
-                class="gmap"
-                :center="center"
-                :zoom="zoom"
-        >
-            <gmap-cluster>
-                <gmap-marker
-                        :key="index"
-                        v-for="(m, index) in markers"
-                        :position="m.position"
-                        @click="center=m.position"
-                        :clickable="true"
-                        :draggable="true"
-                ></gmap-marker>
-            </gmap-cluster>
-
-        </gmap-map>
-    </div>
+  <div class="map-container">
+    <gmap-map
+      class="gmap"
+      :center="center"
+      :zoom="zoom"
+    >
+      <gmap-cluster>
+        <gmap-marker
+          v-for="(m, index) in markers"
+          :key="index"
+          :position="m.position"
+          :clickable="true"
+          :draggable="true"
+          @click="center=m.position"
+        />
+      </gmap-cluster>
+    </gmap-map>
+  </div>
 </template>
 
 <script>
