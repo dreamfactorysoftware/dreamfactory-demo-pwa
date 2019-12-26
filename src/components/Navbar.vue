@@ -126,10 +126,12 @@
             class="sidebar-item"
             @click="showSidebar = false"
           >
-            <a
-              href="#"
-              class="sidebar-link"
-            >Contact support</a>
+              <router-link
+                :to="{name: 'support'}"
+                class="sidebar-link"
+              >
+                  Contact support
+              </router-link>
           </div>
           <div class="sidebar-item">
             <button
