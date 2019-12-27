@@ -102,14 +102,14 @@
             &:hover {
                 text-decoration: none;
                 cursor: pointer;
-                background-color: $hover-ghost-white;
+                background-color: $hover-white;
             }
         }
     }
 
     .department-name {
         margin: 20px 0;
-        color: $dark-blue;
+        color: $darkest-blue;
     }
 
     .right-arrow-icon {

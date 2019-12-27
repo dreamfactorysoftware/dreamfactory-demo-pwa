@@ -117,7 +117,7 @@
         margin: 10px 0 20px 0;
 
         &>a {
-            color: $dark-blue !important;
+            color: $darkest-blue !important;
             font-size: $default-text-size;
             display: flex;
             align-items: center;

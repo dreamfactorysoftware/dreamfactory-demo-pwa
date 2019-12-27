@@ -1,55 +1,18 @@
 <template>
   <div id="app">
     <Navbar v-if="$router.currentRoute.path !== '/login'" />
-    <div class="wrapper" :class="{'no-margin': $router.currentRoute.name === 'map'}">
+    <div
+      class="wrapper"
+      :class="{'no-margin': $router.currentRoute.name === 'map'}"
+    >
       <router-view />
     </div>
     <BottomBar
-      v-if="windowWidth <= 768"
+      v-if="windowWidth <= 768 && $router.currentRoute.path !== '/login'"
       class="bottom-bar"
     />
   </div>
 </template>
-
-<style lang="scss">
-
-  body {
-    margin: 0;
-    background-color: $ghost-white !important;
-  }
-
-  #app {
-    font-family: 'Lato', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: $dark-blue;
-  }
-
-  .wrapper {
-    width: auto;
-    height: auto;
-    margin: 10px 10px 70px 10px;
-    z-index: 1;
-  }
-
-  .no-margin {
-    margin: 0;
-  }
-
-  .bottom-bar {
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    z-index: 100;
-  }
-
-  @media screen and (min-width: 769px){
-    .wrapper {
-      margin: 0;
-    }
-  }
-
-</style>
 
 <script>
   import Navbar from "./components/Navbar";
@@ -105,3 +68,43 @@
     }
   }
 </script>
+
+<style lang="scss">
+
+  body {
+    margin: 0;
+    background-color: $white !important;
+  }
+
+  #app {
+    font-family: 'Lato', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $darkest-blue;
+  }
+
+  .wrapper {
+    width: auto;
+    height: auto;
+    margin: 10px 10px 70px 10px;
+    z-index: 1;
+  }
+
+  .no-margin {
+    margin: 0;
+  }
+
+  .bottom-bar {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 100;
+  }
+
+  @media screen and (min-width: 769px){
+    .wrapper {
+      margin: 0;
+    }
+  }
+
+</style>

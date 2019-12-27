@@ -40,7 +40,7 @@
         </div>
         <div class="form-row">
           <input
-            class="btn btn-secondary"
+            class="btn btn-primary"
             type="submit"
             value="Send"
           >
