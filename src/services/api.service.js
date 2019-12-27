@@ -96,7 +96,7 @@ const ApiService = {
 
     sendEmail(name, emailAddress, message = '') {
 
-        return axios.post(this.EMAIL_POST_URL, {
+        return this._post(this.EMAIL_POST_URL, {
                 "to": [{
                     "name": "Support",
                     "email": "your@email.com" // add your email here
@@ -107,14 +107,7 @@ const ApiService = {
                 "from_email": `${emailAddress}`,
                 "reply_to_name": `${name}`,
                 "reply_to_email": `${emailAddress}`
-            },
-            {
-                headers: {
-                    'X-DreamFactory-API-Key': this.API_KEY,
-                    'X-DreamFactory-Session-Token': AuthService.getToken()
-                }
-            }
-        )
+            })
             .then(response => response)
             .catch(e => console.error(e));
     },
