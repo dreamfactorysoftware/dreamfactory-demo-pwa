@@ -51,7 +51,6 @@
             sendEmail() {
                 ApiService.sendEmail(this.name, this.email, this.message)
                     .then(response => {
-                        console.log(response);
                         if (response && response.status === 200) {
                             this.name = '';
                             this.email = '';
