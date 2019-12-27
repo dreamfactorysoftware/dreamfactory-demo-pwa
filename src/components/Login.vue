@@ -7,7 +7,7 @@
       <div class="form-button-row">
         <a
           href="http://excel.staging-spg.dreamfactory.com/api/v2/okta_sso/sso"
-          class="signin-button md-button"
+          class="signin-button btn btn-primary"
         >Sign in with okta</a>
       </div>
     </div>
@@ -44,7 +44,7 @@
         font-style: normal;
         line-height: 1.36;
         letter-spacing: normal;
-        color: $dark-blue;
+        color: $darkest-blue;
         margin: 0;
     }
 
@@ -67,20 +67,12 @@
     }
 
     .signin-button {
-        height: auto;
-        background-color: $light-blue;
-        border: none;
-        border-radius: 5px;
-        padding: 15px 20px;
-        color: $ghost-white;
-        font-weight: bold;
-        transition: .3s ease;
-        text-decoration: none;
+        color: $white !important;
     }
 
     .signin-button:hover {
         text-decoration: none;
-        color: $ghost-white;
+        color: $white;
         box-shadow: 0 6px 12px rgba(0,0,0,.175);
     }
 

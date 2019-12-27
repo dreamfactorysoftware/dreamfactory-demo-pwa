@@ -8,13 +8,15 @@
               class="md-icon-button"
               @click="showSidebar = true"
             >
-              <md-icon>menu</md-icon>
+              <md-icon class="burger-button">
+                menu
+              </md-icon>
             </md-button>
           </div>
           <div class="menu-item menu-item-logo">
             <router-link :to="{name: 'home'}">
               <img
-                src="../assets/acme-logo.png"
+                src="../assets/acme-logo-white.png"
                 width="150px"
                 height="auto"
                 alt="Acme logo"
@@ -41,11 +43,9 @@
             aria-expanded="false"
             @click="search(searchQuery)"
           >
-            <img
-              class="search-icon"
-              src="../assets/search-icon.svg"
-              alt="search"
-            >
+            <md-icon class="search-icon">
+              search
+            </md-icon>
           </button>
           <div
             class="search-result dropdown-menu dropdown-menu-right"
@@ -152,7 +152,7 @@
           </div>
           <div class="sidebar-item">
             <button
-              class="btn btn-secondary"
+              class="btn btn-primary"
               @click="logout()"
             >
               Logout
@@ -245,13 +245,13 @@
         width: 100%;
         top: 0;
         height: auto;
-        background-color: #f4f4f9;
+        background-color: $light-blue;
         transition: 0.3s ease;
         box-shadow: 0 30px 30px -25px rgba(0,0, 0, 0.1);
     }
 
     .menu-container {
-        padding: 25px 15px;
+        padding: 20px 15px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -271,6 +271,11 @@
         justify-content: flex-start;
         align-items: center;
         margin-bottom: 5px;
+        color: $white
+    }
+
+    .burger-button {
+      color: $white !important;
     }
 
     .menu-item-logo {
@@ -286,19 +291,20 @@
       }
     }
 
-
     /* SEARCH BAR STYLES */
     .searchbar {
         width: 100%;
-        margin: 0 auto;
+        margin: 0 0 0 15px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
 
         &>input {
+            background-color: $white;
             width: 80%;
             border: none;
-            border-bottom: 1px solid gray;
-            padding: 4px;
+            padding: 6px;
             font-size: $default-text-size;
-            background-color: inherit;
         }
 
         &>button {
@@ -306,14 +312,20 @@
             border: none;
             width: auto;
             height: auto;
-            padding: 5px;
+            padding: 6px;
             margin-left: 10px;
-        }
+            transition: .2s ease;
 
+            &:hover {
+              background-color: rgba(255,255,255,0.1);
+              border-radius: 50%;
+              cursor: pointer;
+            }
+        }
     }
 
     .search-icon {
-        width: 15px;
+        color: $white !important;
     }
 
     .search-result {
@@ -329,7 +341,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        color: $dark-blue !important;
+        color: $darkest-blue !important;
 
         &:active {
             background-color: $light-gray;
@@ -338,7 +350,13 @@
         &:hover {
             text-decoration: none;
         }
+    }
 
+    .dropdown-toggle {
+
+        &::after {
+          display: none;
+        }
     }
 
     .right-arrow-icon {
@@ -348,51 +366,49 @@
         transition: 0.3s ease;
 
         &:hover {
-            background-color: $light-gray;
+          background-color: $light-gray;
         }
     }
-
-
 
     /* SIDEBAR STYLES */
 
     .md-drawer {
-        position: fixed;
-        width: 280px;
-        height: 100vh;
+      position: fixed;
+      width: 280px;
+      height: 100vh;
     }
 
     .sidebar {
-        width: 100%;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
+      width: 100%;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
     }
     .sidebar-item {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        width: 100%;
-        font-family: Lato, sans-serif;
-        font-size: $default-text-size;
-        text-align: left;
-        padding: 15px 20px;
-        margin: 0;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      font-family: Lato, sans-serif;
+      font-size: $default-text-size;
+      text-align: left;
+      padding: 15px 20px;
+      margin: 0;
 
-        &:last-of-type {
-            margin-top: 30px;
-        }
+      &:last-of-type {
+        margin-top: 30px;
+      }
     }
 
     .sidebar-link {
-        color: $dark-blue !important;
+      color: $darkest-blue !important;
 
-        &:hover {
-            text-decoration: none;
-            cursor: pointer;
-        }
+      &:hover {
+        text-decoration: none;
+        cursor: pointer;
+      }
     }
 
     .sidebar-logo, .sidebar-username {
@@ -418,59 +434,56 @@
         }
       }
 
-
       &:hover {
         background-color: #f2f2f7;
         cursor: pointer;
       }
     }
 
-
     /* MEDIA QUERY*/
     @media screen and (min-width: 768px){
-        .menu-container {
-            width: 70%;
-            margin: 0 auto;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-        }
+      .menu-container {
+        width: 70%;
+        margin: 0 auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-        .searchbar {
-            width: 300px;
-            margin: 0;
-        }
+      .searchbar {
+        width: 300px;
+        margin: 0;
+      }
 
-        .menu {
-          display: flex;
-          width: auto;
-        }
+      .menu {
+        display: flex;
+        width: auto;
+      }
 
-        .menu-item {
-            margin: 0;
-        }
+      .menu-item {
+        margin: 0;
+      }
 
-        .menu-item-logo {
-            display: flex;
-        }
+      .menu-item-logo {
+        display: flex;
+      }
 
-        .page-name-item {
-            display: none;
-        }
+      .page-name-item {
+        display: none;
+      }
     }
 
     @media screen and (min-width: 992px){
-        .menu-container {
-            width: 60%;
-            margin: 0 auto;
-        }
+      .menu-container {
+        width: 60%;
+        margin: 0 auto;
+      }
     }
 
     @media screen and (min-width: 1200px){
-        .searchbar {
-            width: 300px;
-        }
+      .searchbar {
+        width: 300px;
+      }
     }
-
 
 </style>

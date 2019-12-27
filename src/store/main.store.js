@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        header: ''
+        header: 'Header'
     },
     getters: {
         getHeader(state) {

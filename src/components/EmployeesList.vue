@@ -134,7 +134,7 @@
             &:hover {
                 text-decoration: none;
                 cursor: pointer;
-                background-color: $hover-ghost-white;
+                background-color: $hover-white;
             }
         }
     }
@@ -148,11 +148,11 @@
 
     .employee-name {
         margin: 20px 0 5px 0;
-        color: $dark-blue;
+        color: $darkest-blue;
     }
 
     .employee-email {
-        color: $dark-blue-gray;
+        color: $dark-blue;
     }
 
     .right-arrow-icon {
