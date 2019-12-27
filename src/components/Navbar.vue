@@ -139,8 +139,6 @@
             </router-link>
           </div>
           <div
-            v-if
-            class="sidebar-item"
             class="sidebar-item sidebar-link-item"
             @click="showSidebar = false"
           >
@@ -156,12 +154,6 @@
             class="sidebar-item sidebar-link-item"
             @click="showSidebar = false"
           >
-            <router-link
-              :to="{name: 'support'}"
-              class="sidebar-link"
-            >
-              Contact support
-            </router-link>
             <router-link
               :to="{name: 'support'}"
               class="sidebar-link"
