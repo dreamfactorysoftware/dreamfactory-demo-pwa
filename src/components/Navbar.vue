@@ -127,7 +127,7 @@
             </router-link>
           </div>
           <div
-            class="sidebar-item"
+            class="sidebar-item sidebar-link-item"
             @click="showSidebar = false"
           >
             <router-link
