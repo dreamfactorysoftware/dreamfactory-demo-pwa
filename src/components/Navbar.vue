@@ -11,7 +11,7 @@
               <md-icon>menu</md-icon>
             </md-button>
           </div>
-          <div class="menu-item">
+          <div class="menu-item menu-item-logo">
             <router-link :to="{name: 'home'}">
               <img
                 src="../assets/acme-logo.png"
@@ -20,6 +20,9 @@
                 alt="Acme logo"
               >
             </router-link>
+          </div>
+          <div class="menu-item page-name-item">
+            <p>{{ header }}</p>
           </div>
         </div>
         <div class="searchbar dropdown">
@@ -77,7 +80,18 @@
         md-swipeable
       >
         <div class="sidebar">
-          <div class="sidebar-item">
+          <div class="sidebar-item sidebar-logo">
+            <router-link :to="{name: 'home'}">
+              <img
+                src="../assets/acme-logo.png"
+                width="150px"
+                height="auto"
+                alt="Acme logo"
+              >
+            </router-link>
+          </div>
+
+          <div class="sidebar-item sidebar-username">
             <p
               v-if="currentUser.username"
               :title="currentUser.username.replace('+okta_sso', '')"
@@ -89,49 +103,52 @@
             <h5>Menu</h5>
           </div>
           <div
-            class="sidebar-item"
+            class="sidebar-item sidebar-link-item"
             @click="showSidebar = false"
           >
             <router-link
               :to="{name: 'departments'}"
               class="sidebar-link"
             >
+              <md-icon>store</md-icon>
               Departments
             </router-link>
           </div>
           <div
-            class="sidebar-item"
+            class="sidebar-item sidebar-link-item"
             @click="showSidebar = false"
           >
             <router-link
               :to="{name: 'employees'}"
               class="sidebar-link"
             >
+              <md-icon>group</md-icon>
               Employees
             </router-link>
           </div>
           <div
-            v-if
-            class="sidebar-item"
+            class="sidebar-item sidebar-link-item"
             @click="showSidebar = false"
           >
             <router-link
               :to="{name: 'map'}"
               class="sidebar-link"
             >
+              <md-icon>map</md-icon>
               Map
             </router-link>
           </div>
           <div
-            class="sidebar-item"
+            class="sidebar-item sidebar-link-item"
             @click="showSidebar = false"
           >
-              <router-link
-                :to="{name: 'support'}"
-                class="sidebar-link"
-              >
-                  Contact support
-              </router-link>
+            <router-link
+              :to="{name: 'support'}"
+              class="sidebar-link"
+            >
+              <md-icon>contact_support</md-icon>
+              Contact support
+            </router-link>
           </div>
           <div class="sidebar-item">
             <button
@@ -151,6 +168,7 @@
 
     import SearchService from "../services/search.service";
     import AuthService from "../services/auth.service";
+    import {mapGetters} from "vuex";
 
     export default {
         name: "Navbar",
@@ -161,8 +179,14 @@
                 currentUser: {},
                 showSidebar: false,
                 searchIsNotAllowed: true,
-                searchPlaceholder: ''
+                searchPlaceholder: '',
+                header: this.getHeader,
             }
+        },
+        computed: {
+        ...mapGetters([
+            'getHeader'
+        ])
         },
         watch: {
             $route(to, from) {
@@ -170,6 +194,10 @@
                 this.showSidebar = false;
 
                 this.setSearchPlaceholder(to);
+            },
+
+            getHeader() {
+              this.header = this.getHeader;
             }
         },
         mounted() {
@@ -194,7 +222,6 @@
                 if(route.name === 'employees' || route.name === 'department') this.searchPlaceholder = 'for employees';
                 else if(route.name === 'departments') this.searchPlaceholder = 'for departments';
                 else this.searchPlaceholder = '';
-
             },
         }
     }
@@ -232,17 +259,33 @@
     }
 
     .menu {
-        display: flex;
+        display: grid;
         align-items: center;
-        justify-content: flex-start;
+        grid-template-columns: 0.3fr 1.4fr 0.3fr;
+        width: 100%;
+        /*justify-content: flex-start;*/
     }
 
     .menu-item {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        margin-bottom: 15px;
+        margin-bottom: 5px;
     }
+
+    .menu-item-logo {
+      display: none;
+    }
+
+    .page-name-item {
+      display: flex;
+      justify-self: center;
+      &>p {
+        font-size: 1.2rem;
+        font-weight: 600;
+      }
+    }
+
 
     /* SEARCH BAR STYLES */
     .searchbar {
@@ -326,25 +369,20 @@
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
-        padding: 20px;
     }
     .sidebar-item {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
         font-family: Lato, sans-serif;
         font-size: $default-text-size;
         text-align: left;
-        padding: 5px 0;
-        margin: 10px 0;
-
-        &:first-of-type {
-            margin-bottom: 50px;
-
-            & > p {
-                word-break: break-all;
-            }
-        }
+        padding: 15px 20px;
+        margin: 0;
 
         &:last-of-type {
-            margin-top: 50px;
+            margin-top: 30px;
         }
     }
 
@@ -357,6 +395,35 @@
         }
     }
 
+    .sidebar-logo, .sidebar-username {
+      margin: 30px 0;
+    }
+
+    .sidebar-username {
+      margin-top: 0;
+      & > p {
+        word-break: break-all;
+      }
+    }
+
+    .sidebar-link-item {
+
+      transition: .2s ease;
+
+      & > a {
+        width: 100%;
+
+        & > i {
+          margin-right: 8px;
+        }
+      }
+
+
+      &:hover {
+        background-color: #f2f2f7;
+        cursor: pointer;
+      }
+    }
 
 
     /* MEDIA QUERY*/
@@ -374,8 +441,21 @@
             margin: 0;
         }
 
+        .menu {
+          display: flex;
+          width: auto;
+        }
+
         .menu-item {
             margin: 0;
+        }
+
+        .menu-item-logo {
+            display: flex;
+        }
+
+        .page-name-item {
+            display: none;
         }
     }
 

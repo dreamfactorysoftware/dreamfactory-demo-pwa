@@ -5,5 +5,8 @@
 
 export default {
   name: 'Home',
+    mounted() {
+        this.$store.commit('setHeader', 'Home');
+    }
 }
 </script>

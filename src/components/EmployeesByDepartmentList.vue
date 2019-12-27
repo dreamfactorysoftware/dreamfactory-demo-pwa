@@ -80,6 +80,7 @@
                     this.allDeptEmployees = dept.employees_by_dept_emp;
                     this.pageCount = Math.floor(this.allDeptEmployees.length / PaginateService.pageSize);
                     this.selectPageHandler(1);
+                    this.$store.commit('setHeader', dept.dept_name);
                 });
             },
 
@@ -114,10 +115,11 @@
     .container {
         width: 100%;
         height: auto;
-        margin-top: 40px;
+        margin-top: 30px;
     }
 
     .page-logo {
+        display: none;
         font-family: Merriweather, sans-serif;
         padding-left: 10px;
     }
@@ -176,7 +178,7 @@
     }
 
     .top-link {
-        margin: 20px 0;
+        margin: 20px 0 10px 0;
 
         &>a {
             color: $dark-blue !important;
@@ -206,6 +208,10 @@
         .container {
             width: 70%;
             margin: 40px auto 0;
+        }
+
+        .page-logo {
+            display: block;
         }
     }
 

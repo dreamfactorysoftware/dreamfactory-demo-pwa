@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar v-if="$router.currentRoute.path !== '/login'" />
-    <div class="wrapper">
+    <div class="wrapper" :class="{'no-margin': $router.currentRoute.name === 'map'}">
       <router-view />
     </div>
     <BottomBar
@@ -28,19 +28,24 @@
   .wrapper {
     width: auto;
     height: auto;
-    margin: 15px;
+    margin: 10px 10px 70px 10px;
     z-index: 1;
+  }
+
+  .no-margin {
+    margin: 0;
   }
 
   .bottom-bar {
     position: fixed;
     width: 100%;
     bottom: 0;
+    z-index: 100;
   }
 
-  @media screen and (min-width: 500px){
+  @media screen and (min-width: 769px){
     .wrapper {
-      margin: 8px 15px;
+      margin: 0;
     }
   }
 

@@ -59,6 +59,7 @@
         mounted() {
             this.getPageCount();
             this.selectPageHandler(1);
+            this.$store.commit('setHeader', 'Employees');
         },
         beforeDestroy() {
             SearchService.clearSearchList();
@@ -102,10 +103,11 @@
     .container {
         width: 100%;
         height: auto;
-        margin-top: 40px;
+        margin-top: 20px;
     }
 
     .page-logo {
+        display: none;
         font-family: Merriweather, sans-serif;
         height: 30px;
         margin-left: 10px;
@@ -168,6 +170,9 @@
         .container {
             width: 70%;
             margin: 40px auto 0;
+        }
+        .page-logo {
+            display: block;
         }
     }
 

@@ -74,8 +74,11 @@
             this.setEmployeesRoute();
         },
         methods: {
-            async getEmployeeById(id) {
-                this.employee = await ApiService.getEmployeeById(id);
+            getEmployeeById(id) {
+                ApiService.getEmployeeById(id).then(employee => {
+                    this.employee = employee;
+                    this.$store.commit('setHeader', `${this.employee.first_name} ${this.employee.last_name}`);
+                });
             },
             getGender() {
                 if(this.employee.gender === 'M') {
@@ -107,11 +110,11 @@
         flex-direction: column;
         align-items: flex-start;
         justify-content: center;
-        margin: 40px 0;
+        margin: 30px 0;
     }
 
     .top-link {
-        margin-bottom: 30px;
+        margin: 10px 0 20px 0;
 
         &>a {
             color: $dark-blue !important;

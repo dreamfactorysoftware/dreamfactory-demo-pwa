@@ -15,6 +15,7 @@ import './assets/styles/pagination.scss';
 // map
 import * as VueGoogleMaps from "vue2-google-maps";
 import GmapCluster from 'vue2-google-maps/dist/components/cluster';
+import store from "./store/main.store";
 
 
 Vue.use(VueGoogleMaps, {
@@ -38,5 +39,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app');
