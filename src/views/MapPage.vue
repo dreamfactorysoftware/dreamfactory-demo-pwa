@@ -33,9 +33,7 @@
           }
         },
         mounted() {
-            if (!AuthService.getToken()) {
-                this.$router.push({name: 'login'});
-            }
+            this.$store.commit('setHeader', 'Map');
 
             ApiService.getEmployeesWithZipCoordinates().then(employees => {
                 this.markers = employees.map(e => {
@@ -66,9 +64,6 @@
 
     .gmap {
         width: 100%;
-        height: calc(100vh - 150px);
-    }
-    .wrapper {
-        margin: 0;
+        height: calc(100vh - 180px);
     }
 </style>

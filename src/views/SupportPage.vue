@@ -82,7 +82,10 @@
                 emailIsDelivered: false,
             }
         },
-        methods: {
+      mounted() {
+        this.$store.commit('setHeader', 'Support');
+      },
+      methods: {
             sendEmail() {
                 ApiService.sendEmail(this.name, this.email, this.message)
                     .then(response => {
