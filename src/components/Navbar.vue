@@ -385,6 +385,7 @@
       flex-direction: column;
       align-items: flex-start;
       justify-content: center;
+      padding-bottom: 70px;
     }
     .sidebar-item {
       display: flex;
