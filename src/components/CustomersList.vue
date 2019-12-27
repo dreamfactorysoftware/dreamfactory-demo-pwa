@@ -146,7 +146,7 @@
             &:hover {
                 text-decoration: none;
                 cursor: pointer;
-                background-color: $hover-ghost-white;
+                background-color: $hover-white;
             }
         }
     }
@@ -164,7 +164,7 @@
     }
 
     .customer-desc{
-      color: $dark-blue-gray;
+      color: $dark-blue;
     }
 
     .right-arrow-icon {
