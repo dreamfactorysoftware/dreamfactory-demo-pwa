@@ -9,6 +9,14 @@ const PaginateService = {
         return ApiService.getEmployeesWithPagination(this.pageSize, this.pageSize * (pageNumber-1));
     },
 
+    getPageSize() {
+        return this.pageSize;
+    },
+
+    getOffset(pageNumber) {
+        return this.pageSize * (pageNumber-1);
+    },
+
     getDeptEmployeesForPage(employees, pageNumber) {
         return employees.slice(this.pageSize * (pageNumber-1), this.pageSize * (pageNumber));
     }

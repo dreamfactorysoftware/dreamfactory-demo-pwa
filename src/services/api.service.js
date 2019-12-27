@@ -7,8 +7,6 @@ const ApiService = {
 
     API_KEY: 'ff53688348ae43bfab920d08dd7bbe1379b63dba31f7067b840b77d094ac0e2c',
     API_URL: 'http://excel.staging-spg.dreamfactory.com/api/v2',
-    MYSQL_API_URL: 'http://excel.staging-spg.dreamfactory.com/api/v2/mysql/_table',
-    EMAIL_POST_URL: 'http://excel.staging-spg.dreamfactory.com/api/v2/mailgun/',
 
     getDepartments() {
         if (this.departments.length > 0) {
@@ -61,6 +59,35 @@ const ApiService = {
             })
     },
 
+
+    getAllCustomersCount() {
+        return this._getFromSalesforce('/account?count_only=true')
+            .then(response => {
+                return response.data;
+            })
+            .catch(e => {
+                console.error(e)
+            })
+    },
+
+    getCustomersWithPagination(pageSize, offset) {
+        return this._getFromSalesforce('/account', '', pageSize, offset)
+            .then(response => {
+                return response.data.resource;
+            })
+            .catch(e => {
+                console.error(e)
+            })
+    },
+
+    getCustomerById(id) {
+        return this._getFromSalesforce(`/account/${id}`)
+            .then(response => response.data)
+            .catch(e => {
+                console.error(e)
+            })
+    },
+
     getEmployeesWithZipCoordinates() {
         if (this.employees.length > 0) {
             return new Promise((resolve) => {
@@ -96,7 +123,7 @@ const ApiService = {
 
     sendEmail(name, emailAddress, message = '') {
 
-        return this._post(this.EMAIL_POST_URL, {
+        return this._post(`${this.API_URL}/mailgun/`, {
                 "to": [{
                     "name": "Support",
                     "email": "your@email.com" // add your email here
@@ -118,10 +145,7 @@ const ApiService = {
     _post(url, data) {
         return axios.post(url, data, {
             dataType: 'json',
-                headers: {
-                    'X-DreamFactory-API-Key': this.API_KEY,
-                    'X-DreamFactory-Session-Token': AuthService.getToken()
-            }
+                headers: this._getApiHeaders()
         });
 
     },
@@ -129,24 +153,32 @@ const ApiService = {
     _get(url) {
         return axios.get(url, {
             dataType: 'json',
-            headers: {
-                'X-DreamFactory-API-Key': this.API_KEY,
-                'X-DreamFactory-Session-Token': AuthService.getToken()
-            }
+            headers: this._getApiHeaders()
         });
     },
 
     _getFromMysql(url, related = '', limit = '', offset = '') {
-        let hasQuestionMark = url.includes('?');
-        return axios.get(`${this.MYSQL_API_URL}${url}${hasQuestionMark ? '&' : '?'}limit=${limit}&offset=${offset}&related=${related}`, {
-            dataType: 'json',
-            headers: {
-                'X-DreamFactory-API-Key': this.API_KEY,
-                'X-DreamFactory-Session-Token': AuthService.getToken()
-            }
-        });
-    }
 
+        return axios.get(`${this.API_URL}/mysql/_table${url}${url.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}&related=${related}`, {
+            dataType: 'json',
+            headers: this._getApiHeaders()
+        });
+    },
+
+    _getFromSalesforce(url, related = '', limit = '', offset = '') {
+
+        return axios.get(`${this.API_URL}/salesforce/_table${url}${url.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}&related=${related}`, {
+            dataType: 'json',
+            headers: this._getApiHeaders()
+        });
+    },
+
+    _getApiHeaders() {
+        return {
+            'X-DreamFactory-API-Key': this.API_KEY,
+            'X-DreamFactory-Session-Token': AuthService.getToken()
+        }
+    }
 };
 
 export default ApiService;
