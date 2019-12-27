@@ -4,8 +4,10 @@ import Home from '../views/Home.vue'
 import LoginPage from "../views/LoginPage";
 import DepartmentEmployeesPage from "../views/DepartmentEmployeesPage";
 import EmployeePage from "../views/EmployeePage";
+import CustomerPage from "../views/CustomerPage";
 import Departments from "../views/Departments";
 import Employees from "../views/Employees";
+import Customers from "../views/Customers";
 import MapPage from "../views/MapPage";
 import SupportPage from "../views/SupportPage";
 
@@ -34,12 +36,12 @@ const routes = [
     component: DepartmentEmployeesPage,
   },
   {
-    path: '/departments/:id/employee/:eid',
+    path: '/departments/:id/employees/:eid',
     name: 'deptEmployee',
     component: EmployeePage,
   },
   {
-    path: '/employee/:eid',
+    path: '/employees/:eid',
     name: 'employee',
     component: EmployeePage
   },
@@ -47,6 +49,16 @@ const routes = [
     path: '/employees',
     name: 'employees',
     component: Employees
+  },
+  {
+    path: '/customers/:id',
+    name: 'customer',
+    component: CustomerPage
+  },
+  {
+    path: '/customers',
+    name: 'customers',
+    component: Customers
   },
   {
     path: '/map',
@@ -76,6 +88,6 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
-})
+});
 
 export default router

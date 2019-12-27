@@ -1,23 +1,30 @@
 <template>
   <div class="container">
     <h2 class="page-logo">
-      Employee directory
+      Customers directory
     </h2>
     <div
-      v-if="employees.length > 0"
-      class="employees-list"
+      v-if="customers.length > 0"
+      class="customers-list"
     >
       <div
-        v-for="employee in employees"
-        class="employee"
+        v-for="customer in customers"
+        class="customer"
       >
-        <router-link :to="{ name: 'employee', params: { eid: employee.emp_no} }">
+        <router-link :to="{ name: 'customer', params: { id: customer.Id} }">
           <div class="user-info">
-            <h4 class="employee-name">
-              {{ `${employee.first_name} ${employee.last_name}` }}
+            <h4 class="customer-name">
+              {{ `${customer.Name}` }}
             </h4>
-            <p class="employee-email">
-              {{ employee.email }}
+            <button
+              class="btn btn-link"
+              style="padding: 0"
+              @click.prevent="redirectToWebsite(customer.Website)"
+            >
+              {{ `${customer.Website}` }}
+            </button>
+            <p class="customer-desc">
+              {{ customer.Description }}
             </p>
           </div>
           <img
@@ -49,44 +56,49 @@
     import PaginateService from "../services/paginate.service";
 
     export default {
-        name: "EmployeesList",
+        name: "CustomersList",
         data() {
             return {
-                employees: [],
+                customers: [],
                 pageCount: 0
             }
         },
         mounted() {
             this.getPageCount();
             this.selectPageHandler(1);
-            this.$store.commit('setHeader', 'Employees');
         },
         beforeDestroy() {
             SearchService.clearSearchList();
         },
         methods: {
             getPageCount() {
-                ApiService.getAllEmployeesCount().then(d => {
+                ApiService.getAllCustomersCount().then(d => {
                     this.pageCount = Math.floor(d / PaginateService.getPageSize());
                 });
             },
 
             selectPageHandler(pageNumber) {
-              ApiService.getEmployeesWithPagination(PaginateService.getPageSize(), PaginateService.getOffset(pageNumber))
-                      .then(e => {
-                        this.employees = e;
+
+              ApiService.getCustomersWithPagination(PaginateService.getPageSize(), PaginateService.getOffset(pageNumber))
+                      .then(customers => {
+                        this.customers = customers;
                         this.setSearch();
                       });
             },
 
             setSearch() {
                 SearchService.clearSearchList();
-                SearchService.setSearchList(this.employees.map(e => {
+                SearchService.setSearchList(this.customers.map(c => {
                     return {
-                        id: e.emp_no,
-                        search_item: `${e.first_name} ${e.last_name}`
+                        id: c.Id,
+                        search_item: `${c.Name}`
                     }
-                }), 'employee');
+                }), 'customer');
+            },
+
+          redirectToWebsite(url) {
+            let regExp=/^https?:\/\/[\w\/?.&-=]+$/;
+            window.open(regExp.test(url) ? url : '//' + url, '_blank');
             },
         }
     }
@@ -104,17 +116,16 @@
     .container {
         width: 100%;
         height: auto;
-        margin-top: 20px;
+        margin-top: 40px;
     }
 
     .page-logo {
-        display: none;
         font-family: Merriweather, sans-serif;
         height: 30px;
         margin-left: 10px;
     }
 
-    .employees-list {
+    .customers-list {
         width: 100%;
         height: auto;
         display: flex;
@@ -123,7 +134,7 @@
         align-items: stretch;
     }
 
-    .employee {
+    .customer {
         border-bottom: 1px solid $light-gray;
 
         &>a {
@@ -135,7 +146,7 @@
             &:hover {
                 text-decoration: none;
                 cursor: pointer;
-                background-color: $hover-white;
+                background-color: $hover-ghost-white;
             }
         }
     }
@@ -147,13 +158,13 @@
         flex-direction: column;
     }
 
-    .employee-name {
+    .customer-name {
         margin: 20px 0 5px 0;
-        color: $darkest-blue;
+        color: $dark-blue;
     }
 
-    .employee-email {
-        color: $dark-blue;
+    .customer-desc{
+      color: $dark-blue-gray;
     }
 
     .right-arrow-icon {
@@ -171,9 +182,6 @@
         .container {
             width: 70%;
             margin: 40px auto 0;
-        }
-        .page-logo {
-            display: block;
         }
     }
 
