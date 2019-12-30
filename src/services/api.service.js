@@ -2,25 +2,18 @@ import axios from 'axios';
 import AuthService from "./auth.service";
 
 const ApiService = {
-    departments: [],
-    employees: [],
-
     API_KEY: 'ff53688348ae43bfab920d08dd7bbe1379b63dba31f7067b840b77d094ac0e2c',
     API_URL: 'http://excel.staging-spg.dreamfactory.com/api/v2',
 
     getDepartments() {
-        if (this.departments.length > 0) {
-            return this.departments
-        } else {
-            return this._getFromMysql('/departments')
-                .then(response => {
-                    this.departments = response.data.resource;
-                    return response.data.resource;
-                })
-                .catch(e => {
-                    console.error(e)
-                })
-        }
+        return this._getFromMysql('/departments')
+            .then(response => {
+                this.departments = response.data.resource;
+                return response.data.resource;
+            })
+            .catch(e => {
+                console.error(e)
+            })
     },
 
     getEmployeeById(id) {
@@ -89,20 +82,14 @@ const ApiService = {
     },
 
     getEmployeesWithZipCoordinates() {
-        if (this.employees.length > 0) {
-            return new Promise((resolve) => {
-                resolve(this.employees);
-            });
-        } else {
-            return this._getFromMysql('/employees', 'zip_coordinates_by_zip')
-                .then(response => {
-                    this.employees = response.data.resource;
-                    return this.employees;
-                })
-                .catch(e => {
-                    console.error(e)
-                })
-        }
+        return this._getFromMysql('/employees', 'zip_coordinates_by_zip')
+            .then(response => {
+                this.employees = response.data.resource;
+                return this.employees;
+            })
+            .catch(e => {
+                console.error(e)
+            })
     },
 
     getUserById(id) {

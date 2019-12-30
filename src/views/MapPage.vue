@@ -22,6 +22,7 @@
 <script>
     import ApiService from "../services/api.service";
     import AuthService from "../services/auth.service";
+    import {mapGetters} from "vuex";
 
     export default {
         name: "MapPage",
@@ -32,19 +33,23 @@
               zoom: 8
           }
         },
+        computed: {
+          ...mapGetters([
+            'getMapEmployees'
+          ])
+        },
         mounted() {
             this.$store.commit('setHeader', 'Map');
 
-            ApiService.getEmployeesWithZipCoordinates().then(employees => {
-                this.markers = employees.map(e => {
-                    return {
-                        position: {
-                            lat: e.zip_coordinates_by_zip.latitude,
-                            lng: e.zip_coordinates_by_zip.longitude
-                        },
-                    }
-                });
-            });
+            if (this.getMapEmployees.length > 0) {
+              this.mapMarkers(this.getMapEmployees);
+            }
+            else {
+              ApiService.getEmployeesWithZipCoordinates().then(employees => {
+                this.$store.commit('setMapEmployees', employees);
+                this.mapMarkers(employees);
+              });
+            }
 
             if (this.$route.query.latitude && this.$route.query.longitude) {
                 this.center.lat = this.$route.query.latitude;
@@ -53,6 +58,18 @@
             }
 
         },
+      methods: {
+          mapMarkers(employees) {
+            this.markers = employees.map(e => {
+              return {
+                position: {
+                  lat: e.zip_coordinates_by_zip.latitude,
+                  lng: e.zip_coordinates_by_zip.longitude
+                },
+              }
+            });
+          }
+      }
     }
 </script>
 

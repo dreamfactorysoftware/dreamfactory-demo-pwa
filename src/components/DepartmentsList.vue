@@ -29,6 +29,7 @@
 <script>
   import ApiService from '../../src/services/api.service';
   import SearchService from "../services/search.service";
+  import {mapGetters} from "vuex";
 
   export default {
   name: 'DepartmentsList',
@@ -37,14 +38,27 @@
       departments: [],
     }
   },
+  computed: {
+    ...mapGetters([
+      'getDepartments'
+    ])
+  },
   mounted() {
     this.getDepartmentsList();
     this.setSearch();
     this.$store.commit('setHeader', 'Departments');
   },
   methods: {
-    async getDepartmentsList() {
-        this.departments = await ApiService.getDepartments();
+    getDepartmentsList() {
+      if (this.getDepartments.length > 0) {
+        this.departments = this.getDepartments;
+      }
+      else {
+        ApiService.getDepartments().then(departments => {
+          this.departments = departments;
+          this.$store.commit('setDepartments', departments);
+        });
+      }
     },
     setSearch() {
       SearchService.clearSearchList();
