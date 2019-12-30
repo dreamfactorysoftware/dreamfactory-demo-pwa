@@ -18,7 +18,7 @@ const store = new Vuex.Store({
             return state.departments;
         },
 
-        getMapEmployees(state) {
+        getEmployeesForMap(state) {
             return state.mapEmployees;
         }
     },
@@ -31,7 +31,7 @@ const store = new Vuex.Store({
             state.departments = departments;
         },
 
-        setMapEmployees(state, employees) {
+        setEmployeesForMap(state, employees) {
             state.mapEmployees = employees;
         },
     },

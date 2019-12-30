@@ -71,6 +71,10 @@
 
 <style lang="scss">
 
+  html {
+    background-color: $white !important;
+  }
+
   body {
     margin: 0;
     background-color: $white !important;
