@@ -1,10 +1,11 @@
 module.exports = {
     pwa: {
+        name: 'Demo PWA',
+        themeColor: '#3185FC',
         workboxPluginMode: 'GenerateSW',
         // workboxOptions: {
         //     swSrc: 'src/service-worker.js'
         // },
-        themeColor: '#3185FC'
     },
     css: {
         loaderOptions: {
@@ -13,4 +14,4 @@ module.exports = {
             }
         }
     }
-}
+};

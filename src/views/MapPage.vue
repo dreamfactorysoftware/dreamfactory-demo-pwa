@@ -35,18 +35,18 @@
         },
         computed: {
           ...mapGetters([
-            'getMapEmployees'
+            'getEmployeesForMap'
           ])
         },
         mounted() {
             this.$store.commit('setHeader', 'Map');
 
-            if (this.getMapEmployees.length > 0) {
-              this.mapMarkers(this.getMapEmployees);
+            if (this.getEmployeesForMap.length > 0) {
+              this.mapMarkers(this.getEmployeesForMap);
             }
             else {
               ApiService.getEmployeesWithZipCoordinates().then(employees => {
-                this.$store.commit('setMapEmployees', employees);
+                this.$store.commit('setEmployeesForMap', employees);
                 this.mapMarkers(employees);
               });
             }
