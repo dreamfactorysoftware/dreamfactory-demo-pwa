@@ -5,17 +5,35 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
-        header: 'Header'
+        header: 'Header',
+        departments: [],
+        mapEmployees: [],
     },
     getters: {
         getHeader(state) {
             return state.header;
+        },
+
+        getDepartments(state) {
+            return state.departments;
+        },
+
+        getMapEmployees(state) {
+            return state.mapEmployees;
         }
     },
     mutations: {
         setHeader(state, header) {
             state.header = header;
-        }
+        },
+
+        setDepartments(state, departments) {
+            state.departments = departments;
+        },
+
+        setMapEmployees(state, employees) {
+            state.mapEmployees = employees;
+        },
     },
     actions: {
 
