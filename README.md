@@ -3,13 +3,13 @@
 
 ### Setup database:
 1. Open docker-compose.yaml and change data for database if you need it. 
-2. Open "database" path in shell.
+2. Open "database" folder path in shell.
 3. Execute next command for running mysql in docker
     ```
     docker-compose -d up 
     ```
    '-d' for detached mode. 
-4. Unzip zip with database.
+4. Unzip archive mysql-employee-example-database.zip that contains database.
 5. Copy database into container with database
     ```
      docker cp mysql-employee-example-database/ <DATABASE CONTAINER NAME>:home/
@@ -19,13 +19,13 @@
      docker exec -it <DATABASE CONTAINER NAME> bash
     ```   
 7. Go inside folder with database.
-8. Execute next command for creating employees database
+8. Execute the next command for creating employees database
     ```
     mysql -u <DATABASE USERNAME> -p -t < employees.sql
     ```
 Now you have employees database in you docker container.
 
-<b>If you dont want install mysql you can just use 4, 7 and 8 commands.</b>   
+**If you dont want install mysql you can just use 4, 7 and 8 commands.**   
 
 ### Setup in dev mode:
 1. Install all modules for app:
@@ -45,7 +45,7 @@ Add ```--fix``` flag to fix problems
 
 ### Setup in Production mode:
 
-##### Be attention. For properly register Service Worker app must be served over HTTPS.
+##### Be attention. For properly register Service Worker app must be served over HTTPS in production.
 
 #### First way - using serve package
 
