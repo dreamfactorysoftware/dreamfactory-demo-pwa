@@ -6,6 +6,7 @@
       :class="{'no-margin': $router.currentRoute.name === 'map'}"
     >
       <router-view />
+      <clip-loader :loading="getLoading" class="loader" :color="color" :size="'70px'"></clip-loader>
     </div>
     <BottomBar
       v-if="windowWidth <= 768 && $router.currentRoute.path !== '/login'"
@@ -18,6 +19,9 @@
   import Navbar from "./components/Navbar";
   import AuthService from "./services/auth.service";
   import BottomBar from "./components/BottomBar";
+  import {mapGetters} from "vuex";
+  import { pwa } from '../vue.config'
+
   export default {
     components: {
       BottomBar,
@@ -26,6 +30,7 @@
 
     data() {
       return {
+        color: pwa.themeColor,
         windowWidth: window.innerWidth,
         windowHeight: window.innerHeight
       }
@@ -39,6 +44,12 @@
 
     mounted() {
       this.isAuthenticated();
+    },
+
+    computed: {
+      ...mapGetters([
+        'getLoading'
+      ])
     },
 
     created() {
@@ -96,6 +107,10 @@
 
   .no-margin {
     margin: 0;
+  }
+
+  .loader {
+    padding-top: 20px;
   }
 
   .bottom-bar {
