@@ -4,7 +4,7 @@ module.exports = {
         // workboxOptions: {
         //     swSrc: 'src/service-worker.js'
         // },
-        themeColor: '#1da025'
+        themeColor: '#3185FC'
     },
     css: {
         loaderOptions: {
