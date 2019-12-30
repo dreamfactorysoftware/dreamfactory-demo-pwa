@@ -6,12 +6,17 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         header: 'Header',
+        loading: false,
         departments: [],
         mapEmployees: [],
     },
     getters: {
         getHeader(state) {
             return state.header;
+        },
+
+        getLoading(state) {
+            return state.loading;
         },
 
         getDepartments(state) {
@@ -25,6 +30,10 @@ const store = new Vuex.Store({
     mutations: {
         setHeader(state, header) {
             state.header = header;
+        },
+
+        setLoading(state, loading) {
+            state.loading = loading;
         },
 
         setDepartments(state, departments) {

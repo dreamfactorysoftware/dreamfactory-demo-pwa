@@ -1,12 +1,13 @@
 import axios from 'axios';
 import AuthService from "./auth.service";
+import store from "../store/main.store";
 
 const ApiService = {
     API_KEY: 'ff53688348ae43bfab920d08dd7bbe1379b63dba31f7067b840b77d094ac0e2c',
     API_URL: 'http://excel.staging-spg.dreamfactory.com/api/v2',
 
     getDepartments() {
-        return this._getFromMysql('/departments')
+        return this._getFromMysql('/departments', true)
             .then(response => {
                 this.departments = response.data.resource;
                 return response.data.resource;
@@ -17,7 +18,7 @@ const ApiService = {
     },
 
     getEmployeeById(id) {
-        return this._getFromMysql(`/employees/${id}`, 'zip_coordinates_by_zip')
+        return this._getFromMysql(`/employees/${id}`,  true, 'zip_coordinates_by_zip')
             .then(response => response.data)
             .catch(e => {
                 console.error(e)
@@ -25,7 +26,7 @@ const ApiService = {
     },
 
     getEmployeesByDeptId(id) {
-        return this._getFromMysql(`/departments/${id}`, 'employees_by_dept_emp')
+        return this._getFromMysql(`/departments/${id}`, true, 'employees_by_dept_emp')
             .then(response => response.data)
             .catch(e => {
                 console.error(e)
@@ -43,7 +44,7 @@ const ApiService = {
     },
 
     getEmployeesWithPagination(pageSize, offset) {
-        return this._getFromMysql('/employees', '', pageSize, offset)
+        return this._getFromMysql('/employees', true, '', pageSize, offset)
             .then(response => {
                 return response.data.resource;
             })
@@ -64,7 +65,7 @@ const ApiService = {
     },
 
     getCustomersWithPagination(pageSize, offset) {
-        return this._getFromSalesforce('/account', '', pageSize, offset)
+        return this._getFromSalesforce('/account', true, '', pageSize, offset)
             .then(response => {
                 return response.data.resource;
             })
@@ -74,7 +75,7 @@ const ApiService = {
     },
 
     getCustomerById(id) {
-        return this._getFromSalesforce(`/account/${id}`)
+        return this._getFromSalesforce(`/account/${id}`, true)
             .then(response => response.data)
             .catch(e => {
                 console.error(e)
@@ -82,7 +83,7 @@ const ApiService = {
     },
 
     getEmployeesWithZipCoordinates() {
-        return this._getFromMysql('/employees', 'zip_coordinates_by_zip')
+        return this._getFromMysql('/employees', true, 'zip_coordinates_by_zip')
             .then(response => {
                 this.employees = response.data.resource;
                 return this.employees;
@@ -93,7 +94,7 @@ const ApiService = {
     },
 
     getUserById(id) {
-        return this._get(`${this.API_URL}/system/user/${id}`)
+        return this._get(`${this.API_URL}/system/user/${id}`, false)
             .then(response => {
                 if (!response.data || !response.data.username) {
                     AuthService.logout();
@@ -134,30 +135,27 @@ const ApiService = {
             dataType: 'json',
                 headers: this._getApiHeaders()
         });
-
     },
 
-    _get(url) {
+    _get(url, withLoading=false) {
+        if (withLoading) store.commit('setLoading', true);
+
         return axios.get(url, {
             dataType: 'json',
             headers: this._getApiHeaders()
-        });
+        })
+            .then(response => {
+                if (withLoading) store.commit('setLoading', false);
+                return response
+            });
     },
 
-    _getFromMysql(url, related = '', limit = '', offset = '') {
-
-        return axios.get(`${this.API_URL}/mysql/_table${url}${url.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}&related=${related}`, {
-            dataType: 'json',
-            headers: this._getApiHeaders()
-        });
+    _getFromMysql(url, withLoading, related = '', limit = '', offset = '') {
+        return this._get(`${this.API_URL}/mysql/_table${url}${url.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}&related=${related}`, withLoading);
     },
 
-    _getFromSalesforce(url, related = '', limit = '', offset = '') {
-
-        return axios.get(`${this.API_URL}/salesforce/_table${url}${url.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}&related=${related}`, {
-            dataType: 'json',
-            headers: this._getApiHeaders()
-        });
+    _getFromSalesforce(url, withLoading, related = '', limit = '', offset = '') {
+        return this._get(`${this.API_URL}/salesforce/_table${url}${url.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}&related=${related}`, withLoading);
     },
 
     _getApiHeaders() {

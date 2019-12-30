@@ -15,6 +15,7 @@ import './assets/styles/pagination.scss';
 // map
 import * as VueGoogleMaps from "vue2-google-maps";
 import GmapCluster from 'vue2-google-maps/dist/components/cluster';
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
 import store from "./store/main.store";
 
 
@@ -34,6 +35,7 @@ Vue.use(MdBottomBar);
 
 Vue.component('gmap-cluster', GmapCluster);
 Vue.component('paginate', Paginate);
+Vue.component('ClipLoader', ClipLoader);
 
 Vue.config.productionTip = false;
 

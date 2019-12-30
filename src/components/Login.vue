@@ -6,7 +6,7 @@
     <div class="login-form">
       <div class="form-button-row">
         <a
-          href="http://excel.staging-spg.dreamfactory.com/api/v2/okta_sso/sso"
+          href="http://localhost:80/api/v2/okta_sso/sso"
           class="signin-button btn btn-primary"
         >Sign in with okta</a>
       </div>
