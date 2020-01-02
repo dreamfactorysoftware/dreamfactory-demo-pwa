@@ -51,7 +51,7 @@ const routes = [
     component: Employees
   },
   {
-    path: '/customers/:id',
+    path: '/customers/:eid',
     name: 'customer',
     component: CustomerPage
   },

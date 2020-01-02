@@ -23,9 +23,11 @@
         <router-link :to="{ name: 'deptEmployee', params: { id: department.dept_no, eid: employee.emp_no } }">
           <div class="user-info">
             <h4 class="employee-name">
+              <md-icon>account_circle</md-icon>
               {{ `${employee.first_name} ${employee.last_name}` }}
             </h4>
             <p class="employee-email">
+              <md-icon>mail_outline</md-icon>
               {{ employee.email }}
             </p>
           </div>
@@ -159,12 +161,29 @@
     }
 
     .employee-name {
-        margin: 20px 0 5px 0;
-        color: $darkest-blue;
+      margin: 20px 0 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $dark-blue;
+
+      & > i {
+        margin-right: 8px;
+        color: $light-blue!important;
+      }
     }
 
     .employee-email {
-        color: $dark-blue;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $dark-blue;
+      margin-bottom: 12px;
+
+      & > i {
+        margin-right: 8px;
+        color: $light-blue!important;
+      }
     }
 
     .right-arrow-icon {

@@ -11,19 +11,24 @@
         v-for="customer in customers"
         class="customer"
       >
-        <router-link :to="{ name: 'customer', params: { id: customer.Id} }">
+        <router-link :to="{ name: 'customer', params: { eid: customer.Id} }">
           <div class="user-info">
             <h4 class="customer-name">
+              <md-icon>account_box</md-icon>
               {{ `${customer.Name}` }}
             </h4>
             <button
-              class="btn btn-link"
+              class="btn btn-link customer-link"
               style="padding: 0"
               @click.prevent="redirectToWebsite(customer.Website)"
             >
+              <md-icon>web</md-icon>
               {{ `${customer.Website}` }}
             </button>
-            <p class="customer-desc">
+            <p v-if="customer.Description"
+               class="customer-desc"
+            >
+              <md-icon>description</md-icon>
               {{ customer.Description }}
             </p>
           </div>
@@ -66,6 +71,7 @@
         mounted() {
             this.getPageCount();
             this.selectPageHandler(1);
+            this.$store.commit('setHeader', 'Customers');
         },
         beforeDestroy() {
             SearchService.clearSearchList();
@@ -111,8 +117,9 @@
     }
 
     h4 {
+        font-family: Raleway, sans-serif;
         font-size: $list-header-size;
-        font-weight: 700;
+        font-weight: 600;
     }
 
     .container {
@@ -139,6 +146,7 @@
 
     .customer {
         border-bottom: 1px solid $light-gray;
+        padding: 0 0 15px 0;
 
         &>a {
             display: flex;
@@ -162,12 +170,42 @@
     }
 
     .customer-name {
-        margin: 20px 0 5px 0;
+        margin: 15px 0 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
         color: $dark-blue;
+
+        & > i {
+          margin-right: 8px;
+          color: $light-blue!important;
+        }
+
     }
 
-    .customer-desc{
+    .customer-link {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
       color: $dark-blue;
+
+      & > i {
+        margin-right: 8px;
+        color: $light-blue!important;
+      }
+    }
+
+    .customer-desc {
+      margin: 10px 0 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      color: $dark-blue;
+
+      & > i {
+        margin-right: 8px;
+        color: $light-blue!important;
+      }
     }
 
     .right-arrow-icon {
