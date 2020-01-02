@@ -36,6 +36,12 @@
       }
     },
 
+    computed: {
+      ...mapGetters([
+        'getLoading'
+      ])
+    },
+
     watch: {
       $route() {
         this.isAuthenticated();
@@ -44,12 +50,6 @@
 
     mounted() {
       this.isAuthenticated();
-    },
-
-    computed: {
-      ...mapGetters([
-        'getLoading'
-      ])
     },
 
     created() {

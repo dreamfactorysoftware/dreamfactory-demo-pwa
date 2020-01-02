@@ -17,6 +17,12 @@
         <h4 class="employee-name">
           <md-icon>account_circle</md-icon>
           {{ `${employee.first_name} ${employee.last_name}` }}</h4>
+        <p>
+          <b>Department:</b>
+          <span v-for="department in employee.departments_by_dept_emp">
+            {{department.dept_name}}
+          </span>
+        </p>
         <p><b>Birth date:</b> {{ employee.birth_date }}</p>
         <p><b>Gender:</b> {{ getGender() }}</p>
         <p><b>Hire date:</b> {{ employee.hire_date }}</p>
