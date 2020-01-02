@@ -83,7 +83,7 @@ const ApiService = {
     },
 
     getEmployeesWithZipCoordinates() {
-        return this._getFromMysql('/employees', true, 'zip_coordinates_by_zip')
+        return this._getFromMysql('/employees?fields=emp_no,zip&order=emp_no asc', true, 'zip_coordinates_by_zip&zip_coordinates_by_zip.fields=zip_code,latitude,longitude')
             .then(response => {
                 this.employees = response.data.resource;
                 return this.employees;

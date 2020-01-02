@@ -110,6 +110,7 @@
 
     h4 {
         font-size: $list-header-size;
+        font-weight: 700;
     }
 
     .container {

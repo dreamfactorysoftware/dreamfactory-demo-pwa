@@ -95,10 +95,12 @@
 <style scoped lang="scss">
     h2 {
         font-size: $block-header-size;
+        font-weight: 700;
     }
 
     h4 {
         font-size: $list-header-size;
+        font-weight: 700;
     }
 
     .container {

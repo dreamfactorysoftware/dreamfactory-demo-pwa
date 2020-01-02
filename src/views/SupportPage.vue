@@ -126,9 +126,9 @@
     }
 
     .page-logo {
-        font-family: Merriweather, sans-serif;
-        height: 30px;
+        font-family: Lato, sans-serif;
         text-align: center;
+        font-weight: 700;
     }
 
     .form-container {

@@ -13,7 +13,7 @@
       v-if="employee.emp_no"
       class="employee-information"
     >
-      <h2>{{ `${employee.first_name} ${employee.last_name}` }}</h2>
+      <h4>{{ `${employee.first_name} ${employee.last_name}` }}</h4>
       <p><b>Birth date:</b> {{ employee.birth_date }}</p>
       <p><b>Gender:</b> {{ getGender() }}</p>
       <p><b>Hire date:</b> {{ employee.hire_date }}</p>
@@ -142,13 +142,15 @@
 
     .employee-information {
 
-        &>h2 {
-            margin-bottom: 20px;
-        }
-
-        h4 {
+        & > h4 {
             margin-top: 40px;
             margin-bottom: 15px;
+            font-size: $block-header-size;
+            font-weight: 700;
+        }
+
+        & > h4:first-of-type {
+          margin-top: 0;
         }
 
         &>p {
@@ -158,6 +160,12 @@
     }
 
     .address-block {
+
+        & > h4 {
+          margin-top: 40px;
+          font-size: $block-header-size;
+          font-weight: 700;
+        }
 
         &>p {
             font-size: $default-text-size;
