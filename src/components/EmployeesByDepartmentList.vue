@@ -44,6 +44,7 @@
       class="pagination-container"
     >
       <paginate
+        v-model="currentPage"
         :page-count="pageCount"
         :click-handler="selectPageHandler"
         :prev-text="'Prev'"
@@ -66,7 +67,8 @@
                 allDeptEmployees: [],
                 department: {},
                 pageEmployees: [],
-                pageCount: 0
+                pageCount: 0,
+                currentPage: 0,
             }
         },
         mounted() {
@@ -81,14 +83,23 @@
                     this.department = dept;
                     this.allDeptEmployees = dept.employees_by_dept_emp;
                     this.pageCount = Math.floor(this.allDeptEmployees.length / PaginateService.pageSize);
-                    this.selectPageHandler(1);
+                    if(this.$route.query.page && this.$route.query.page > 0) {
+                      this.selectPageHandler(this.$route.query.page);
+                    }
+                    else {
+                      this.selectPageHandler(1);
+                    }
                     this.$store.commit('setHeader', dept.dept_name);
                 });
             },
 
             selectPageHandler(pageNumber) {
+                this.currentPage = parseInt(pageNumber);
                 this.pageEmployees = PaginateService.getDeptEmployeesForPage(this.allDeptEmployees, pageNumber);
                 this.setSearch();
+                if (this.$route.query.page !== pageNumber) {
+                  this.$router.push({ name: 'department', query: { page: pageNumber }});
+                }
             },
 
             setSearch() {
