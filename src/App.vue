@@ -5,8 +5,8 @@
       class="wrapper"
       :class="{'no-margin': $router.currentRoute.name === 'map'}"
     >
-      <router-view v-if="!getLoading" />
-      <clip-loader :loading="getLoading" class="loader" :color="color" :size="'70px'"></clip-loader>
+      <router-view />
+      <clip-loader :loading="getLoading" class="loader" :color="color" :size="'70px'" />
     </div>
     <BottomBar
       v-if="windowWidth <= 768 && $router.currentRoute.path !== '/login'"
