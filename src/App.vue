@@ -5,7 +5,7 @@
       class="wrapper"
       :class="{'no-margin': $router.currentRoute.name === 'map'}"
     >
-      <router-view />
+      <router-view v-if="!getLoading" />
       <clip-loader :loading="getLoading" class="loader" :color="color" :size="'70px'"></clip-loader>
     </div>
     <BottomBar
