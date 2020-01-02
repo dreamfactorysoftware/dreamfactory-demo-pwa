@@ -109,6 +109,7 @@
             <router-link
               :to="{name: 'departments'}"
               class="sidebar-link"
+              active-class="sidebar-active"
             >
               <md-icon>store</md-icon>
               Departments
@@ -121,6 +122,7 @@
             <router-link
               :to="{name: 'employees'}"
               class="sidebar-link"
+              active-class="sidebar-active"
             >
               <md-icon>group</md-icon>
               Employees
@@ -133,6 +135,7 @@
             <router-link
               :to="{name: 'customers'}"
               class="sidebar-link"
+              active-class="sidebar-active"
             >
               <md-icon>accessibility_new</md-icon>
               Customers
@@ -145,6 +148,7 @@
             <router-link
               :to="{name: 'map'}"
               class="sidebar-link"
+              active-class="sidebar-active"
             >
               <md-icon>map</md-icon>
               Map
@@ -157,6 +161,7 @@
             <router-link
               :to="{name: 'support'}"
               class="sidebar-link"
+              active-class="sidebar-active"
             >
               <md-icon>contact_support</md-icon>
               Contact support
@@ -400,6 +405,7 @@
       justify-content: center;
       padding-bottom: 70px;
     }
+
     .sidebar-item {
       display: flex;
       justify-content: flex-start;
@@ -417,6 +423,7 @@
     }
 
     .sidebar-link {
+      padding: 15px 20px;
       color: $darkest-blue !important;
 
       &:hover {
@@ -437,7 +444,7 @@
     }
 
     .sidebar-link-item {
-
+      padding: 0;
       transition: .2s ease;
 
       & > a {
@@ -452,6 +459,15 @@
         background-color: #f2f2f7;
         cursor: pointer;
       }
+    }
+
+    .sidebar-active {
+      background-color: #f8f8fb;
+
+      & > i {
+        color: $light-blue!important;
+      }
+
     }
 
     /* MEDIA QUERY*/
