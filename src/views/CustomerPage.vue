@@ -13,7 +13,7 @@
       v-if="customer.Id"
       class="customer-information"
     >
-      <h2>{{ `${customer.Name}` }}</h2>
+      <h4>{{ `${customer.Name}` }}</h4>
 
       <p v-if="customer.Industry">
         <b>Industry:</b>
@@ -116,7 +116,8 @@
     }
 
     .top-link {
-        margin-bottom: 30px;
+
+      margin: 10px 0 20px 0;
 
         &>a {
             color: $dark-blue !important;
@@ -144,22 +145,25 @@
 
     .customer-information {
 
-        &>h2 {
-            margin-bottom: 20px;
-        }
+      & > h4 {
+        margin-top: 40px;
+        margin-bottom: 15px;
+        font-size: $block-header-size;
+        font-weight: 700;
+      }
 
-        h4 {
-            margin-top: 40px;
-            margin-bottom: 15px;
-        }
-
-        &>p {
-            font-size: $default-text-size;
-            line-height: 1.5;
-        }
+      & > h4:first-of-type {
+        margin-top: 0;
+      }
     }
 
     .address-block {
+
+      & > h4 {
+        margin-top: 40px;
+        font-size: $block-header-size;
+        font-weight: 700;
+      }
 
         &>p {
             font-size: $default-text-size;
