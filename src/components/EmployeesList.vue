@@ -35,6 +35,7 @@
       class="pagination-container"
     >
       <paginate
+        v-model="currentPage"
         :page-count="pageCount"
         :click-handler="selectPageHandler"
         :prev-text="'Prev'"
@@ -55,12 +56,18 @@
         data() {
             return {
                 employees: [],
-                pageCount: 0
+                pageCount: 0,
+                currentPage: 1,
             }
         },
         mounted() {
             this.getPageCount();
-            this.selectPageHandler(1);
+            if(this.$route.query.page && this.$route.query.page > 0) {
+              this.selectPageHandler(this.$route.query.page);
+            }
+            else {
+              this.selectPageHandler(1);
+            }
             this.$store.commit('setHeader', 'Employees');
         },
         beforeDestroy() {
@@ -79,6 +86,12 @@
                         this.employees = e;
                         this.setSearch();
                       });
+              this.currentPage = parseInt(pageNumber);
+
+              if (this.$route.query.page !== pageNumber) {
+                this.$router.push({ name: 'employees', query: { page: pageNumber }});
+              }
+
             },
 
             setSearch() {
