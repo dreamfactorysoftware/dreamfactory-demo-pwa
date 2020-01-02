@@ -104,7 +104,7 @@
             }
         },
         mounted() {
-            this.getCustomerById(this.$router.currentRoute.params.eid);
+            this.getCustomerById(this.$router.currentRoute.params.id);
 
         },
         methods: {

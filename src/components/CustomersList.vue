@@ -11,7 +11,7 @@
         v-for="customer in customers"
         class="customer"
       >
-        <router-link :to="{ name: 'customer', params: { eid: customer.Id} }">
+        <router-link :to="{ name: 'customer', params: { id: customer.Id} }">
           <div class="user-info">
             <h4 class="customer-name">
               <md-icon>account_box</md-icon>
@@ -22,7 +22,7 @@
               style="padding: 0"
               @click.prevent="redirectToWebsite(customer.Website)"
             >
-              <md-icon>web</md-icon>
+              <md-icon>link</md-icon>
               {{ `${customer.Website}` }}
             </button>
             <p v-if="customer.Description"
