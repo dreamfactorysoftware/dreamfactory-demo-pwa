@@ -13,50 +13,65 @@
       v-if="customer.Id"
       class="customer-information"
     >
-      <h4>{{ `${customer.Name}` }}</h4>
+      <div class="info-block">
+        <h4 class="customer-name">
+          <md-icon>account_box</md-icon>
+          {{ `${customer.Name}` }}
+        </h4>
 
-      <p v-if="customer.Industry">
-        <b>Industry:</b>
-        {{ customer.Industry }}
-      </p>
-      <p v-if="customer.NumberOfEmployees">
-        <b>Number of employees:</b>
-        {{ customer.NumberOfEmployees }}
-      </p>
-      <p v-if="customer.UpsellOpportunity__c">
-        <b>Upsell opportunity:</b>
-        {{ customer.UpsellOpportunity__c }}
-      </p>
-      <p v-if="customer.CreatedDate">
-        <b>Created date:</b>
-        {{ customer.CreatedDate }}
-      </p>
-      <p v-if="customer.CustomerPriority__c">
-        <b>Priority:</b>
-        {{ customer.CustomerPriority__c }}
-      </p>
+        <p v-if="customer.Industry">
+          <b>Industry:</b>
+          {{ customer.Industry }}
+        </p>
+        <p v-if="customer.NumberOfEmployees">
+          <b>Number of employees:</b>
+          {{ customer.NumberOfEmployees }}
+        </p>
+        <p v-if="customer.UpsellOpportunity__c">
+          <b>Upsell opportunity:</b>
+          {{ customer.UpsellOpportunity__c }}
+        </p>
+        <p v-if="customer.CreatedDate">
+          <b>Created date:</b>
+          {{ customer.CreatedDate }}
+        </p>
+        <p v-if="customer.CustomerPriority__c">
+          <b>Priority:</b>
+          {{ customer.CustomerPriority__c }}
+        </p>
+      </div>
 
-      <h4 v-if="customer.Website && customer.Phone && customer.Fax">
-        Contacts:
-      </h4>
-      <p v-if="customer.Website">
-        <b>Website</b> <a
-          :href="getWebsiteLink(customer.Website)"
-          target="_blank"
-        >{{ customer.Website }}</a>
-      </p>
-      <p v-if="customer.Phone">
-        <b>Phone</b> <a :href="'tel:' + customer.Phone"> {{ customer.Phone }}</a>
-      </p>
-      <p v-if="customer.Fax">
-        <b>Fax</b> <a :href="'fax:' + customer.Fax"> {{ customer.Fax }}</a>
-      </p>
+      <div class="info-block">
+        <h4 v-if="customer.Website && customer.Phone && customer.Fax"
+            class="customer-contacts">
+          <md-icon>contacts</md-icon>
+          Contacts:
+        </h4>
+        <p v-if="customer.Website">
+          <b>Website</b>
+          <a
+            :href="getWebsiteLink(customer.Website)"
+            target="_blank"
+          >
+            {{ customer.Website }}
+          </a>
+        </p>
+        <p v-if="customer.Phone">
+          <b>Phone</b> <a :href="'tel:' + customer.Phone"> {{ customer.Phone }}</a>
+        </p>
+        <p v-if="customer.Fax">
+          <b>Fax</b> <a :href="'fax:' + customer.Fax"> {{ customer.Fax }}</a>
+        </p>
+      </div>
 
       <div
         v-if="customer.BillingStreet"
-        class="address-block"
+        class="info-block"
       >
-        <h4>Address:</h4>
+        <h4 class="customer-address">
+          <md-icon>business</md-icon>
+          Address:
+        </h4>
         <p v-if="customer.BillingCountry">
           <b>Country:</b> {{ customer.BillingCountry }}
         </p>
@@ -89,12 +104,15 @@
             }
         },
         mounted() {
-            this.getCustomerById(this.$router.currentRoute.params.id);
+            this.getCustomerById(this.$router.currentRoute.params.eid);
 
         },
         methods: {
-            async getCustomerById(id) {
-                this.customer = await ApiService.getCustomerById(id);
+            getCustomerById(id) {
+                ApiService.getCustomerById(id).then(customer => {
+                    this.customer = customer;
+                    this.$store.commit('setHeader', customer.Name);
+                });
             },
 
             getWebsiteLink(url) {
@@ -157,18 +175,40 @@
       }
     }
 
-    .address-block {
+    .info-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
 
       & > h4 {
+        font-family: Raleway, sans-serif;
         margin-top: 40px;
-        font-size: $block-header-size;
-        font-weight: 700;
+        margin-bottom: 15px;
+        font-size: 1.4rem;
+        font-weight: 600;
       }
 
-        &>p {
-            font-size: $default-text-size;
-            line-height: 1.5;
-        }
+      .customer-name {
+        margin-top: 0;
+      }
+
+      &>p {
+        font-size: $default-text-size;
+        line-height: 1.5;
+      }
+    }
+
+    .customer-name, .customer-contacts, .customer-address {
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      & > i {
+        margin: 0 8px 0 0;
+        color: $light-blue!important;
+      }
     }
 
     .map-link {

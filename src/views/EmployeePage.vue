@@ -13,24 +13,35 @@
       v-if="employee.emp_no"
       class="employee-information"
     >
-      <h4>{{ `${employee.first_name} ${employee.last_name}` }}</h4>
-      <p><b>Birth date:</b> {{ employee.birth_date }}</p>
-      <p><b>Gender:</b> {{ getGender() }}</p>
-      <p><b>Hire date:</b> {{ employee.hire_date }}</p>
-      <h4 v-if="employee.email && employee.telephone">
-        Contacts:
-      </h4>
-      <p v-if="employee.email">
-        <b>Email:</b> {{ employee.email }}
-      </p>
-      <p v-if="employee.telephone">
-        <b>Phone number:</b> {{ employee.telephone }}
-      </p>
+      <div class="info-block">
+        <h4 class="employee-name">
+          <md-icon>account_circle</md-icon>
+          {{ `${employee.first_name} ${employee.last_name}` }}</h4>
+        <p><b>Birth date:</b> {{ employee.birth_date }}</p>
+        <p><b>Gender:</b> {{ getGender() }}</p>
+        <p><b>Hire date:</b> {{ employee.hire_date }}</p>
+      </div>
+      <div class="info-block">
+        <h4 v-if="employee.email && employee.telephone"
+            class="employee-contacts">
+          <md-icon>contacts</md-icon>
+          Contacts:
+        </h4>
+        <p v-if="employee.email">
+          <b>Email:</b> {{ employee.email }}
+        </p>
+        <p v-if="employee.telephone">
+          <b>Phone number:</b> {{ employee.telephone }}
+        </p>
+      </div>
       <div
         v-if="employee.street1 && employee.street2 && employee.city && employee.state && employee.zip"
-        class="address-block"
+        class="info-block"
       >
-        <h4>Address:</h4>
+        <h4 class="employee-address">
+          <md-icon>business</md-icon>
+          Address:
+        </h4>
         <p v-if="employee.city">
           <b>City:</b> {{ employee.city }}
         </p>
@@ -141,36 +152,43 @@
     }
 
     .employee-information {
-
-        & > h4 {
-            margin-top: 40px;
-            margin-bottom: 15px;
-            font-size: $block-header-size;
-            font-weight: 700;
-        }
-
-        & > h4:first-of-type {
-          margin-top: 0;
-        }
-
-        &>p {
-            font-size: $default-text-size;
-            line-height: 1.5;
-        }
+        width: 100%;
     }
 
-    .address-block {
+    .info-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
 
-        & > h4 {
-          margin-top: 40px;
-          font-size: $block-header-size;
-          font-weight: 700;
-        }
+      & > h4 {
+        font-family: Raleway, sans-serif;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
 
-        &>p {
-            font-size: $default-text-size;
-            line-height: 1.5;
-        }
+      .employee-name {
+        margin-top: 0;
+      }
+
+      &>p {
+        font-size: $default-text-size;
+        line-height: 1.5;
+      }
+    }
+
+    .employee-name, .employee-contacts, .employee-address {
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      & > i {
+        margin: 0 8px 0 0;
+        color: $light-blue!important;
+      }
     }
 
     .map-link {

@@ -228,11 +228,12 @@
                 this.$router.push({name: 'login'});
             },
             setSearchPlaceholder(route) {
-                if (route.name === 'employees' || route.name === 'department' || route.name === 'departments') this.searchIsNotAllowed = false;
+                if (route.name === 'employees' || route.name === 'department' || route.name === 'departments' || route.name === 'customers') this.searchIsNotAllowed = false;
                 else this.searchIsNotAllowed = true;
 
                 if(route.name === 'employees' || route.name === 'department') this.searchPlaceholder = 'for employees';
                 else if(route.name === 'departments') this.searchPlaceholder = 'for departments';
+                else if(route.name === 'customers') this.searchPlaceholder = 'for customers';
                 else this.searchPlaceholder = '';
             },
         }

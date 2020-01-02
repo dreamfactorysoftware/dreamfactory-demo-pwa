@@ -81,8 +81,9 @@
     }
 
     h4 {
+      font-family: Raleway, sans-serif;
         font-size: $list-header-size;
-        font-weight: 700;
+        font-weight: 600;
     }
 
     .container {
