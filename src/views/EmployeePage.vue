@@ -16,27 +16,107 @@
       <div class="info-block">
         <h4 class="employee-name">
           <md-icon>account_circle</md-icon>
-          {{ `${employee.first_name} ${employee.last_name}` }}
+          <span v-if="!editModeEnabled">
+            {{ `${employee.first_name} ${employee.last_name}` }}
+          </span>
+          <input
+            v-if="editModeEnabled"
+            v-model="editedEmployee.first_name"
+            type="text"
+            class="edit-input"
+          >
+          <input
+            v-if="editModeEnabled"
+            v-model="editedEmployee.last_name"
+            type="text"
+            class="edit-input"
+          >
         </h4>
         <p>
           <b>Department:</b>
           {{ mapEmployeeDepartments(employee.departments_by_dept_emp) }}
         </p>
-        <p><b>Birth date:</b> {{ employee.birth_date }}</p>
-        <p><b>Gender:</b> {{ getGender() }}</p>
-        <p><b>Hire date:</b> {{ employee.hire_date }}</p>
+        <p>
+          <b>Birth date:</b>
+          <span v-if="!editModeEnabled">
+            {{ employee.birth_date }}
+          </span>
+          <input
+            v-if="editModeEnabled"
+            v-model="editedEmployee.birth_date"
+            type="text"
+            class="edit-input"
+          >
+        </p>
+        <p>
+          <b>Gender:</b>
+          <span v-if="!editModeEnabled">
+            {{ getGender() }}
+          </span>
+          <select
+            v-if="editModeEnabled"
+            v-model="editedEmployee.gender"
+            name="gender"
+            class="edit-input"
+          >
+            <option
+              value="M"
+              :selected="getGender() === 'M'"
+            >
+              Male
+            </option>
+            <option
+              value="F"
+              :selected="getGender() === 'F'"
+            >
+              Female
+            </option>
+          </select>
+        </p>
+        <p>
+          <b>Hire date:</b>
+          <span v-if="!editModeEnabled">
+            {{ employee.hire_date }}
+          </span>
+          <input
+            v-if="editModeEnabled"
+            v-model="editedEmployee.hire_date"
+            type="text"
+            class="edit-input"
+          >
+        </p>
       </div>
       <div class="info-block">
-        <h4 v-if="employee.email && employee.telephone"
-            class="employee-contacts">
+        <h4
+          v-if="employee.email && employee.telephone"
+          class="employee-contacts"
+        >
           <md-icon>contacts</md-icon>
           Contacts:
         </h4>
         <p v-if="employee.email">
-          <b>Email:</b> {{ employee.email }}
+          <b>Email:</b>
+          <span v-if="!editModeEnabled">
+            {{ employee.email }}
+          </span>
+          <input
+            v-if="editModeEnabled"
+            v-model="editedEmployee.email"
+            type="text"
+            class="edit-input"
+          >
         </p>
         <p v-if="employee.telephone">
-          <b>Phone number:</b> {{ employee.telephone }}
+          <b>Phone number:</b>
+          <span v-if="!editModeEnabled">
+            {{ employee.telephone }}
+          </span>
+          <input
+            v-if="editModeEnabled"
+            v-model="editedEmployee.telephone"
+            type="text"
+            class="edit-input"
+          >
         </p>
       </div>
       <div
@@ -48,26 +128,90 @@
           Address:
         </h4>
         <p v-if="employee.city">
-          <b>City:</b> {{ employee.city }}
+          <b>City:</b>
+          <span v-if="!editModeEnabled">
+            {{ employee.city }}
+          </span>
+          <input
+            v-if="editModeEnabled"
+            v-model="editedEmployee.city"
+            type="text"
+            class="edit-input"
+          >
         </p>
         <p v-if="employee.street1">
-          <b>Street name:</b> {{ employee.street1 }}
+          <b>Street name:</b>
+          <span v-if="!editModeEnabled">
+            {{ employee.street1 }}
+          </span>
+          <input
+            v-if="editModeEnabled"
+            v-model="editedEmployee.street1"
+            type="text"
+            class="edit-input"
+          >
         </p>
         <p v-if="employee.street2">
-          <b>Street address:</b> {{ employee.street2 }}
+          <b>Street address:</b>
+          <span v-if="!editModeEnabled">
+            {{ employee.street2 }}
+          </span>
+          <input
+            v-if="editModeEnabled"
+            v-model="editedEmployee.street2"
+            type="text"
+            class="edit-input"
+          >
         </p>
         <p v-if="employee.zip">
-          <b>Postcode:</b> {{ employee.zip }} <router-link
-            class="btn btn-link map-link"
-            :to="{name: 'map', query: {latitude: employee.zip_coordinates_by_zip.latitude, longitude: employee.zip_coordinates_by_zip.longitude }}"
+          <b>Postcode:</b>
+          <span v-if="!editModeEnabled">
+            {{ employee.zip }}
+            <router-link
+              class="btn btn-link map-link"
+              :to="{name: 'map', query: {latitude: employee.zip_coordinates_by_zip.latitude, longitude: employee.zip_coordinates_by_zip.longitude }}"
+            >
+              look on map
+            </router-link>
+          </span>
+          <input
+            v-if="editModeEnabled"
+            v-model="editedEmployee.zip"
+            type="text"
+            class="edit-input"
           >
-            look on map
-          </router-link>
         </p>
         <p v-if="employee.state">
-          <b>State:</b> {{ employee.state }}
+          <b>State:</b>
+          <span v-if="!editModeEnabled">
+            {{ employee.state }}
+          </span>
+          <input
+            v-if="editModeEnabled"
+            v-model="editedEmployee.state"
+            type="text"
+            class="edit-input"
+          >
         </p>
       </div>
+    </div>
+    <div
+      v-if="getIsAdmin"
+      class="edit-buttons-container"
+    >
+      <button
+        class="btn btn-primary"
+        @click="editModeEnabled = !editModeEnabled"
+      >
+        {{ editModeEnabled ? 'Cancel' : 'Edit employee' }}
+      </button>
+      <button
+        v-if="editModeEnabled"
+        class="btn btn-primary"
+        @click="saveChanges"
+      >
+        Save changes
+      </button>
     </div>
   </div>
 </template>
@@ -75,15 +219,23 @@
 <script>
     import ApiService from "../services/api.service";
     import AuthService from "../services/auth.service";
+    import {mapGetters} from "vuex";
 
     export default {
         name: "EmployeePage",
         data() {
             return {
                 employee: {},
-                goToEmployeesRoute: {}
+                goToEmployeesRoute: {},
+                editModeEnabled: false,
+                editedEmployee: {}
             }
         },
+      computed: {
+          ...mapGetters([
+            'getIsAdmin'
+          ])
+      },
         mounted() {
             this.getEmployeeById(this.$router.currentRoute.params.eid);
 
@@ -93,6 +245,7 @@
             getEmployeeById(id) {
                 ApiService.getEmployeeById(id).then(employee => {
                     this.employee = employee;
+                    this.editedEmployee = employee;
                     this.$store.commit('setHeader', `${this.employee.first_name} ${this.employee.last_name}`);
                 });
             },
@@ -117,7 +270,24 @@
             },
             mapEmployeeDepartments(departments) {
                 return departments.map(d => d.dept_name).join(', ');
-            }
+            },
+            saveChanges() {
+              let newEmployeeData = {...this.editedEmployee};
+              if (newEmployeeData.telephone === this.employee.telephone) {
+                delete newEmployeeData.telephone;
+              }
+              ApiService.editEmployee(this.employee.emp_no, newEmployeeData)
+                  .then(r => {
+                    if (r.emp_no === this.employee.emp_no) {
+                      this.employee = this.editedEmployee;
+                    }
+                    this.editModeEnabled = false;
+                  })
+                  .catch(e => {
+                    this.editModeEnabled = false;
+                    console.error(e);
+                  });
+            },
         }
     }
 </script>
