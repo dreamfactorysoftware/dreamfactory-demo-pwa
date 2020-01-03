@@ -93,7 +93,7 @@
 
           <div class="sidebar-item sidebar-username">
             <p
-              v-if="currentUser.username"
+              v-if="currentUser && currentUser.username"
               :title="currentUser.username.replace('+okta_sso', '')"
             >
               Hi {{ currentUser.username.replace('+okta_sso', '') }}
