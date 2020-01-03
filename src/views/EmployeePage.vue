@@ -19,18 +19,20 @@
           <span v-if="!editModeEnabled">
             {{ `${employee.first_name} ${employee.last_name}` }}
           </span>
-          <input
-            v-if="editModeEnabled"
-            v-model="editedEmployee.first_name"
-            type="text"
-            class="edit-input"
-          >
-          <input
-            v-if="editModeEnabled"
-            v-model="editedEmployee.last_name"
-            type="text"
-            class="edit-input"
-          >
+          <div class="employee-name-inputs">
+            <input
+              v-if="editModeEnabled"
+              v-model="editedEmployee.first_name"
+              type="text"
+              class="edit-input"
+            >
+            <input
+              v-if="editModeEnabled"
+              v-model="editedEmployee.last_name"
+              type="text"
+              class="edit-input"
+            >
+          </div>
         </h4>
         <p>
           <b>Department:</b>
@@ -57,7 +59,7 @@
             v-if="editModeEnabled"
             v-model="editedEmployee.gender"
             name="gender"
-            class="edit-input"
+            class="edit-select"
           >
             <option
               value="M"
@@ -346,6 +348,7 @@
         margin-bottom: 15px;
         font-size: 1.4rem;
         font-weight: 600;
+        width: 100%;
       }
 
       .employee-name {
@@ -355,6 +358,7 @@
       &>p {
         font-size: $default-text-size;
         line-height: 1.5;
+        width: 100%;
       }
     }
 
@@ -373,6 +377,34 @@
         font-size: $default-text-size;
         padding: 0;
         vertical-align: inherit;
+    }
+
+    .edit-input {
+      width: 100%;
+      /*border: none;*/
+      border: 1px solid $light-gray;
+      border-radius: 5px;
+      padding: 5px;
+      margin: 5px 0;
+      font-size: $default-text-size;
+    }
+
+    .edit-buttons-container {
+      margin: 20px 0 80px 0;
+
+      & > button:first-of-type {
+        margin-right: 50px;
+      }
+    }
+
+    .edit-select {
+      font-weight: bold;
+      background-color: $light-blue;
+      padding: 5px 10px;
+      color: $white;
+      border: none;
+      border-radius: 5px;
+      margin-left: 10px;
     }
 
     @media screen and (min-width: 768px){
