@@ -20,9 +20,7 @@
         </h4>
         <p>
           <b>Department:</b>
-          <span v-for="department in employee.departments_by_dept_emp">
-            {{department.dept_name}}
-          </span>
+          {{ mapEmployeeDepartments(employee.departments_by_dept_emp) }}
         </p>
         <p><b>Birth date:</b> {{ employee.birth_date }}</p>
         <p><b>Gender:</b> {{ getGender() }}</p>
@@ -116,6 +114,9 @@
                 else {
                     this.goToEmployeesRoute = { name: 'employees'};
                 }
+            },
+            mapEmployeeDepartments(departments) {
+                return departments.map(d => d.dept_name).join(', ');
             }
         }
     }

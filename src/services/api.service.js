@@ -18,7 +18,7 @@ const ApiService = {
     },
 
     getEmployeeById(id) {
-        return this._getFromMysql(`/employees/${id}`,  true, 'zip_coordinates_by_zip%2Cdepartments_by_dept_emp')
+        return this._getFromMysql(`/employees/${id}`,  true, 'zip_coordinates_by_zip,departments_by_dept_emp')
             .then(response => response.data)
             .catch(e => {
                 console.error(e)
