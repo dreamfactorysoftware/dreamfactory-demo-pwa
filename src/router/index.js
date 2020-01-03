@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import LoginPage from "../views/LoginPage";
 import DepartmentEmployeesPage from "../views/DepartmentEmployeesPage";
 import EmployeePage from "../views/EmployeePage";
@@ -11,7 +10,7 @@ import Customers from "../views/Customers";
 import MapPage from "../views/MapPage";
 import SupportPage from "../views/SupportPage";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -21,8 +20,7 @@ const routes = [
   },
   {
     path: '/',
-    name: 'home',
-    component: Home,
+    redirect: '/departments'
   },
   {
     path: '/departments',

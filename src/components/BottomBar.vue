@@ -4,12 +4,6 @@
       md-sync-route
     >
       <md-bottom-bar-item
-        :to="{name: 'home'}"
-        exact
-        md-label="Home"
-        md-icon="home"
-      />
-      <md-bottom-bar-item
         :to="{name: 'departments'}"
         md-label="Departments"
         md-icon="store"
@@ -18,6 +12,11 @@
         :to="{name: 'employees'}"
         md-label="Employees"
         md-icon="group"
+      />
+      <md-bottom-bar-item
+        :to="{name: 'customers'}"
+        md-label="Customers"
+        md-icon="accessibility_new"
       />
       <md-bottom-bar-item
         :to="{name: 'map'}"

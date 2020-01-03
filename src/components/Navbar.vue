@@ -14,7 +14,7 @@
             </md-button>
           </div>
           <div class="menu-item menu-item-logo">
-            <router-link :to="{name: 'home'}">
+            <router-link to="/">
               <img
                 src="../assets/acme-logo-white.png"
                 width="150px"
@@ -81,7 +81,7 @@
       >
         <div class="sidebar">
           <div class="sidebar-item sidebar-logo">
-            <router-link :to="{name: 'home'}">
+            <router-link to="/">
               <img
                 src="../assets/acme-logo.png"
                 width="150px"
