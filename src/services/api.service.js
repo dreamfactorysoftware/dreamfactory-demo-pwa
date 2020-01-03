@@ -106,12 +106,10 @@ const ApiService = {
                         .then(r => {
                             if(r.id === id) {
                                 store.commit('setIsAdmin', true);
-                                console.log('admin');
                             }
                         })
                         .catch(_ => {
                             store.commit('setIsAdmin', false);
-                            console.log('no admin');
                         });
                     return response.data;
                 }
