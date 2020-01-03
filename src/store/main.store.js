@@ -9,6 +9,7 @@ const store = new Vuex.Store({
         loading: false,
         departments: [],
         mapEmployees: [],
+        isAdmin: false,
     },
     getters: {
         getHeader(state) {
@@ -25,7 +26,11 @@ const store = new Vuex.Store({
 
         getEmployeesForMap(state) {
             return state.mapEmployees;
-        }
+        },
+
+        getIsAdmin(state) {
+          return state.isAdmin;
+        },
     },
     mutations: {
         setHeader(state, header) {
@@ -42,6 +47,10 @@ const store = new Vuex.Store({
 
         setEmployeesForMap(state, employees) {
             state.mapEmployees = employees;
+        },
+
+        setIsAdmin(state, isAdmin) {
+            state.isAdmin = isAdmin;
         },
     },
     actions: {

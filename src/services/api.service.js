@@ -101,14 +101,31 @@ const ApiService = {
                     AuthService.logout();
                     return false;
                 }
-                return response.data;
+                else {
+                    this.checkAdmin(id)
+                        .then(r => {
+                            if(r.id === id) {
+                                store.commit('setIsAdmin', true);
+                                console.log('admin');
+                            }
+                        })
+                        .catch(_ => {
+                            store.commit('setIsAdmin', false);
+                            console.log('no admin');
+                        });
+                    return response.data;
+                }
             })
             .catch(e => {
                 return this._errorHandler(e);
             })
     },
 
-
+    checkAdmin(id) {
+        return this._put(`${this.API_URL}/system/user/${id}`, {})
+            .then(response => response.data)
+            .catch();
+    },
 
     sendEmail(name, emailAddress, message = '') {
 
@@ -130,6 +147,14 @@ const ApiService = {
             });
     },
 
+    editEmployee(id, editedEmployee) {
+        return this._patch(`${this.API_URL}/mysql/_table/employees/${id}`, editedEmployee)
+            .then(response => response.data)
+            .catch(e => {
+                console.error(e)
+            });
+    },
+
 
     // PRIVATE
 
@@ -137,6 +162,20 @@ const ApiService = {
         return axios.post(url, data, {
             dataType: 'json',
                 headers: this._getApiHeaders()
+        });
+    },
+
+    _put(url, data) {
+        return axios.put(url, data, {
+            dataType: 'json',
+            headers: this._getApiHeaders()
+        });
+    },
+
+    _patch(url, data) {
+        return axios.patch(url, data, {
+            dataType: 'json',
+            headers: this._getApiHeaders()
         });
     },
 
