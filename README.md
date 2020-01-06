@@ -6,7 +6,7 @@
 2. Open "database" folder path in shell.
 3. Execute next command for running mysql in docker
     ```
-    docker-compose -d up 
+    docker-compose up -d
     ```
    '-d' for detached mode. 
 4. Unzip archive mysql-employee-example-database.zip that contains database.
