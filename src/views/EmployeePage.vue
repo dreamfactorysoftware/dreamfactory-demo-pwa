@@ -19,9 +19,12 @@
           <span v-if="!editModeEnabled">
             {{ `${employee.first_name} ${employee.last_name}` }}
           </span>
-          <div class="employee-name-inputs">
+          <div
+            v-if="editModeEnabled" 
+            class="employee-name-inputs"
+          >
             <input
-              v-if="editModeEnabled"
+
               v-model="editedEmployee.first_name"
               type="text"
               class="edit-input"
@@ -247,7 +250,7 @@
             getEmployeeById(id) {
                 ApiService.getEmployeeById(id).then(employee => {
                     this.employee = employee;
-                    this.editedEmployee = employee;
+                    this.editedEmployee = {...this.employee};
                     this.$store.commit('setHeader', `${this.employee.first_name} ${this.employee.last_name}`);
                 });
             },
@@ -381,7 +384,6 @@
 
     .edit-input {
       width: 100%;
-      /*border: none;*/
       border: 1px solid $light-gray;
       border-radius: 5px;
       padding: 5px;
@@ -395,6 +397,10 @@
       & > button:first-of-type {
         margin-right: 50px;
       }
+    }
+
+    .employee-name-inputs {
+      width: 100%;
     }
 
     .edit-select {
