@@ -1,4 +1,5 @@
 import ApiService from "./api.service";
+import router from "../router";
 
 
 const AuthService = {
@@ -13,12 +14,18 @@ const AuthService = {
 
     getPayload(jwt) {
         try {
-            let payload = JSON.parse(atob(jwt.split('.')[1]));
-            return ApiService.getUserById(payload.user_id);
+            if (jwt && jwt.split('.')[1]) {
+                let payload = JSON.parse(atob(jwt.split('.')[1]));
+                return ApiService.getUserById(payload.user_id);
+            } else {
+                router.push({name: 'login'}).catch(err => {});
+                return Promise.resolve(null);
+            }
         }
         catch (e) {
             console.error(e);
-            return false;
+            router.push({name: 'login'}).catch(err => {});
+            return Promise.resolve(null);
         }
     },
 

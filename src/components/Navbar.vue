@@ -220,7 +220,9 @@
         mounted() {
             AuthService.getPayload(this.$route.query.jwt || AuthService.getToken())
                 .then(user => {
-                    this.currentUser = user;
+                    if (user) {
+                      this.currentUser = user;
+                    }
                 });
             this.setSearchPlaceholder(this.$route);
         },
