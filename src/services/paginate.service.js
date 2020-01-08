@@ -25,7 +25,7 @@ const PaginateService = {
         let isEmptyPage = typeof pageNumber === 'undefined' || !pageNumber;
 
         if(isEmptyPage || (pageNumber && pageNumber < 0) || !Number.isInteger(pageNumber)) {
-            router.push({ name: routeName, query: { page: 1 }});
+            router.push({ name: routeName, query: { page: 1 }}).catch(err => {});
             this.currentPage = 1;
             return;
         }
