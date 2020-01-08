@@ -19,10 +19,9 @@ import GmapCluster from 'vue2-google-maps/dist/components/cluster';
 import ClipLoader from 'vue-spinner/src/ClipLoader.vue'
 import store from "./store/main.store";
 
-
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "", // google maps api key
+    key: process.env.VUE_APP_GOOGLE_MAPS_API_KEY, // google maps api key
     libraries: "places" // necessary for places input
   }
 });

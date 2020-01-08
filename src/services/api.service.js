@@ -4,8 +4,8 @@ import store from "../store/main.store";
 import router from "../router";
 
 const ApiService = {
-    API_KEY: 'd39e1f8298086d2c7b3dcf578bd743a4d2edc68bd6c602a3d27ad493792aff53',
-    API_URL: 'http://pwa-df.demo.dreamfactory.com/api/v2',
+    API_KEY: process.env.VUE_APP_API_KEY,
+    API_URL: process.env.VUE_APP_API_URL,
 
     getDepartments() {
         return this._getFromMysql('/departments', true)
@@ -121,7 +121,9 @@ const ApiService = {
     checkAdmin(id) {
         return this._put(`${this.API_URL}/system/user/${id}`, {})
             .then(response => response.data)
-            .catch();
+            .catch(e => {
+              return this._errorHandler(e);
+            });
     },
 
     sendEmail(name, emailAddress, message = '') {
@@ -129,7 +131,7 @@ const ApiService = {
         return this._post(`${this.API_URL}/mailgun/`, {
                 "to": [{
                     "name": "Support",
-                    "email": "your@email.com" // add your email here
+                    "email": process.env.VUE_APP_SUPPORT_EMAIL // add your email here
                 }],
                 "subject": `Support email from ${emailAddress}`,
                 "body_html": `<h2>New support email</h2><p><b>Name:</b> ${name}</p><p><b>Email address:</b> ${emailAddress}</p><p><b>Message:</b> ${message}</p>`,
@@ -206,19 +208,18 @@ const ApiService = {
     },
 
     _errorHandler(error) {
-      console.error(error);
       this._setLoading(false);
 
       switch (error.response.status) {
             case 404:
-                router.push({name: 'pageNotFound'});
+                router.push({name: 'pageNotFound'}).catch(err => {});
                 break;
             case 401:
-                router.push({name: 'login'});
+                router.push({name: 'login'}).catch(err => {});
                 AuthService.logout();
                 break;
             case 500:
-                router.push({name: 'somethingWentWrongPage'});
+                router.push({name: 'somethingWentWrongPage'}).catch(err => {});
                 break;
         }
         return error;
