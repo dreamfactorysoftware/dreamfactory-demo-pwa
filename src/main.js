@@ -12,6 +12,7 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 // Styles
 import './assets/styles/pagination.scss';
+import './assets/styles/global.scss';
 // map
 import * as VueGoogleMaps from "vue2-google-maps";
 import GmapCluster from 'vue2-google-maps/dist/components/cluster';

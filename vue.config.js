@@ -1,7 +1,7 @@
 module.exports = {
     pwa: {
         name: 'Demo PWA',
-        themeColor: '#3185FC',
+        themeColor: '#272999',
         workboxPluginMode: 'GenerateSW',
         // workboxOptions: {
         //     swSrc: 'src/service-worker.js'

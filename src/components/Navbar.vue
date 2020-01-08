@@ -83,7 +83,7 @@
           <div class="sidebar-item sidebar-logo">
             <router-link to="/">
               <img
-                src="../assets/acme-logo.png"
+                src="../assets/acme-logo-df-blue.png"
                 width="150px"
                 height="auto"
                 alt="Acme logo"
