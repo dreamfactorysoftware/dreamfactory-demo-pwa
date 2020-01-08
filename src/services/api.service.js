@@ -95,22 +95,21 @@ const ApiService = {
     },
 
     getUserById(id) {
-        return this._get(`${this.API_URL}/system/user/${id}`, false)
-            .then(response => {
+        let result = Promise.all([
+            this._get(`${this.API_URL}/system/user/${id}`, false),
+            this.checkAdmin(id).catch(_ => {store.commit('setIsAdmin', false);})
+        ]);
+        return result
+            .then(([response, isAdmin]) => {
+                if(isAdmin.id === id) {
+                    store.commit('setIsAdmin', true);
+                } else {
+                    store.commit('setIsAdmin', false);
+                }
                 if (!response.data || !response.data.username) {
                     AuthService.logout();
                     return false;
-                }
-                else {
-                    this.checkAdmin(id)
-                        .then(r => {
-                            if(r.id === id) {
-                                store.commit('setIsAdmin', true);
-                            }
-                        })
-                        .catch(_ => {
-                            store.commit('setIsAdmin', false);
-                        });
+                } else {
                     return response.data;
                 }
             })
