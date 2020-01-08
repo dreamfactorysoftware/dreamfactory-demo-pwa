@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AuthService from "./auth.service";
 import store from "../store/main.store";
+import router from "../router";
 
 const ApiService = {
     API_KEY: 'ff53688348ae43bfab920d08dd7bbe1379b63dba31f7067b840b77d094ac0e2c',
@@ -13,7 +14,8 @@ const ApiService = {
                 return response.data.resource;
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
+                this.__errorHandler(e);
             })
     },
 
@@ -21,7 +23,8 @@ const ApiService = {
         return this._getFromMysql(`/employees/${id}`,  true, 'zip_coordinates_by_zip,departments_by_dept_emp')
             .then(response => response.data)
             .catch(e => {
-                console.error(e)
+                console.error(e);
+                this.__errorHandler(e);
             })
     },
 
@@ -29,7 +32,8 @@ const ApiService = {
         return this._getFromMysql(`/departments/${id}`, true, 'employees_by_dept_emp')
             .then(response => response.data)
             .catch(e => {
-                console.error(e)
+                console.error(e);
+                this.__errorHandler(e);
             })
     },
 
@@ -39,7 +43,8 @@ const ApiService = {
                 return response.data;
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
+                this.__errorHandler(e);
             })
     },
 
@@ -49,7 +54,8 @@ const ApiService = {
                 return response.data.resource;
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
+                this.__errorHandler(e);
             })
     },
 
@@ -60,7 +66,8 @@ const ApiService = {
                 return response.data;
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
+                this.__errorHandler(e);
             })
     },
 
@@ -70,7 +77,8 @@ const ApiService = {
                 return response.data.resource;
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
+                this.__errorHandler(e);
             })
     },
 
@@ -78,7 +86,8 @@ const ApiService = {
         return this._getFromSalesforce(`/account/${id}`, true)
             .then(response => response.data)
             .catch(e => {
-                console.error(e)
+                console.error(e);
+                this.__errorHandler(e);
             })
     },
 
@@ -89,7 +98,8 @@ const ApiService = {
                 return this.employees;
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
+                this.__errorHandler(e);
             })
     },
 
@@ -103,7 +113,8 @@ const ApiService = {
                 return response.data;
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
+                this.__errorHandler(e);
             })
     },
 
@@ -124,7 +135,10 @@ const ApiService = {
                 "reply_to_email": `${emailAddress}`
             })
             .then(response => response)
-            .catch(e => console.error(e));
+            .catch(e => {
+                console.error(e);
+                this.__errorHandler(e);
+            });
     },
 
 
@@ -163,7 +177,25 @@ const ApiService = {
             'X-DreamFactory-API-Key': this.API_KEY,
             'X-DreamFactory-Session-Token': AuthService.getToken()
         }
-    }
+    },
+
+    __errorHandler(error) {
+        switch (error.response.status) {
+            case 404:
+                store.commit('setLoading', false);
+                router.push({name: 'pageNotFound'});
+                break;
+            case 401:
+                store.commit('setLoading', false);
+                router.push({name: 'login'});
+                AuthService.logout();
+                break;
+            case 500:
+                store.commit('setLoading', false);
+                router.push({name: 'somethingWentWrongPage'});
+                break;
+        }
+    },
 };
 
 export default ApiService;

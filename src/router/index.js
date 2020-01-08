@@ -9,6 +9,8 @@ import Employees from "../views/Employees";
 import Customers from "../views/Customers";
 import MapPage from "../views/MapPage";
 import SupportPage from "../views/SupportPage";
+import PageNotFound from "../views/PageNotFound";
+import SomethingWentWrongPage from "../views/SomethingWentWrongPage";
 
 Vue.use(VueRouter);
 
@@ -69,9 +71,19 @@ const routes = [
     component: SupportPage
   },
   {
+    path: '/404',
+    name: 'pageNotFound',
+    component: PageNotFound
+  },
+  {
+    path: '/500',
+    name: 'somethingWentWrongPage',
+    component: SomethingWentWrongPage
+  },
+  {
     path: '*/*',
-    redirect: '/'
-  }
+    redirect: '/404',
+  },
   // {
   //   path: '/about',
   //   name: 'about',
