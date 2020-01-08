@@ -32,7 +32,6 @@ const store = new Vuex.Store({
         getNewestEmployees(state) {
           return state.newestEmployees;
         },
-        },
 
         getIsAdmin(state) {
           return state.isAdmin;
@@ -57,7 +56,7 @@ const store = new Vuex.Store({
 
         setNewestEmployees(state, employees) {
             state.newestEmployees = employees;
-        }
+        },
 
         setIsAdmin(state, isAdmin) {
             state.isAdmin = isAdmin;
