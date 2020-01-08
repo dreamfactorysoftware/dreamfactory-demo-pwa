@@ -2,7 +2,14 @@
   <div class="bottom-bar-container">
     <md-bottom-bar
       md-sync-route
+      md-type="shift"
     >
+      <md-bottom-bar-item
+        :to="{name: 'home'}"
+        exact
+        md-label="Home"
+        md-icon="home"
+      />
       <md-bottom-bar-item
         :to="{name: 'departments'}"
         md-label="Departments"
