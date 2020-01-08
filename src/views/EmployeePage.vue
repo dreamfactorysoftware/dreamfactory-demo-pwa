@@ -20,11 +20,11 @@
             {{ `${employee.first_name} ${employee.last_name}` }}
           </span>
           <div
-            v-if="editModeEnabled" 
+            v-else
             class="employee-name-inputs"
           >
             <input
-
+              v-if="editModeEnabled"
               v-model="editedEmployee.first_name"
               type="text"
               class="edit-input"
@@ -47,7 +47,7 @@
             {{ employee.birth_date }}
           </span>
           <input
-            v-if="editModeEnabled"
+            v-else
             v-model="editedEmployee.birth_date"
             type="text"
             class="edit-input"
@@ -59,7 +59,7 @@
             {{ getGender() }}
           </span>
           <select
-            v-if="editModeEnabled"
+            v-else
             v-model="editedEmployee.gender"
             name="gender"
             class="edit-select"
@@ -84,7 +84,7 @@
             {{ employee.hire_date }}
           </span>
           <input
-            v-if="editModeEnabled"
+            v-else
             v-model="editedEmployee.hire_date"
             type="text"
             class="edit-input"
@@ -105,7 +105,7 @@
             {{ employee.email }}
           </span>
           <input
-            v-if="editModeEnabled"
+            v-else
             v-model="editedEmployee.email"
             type="text"
             class="edit-input"
@@ -117,7 +117,7 @@
             {{ employee.telephone }}
           </span>
           <input
-            v-if="editModeEnabled"
+            v-else
             v-model="editedEmployee.telephone"
             type="text"
             class="edit-input"
@@ -138,7 +138,7 @@
             {{ employee.city }}
           </span>
           <input
-            v-if="editModeEnabled"
+            v-else
             v-model="editedEmployee.city"
             type="text"
             class="edit-input"
@@ -150,7 +150,7 @@
             {{ employee.street1 }}
           </span>
           <input
-            v-if="editModeEnabled"
+            v-else
             v-model="editedEmployee.street1"
             type="text"
             class="edit-input"
@@ -162,7 +162,7 @@
             {{ employee.street2 }}
           </span>
           <input
-            v-if="editModeEnabled"
+            v-else
             v-model="editedEmployee.street2"
             type="text"
             class="edit-input"
@@ -180,7 +180,7 @@
             </router-link>
           </span>
           <input
-            v-if="editModeEnabled"
+            v-else
             v-model="editedEmployee.zip"
             type="text"
             class="edit-input"
@@ -192,7 +192,7 @@
             {{ employee.state }}
           </span>
           <input
-            v-if="editModeEnabled"
+            v-else
             v-model="editedEmployee.state"
             type="text"
             class="edit-input"
@@ -277,15 +277,13 @@
                 return departments.map(d => d.dept_name).join(', ');
             },
             saveChanges() {
-              let newEmployeeData = {...this.editedEmployee};
-              if (newEmployeeData.telephone === this.employee.telephone) {
-                delete newEmployeeData.telephone;
+              let tmpEmployeeData = {...this.editedEmployee};
+              if (tmpEmployeeData.telephone === this.employee.telephone) {
+                delete tmpEmployeeData.telephone;
               }
-              ApiService.editEmployee(this.employee.emp_no, newEmployeeData)
+              ApiService.editEmployee(this.employee.emp_no, tmpEmployeeData)
                   .then(r => {
-                    if (r.emp_no === this.employee.emp_no) {
-                      this.employee = this.editedEmployee;
-                    }
+                    this.employee = {...this.editedEmployee};
                     this.editModeEnabled = false;
                   })
                   .catch(e => {
