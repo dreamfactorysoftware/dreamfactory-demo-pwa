@@ -11,6 +11,7 @@ import MapPage from "../views/MapPage";
 import SupportPage from "../views/SupportPage";
 import PageNotFound from "../views/PageNotFound";
 import SomethingWentWrongPage from "../views/SomethingWentWrongPage";
+import HomePage from "../views/HomePage";
 
 Vue.use(VueRouter);
 
@@ -21,8 +22,13 @@ const routes = [
     component: LoginPage
   },
   {
+    path: '/home',
+    name: 'home',
+    component: HomePage
+  },
+  {
     path: '/',
-    redirect: '/departments'
+    redirect: 'home'
   },
   {
     path: '/departments',

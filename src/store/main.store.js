@@ -9,6 +9,7 @@ const store = new Vuex.Store({
         loading: false,
         departments: [],
         mapEmployees: [],
+        newestEmployees: [],
         isAdmin: false,
     },
     getters: {
@@ -26,6 +27,11 @@ const store = new Vuex.Store({
 
         getEmployeesForMap(state) {
             return state.mapEmployees;
+        },
+
+        getNewestEmployees(state) {
+          return state.newestEmployees;
+        },
         },
 
         getIsAdmin(state) {
@@ -48,6 +54,10 @@ const store = new Vuex.Store({
         setEmployeesForMap(state, employees) {
             state.mapEmployees = employees;
         },
+
+        setNewestEmployees(state, employees) {
+            state.newestEmployees = employees;
+        }
 
         setIsAdmin(state, isAdmin) {
             state.isAdmin = isAdmin;

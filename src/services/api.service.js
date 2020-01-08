@@ -154,6 +154,14 @@ const ApiService = {
             });
     },
 
+    getNewestEmployees() {
+      return this._getFromMysql(`/employees?order=hire_date desc`, true, '', 20)
+          .then(response => response.data.resource)
+          .catch(e => {
+                return this._errorHandler(e);
+          });
+    },
+
 
     // PRIVATE
 
