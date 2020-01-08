@@ -14,8 +14,7 @@ const ApiService = {
                 return response.data.resource;
             })
             .catch(e => {
-                console.error(e);
-                this.__errorHandler(e);
+                return this._errorHandler(e);
             })
     },
 
@@ -23,8 +22,7 @@ const ApiService = {
         return this._getFromMysql(`/employees/${id}`,  true, 'zip_coordinates_by_zip,departments_by_dept_emp')
             .then(response => response.data)
             .catch(e => {
-                console.error(e);
-                this.__errorHandler(e);
+                return this._errorHandler(e);
             })
     },
 
@@ -32,8 +30,7 @@ const ApiService = {
         return this._getFromMysql(`/departments/${id}`, true, 'employees_by_dept_emp')
             .then(response => response.data)
             .catch(e => {
-                console.error(e);
-                this.__errorHandler(e);
+                return this._errorHandler(e);
             })
     },
 
@@ -43,8 +40,7 @@ const ApiService = {
                 return response.data;
             })
             .catch(e => {
-                console.error(e);
-                this.__errorHandler(e);
+                return this._errorHandler(e);
             })
     },
 
@@ -54,8 +50,7 @@ const ApiService = {
                 return response.data.resource;
             })
             .catch(e => {
-                console.error(e);
-                this.__errorHandler(e);
+                return this._errorHandler(e);
             })
     },
 
@@ -66,8 +61,7 @@ const ApiService = {
                 return response.data;
             })
             .catch(e => {
-                console.error(e);
-                this.__errorHandler(e);
+                return this._errorHandler(e);
             })
     },
 
@@ -77,8 +71,7 @@ const ApiService = {
                 return response.data.resource;
             })
             .catch(e => {
-                console.error(e);
-                this.__errorHandler(e);
+                return this._errorHandler(e);
             })
     },
 
@@ -86,8 +79,7 @@ const ApiService = {
         return this._getFromSalesforce(`/account/${id}`, true)
             .then(response => response.data)
             .catch(e => {
-                console.error(e);
-                this.__errorHandler(e);
+                return this._errorHandler(e);
             })
     },
 
@@ -98,8 +90,7 @@ const ApiService = {
                 return this.employees;
             })
             .catch(e => {
-                console.error(e);
-                this.__errorHandler(e);
+                return this._errorHandler(e);
             })
     },
 
@@ -113,8 +104,7 @@ const ApiService = {
                 return response.data;
             })
             .catch(e => {
-                console.error(e);
-                this.__errorHandler(e);
+                return this._errorHandler(e);
             })
     },
 
@@ -136,8 +126,7 @@ const ApiService = {
             })
             .then(response => response)
             .catch(e => {
-                console.error(e);
-                this.__errorHandler(e);
+                return this._errorHandler(e);
             });
     },
 
@@ -152,15 +141,16 @@ const ApiService = {
     },
 
     _get(url, withLoading=false) {
-        if (withLoading) store.commit('setLoading', true);
+        if (withLoading) this._setLoading(true);
 
-        return axios.get(url, {
+
+      return axios.get(url, {
             dataType: 'json',
             headers: this._getApiHeaders()
         })
             .then(response => {
-                if (withLoading) store.commit('setLoading', false);
-                return response
+                if (withLoading) this._setLoading(false);
+              return response
             });
     },
 
@@ -179,23 +169,29 @@ const ApiService = {
         }
     },
 
-    __errorHandler(error) {
-        switch (error.response.status) {
+    _errorHandler(error) {
+      console.error(error);
+      this._setLoading(false);
+
+      switch (error.response.status) {
             case 404:
-                store.commit('setLoading', false);
                 router.push({name: 'pageNotFound'});
                 break;
             case 401:
-                store.commit('setLoading', false);
                 router.push({name: 'login'});
                 AuthService.logout();
                 break;
             case 500:
-                store.commit('setLoading', false);
                 router.push({name: 'somethingWentWrongPage'});
                 break;
         }
+        return error;
     },
+
+    _setLoading(state = false) {
+      store.commit('setLoading', state);
+    }
 };
+
 
 export default ApiService;
