@@ -1,12 +1,17 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+@import "~vue-material/dist/theme/engine";
+
+@include md-register-theme("default", (
+        primary: #272999,
+        accent: #272999,
+        theme: light
+));
+
+@import "~vue-material/dist/theme/all";
 
 .btn-primary {
   background-color: $light-blue;
 }
 
-.md-bottom-bar-item.md-active {
-    color: $light-blue !important;
-}
-
-.md-bottom-bar-item.md-active .md-icon {
-  color: $light-blue !important;
-}
