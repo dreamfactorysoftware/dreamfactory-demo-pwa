@@ -16,11 +16,8 @@
       <div class="info-block">
         <h4 class="employee-name">
           <md-icon>account_circle</md-icon>
-          <span v-if="!editModeEnabled">
-            {{ `${employee.first_name} ${employee.last_name}` }}
-          </span>
           <div
-            v-else
+            v-if="editModeEnabled"
             class="employee-name-inputs"
           >
             <input
@@ -36,6 +33,9 @@
               class="edit-input"
             >
           </div>
+          <span v-else>
+            {{ `${employee.first_name} ${employee.last_name}` }}
+          </span>
         </h4>
         <p>
           <b>Department:</b>
@@ -43,23 +43,20 @@
         </p>
         <p>
           <b>Birth date:</b>
-          <span v-if="!editModeEnabled">
-            {{ employee.birth_date }}
-          </span>
           <input
-            v-else
+            v-if="editModeEnabled"
             v-model="editedEmployee.birth_date"
             type="text"
             class="edit-input"
           >
+          <span v-else>
+            {{ employee.birth_date }}
+          </span>
         </p>
         <p>
           <b>Gender:</b>
-          <span v-if="!editModeEnabled">
-            {{ getGender() }}
-          </span>
           <select
-            v-else
+            v-if="editModeEnabled"
             v-model="editedEmployee.gender"
             name="gender"
             class="edit-select"
@@ -77,18 +74,21 @@
               Female
             </option>
           </select>
+          <span v-else>
+            {{ getGender() }}
+          </span>
         </p>
         <p>
           <b>Hire date:</b>
-          <span v-if="!editModeEnabled">
-            {{ employee.hire_date }}
-          </span>
           <input
-            v-else
+            v-if="editModeEnabled"
             v-model="editedEmployee.hire_date"
             type="text"
             class="edit-input"
           >
+          <span v-else>
+            {{ employee.hire_date }}
+          </span>
         </p>
       </div>
       <div class="info-block">
@@ -101,27 +101,27 @@
         </h4>
         <p v-if="employee.email">
           <b>Email:</b>
-          <span v-if="!editModeEnabled">
-            {{ employee.email }}
-          </span>
           <input
-            v-else
+            v-if="editModeEnabled"
             v-model="editedEmployee.email"
             type="text"
             class="edit-input"
           >
+          <span v-else>
+            {{ employee.email }}
+          </span>
         </p>
         <p v-if="employee.telephone">
           <b>Phone number:</b>
-          <span v-if="!editModeEnabled">
-            {{ employee.telephone }}
-          </span>
           <input
-            v-else
+            v-if="editModeEnabled"
             v-model="editedEmployee.telephone"
             type="text"
             class="edit-input"
           >
+          <span v-else>
+            {{ employee.telephone }}
+          </span>
         </p>
       </div>
       <div
@@ -134,43 +134,49 @@
         </h4>
         <p v-if="employee.city">
           <b>City:</b>
-          <span v-if="!editModeEnabled">
-            {{ employee.city }}
-          </span>
           <input
-            v-else
+            v-if="editModeEnabled"
             v-model="editedEmployee.city"
             type="text"
             class="edit-input"
           >
+          <span v-else>
+            {{ employee.city }}
+          </span>
         </p>
         <p v-if="employee.street1">
           <b>Street name:</b>
-          <span v-if="!editModeEnabled">
-            {{ employee.street1 }}
-          </span>
           <input
-            v-else
+            v-if="editModeEnabled"
             v-model="editedEmployee.street1"
             type="text"
             class="edit-input"
           >
+          <span v-else>
+            {{ employee.street1 }}
+          </span>
         </p>
         <p v-if="employee.street2">
           <b>Street address:</b>
-          <span v-if="!editModeEnabled">
-            {{ employee.street2 }}
-          </span>
           <input
-            v-else
+            v-if="editModeEnabled"
             v-model="editedEmployee.street2"
             type="text"
             class="edit-input"
           >
+          <span v-else>
+            {{ employee.street2 }}
+          </span>
         </p>
         <p v-if="employee.zip">
           <b>Postcode:</b>
-          <span v-if="!editModeEnabled">
+          <input
+            v-if="editModeEnabled"
+            v-model="editedEmployee.zip"
+            type="text"
+            class="edit-input"
+          >
+          <span v-else>
             {{ employee.zip }}
             <router-link
               class="btn btn-link map-link"
@@ -179,24 +185,18 @@
               look on map
             </router-link>
           </span>
-          <input
-            v-else
-            v-model="editedEmployee.zip"
-            type="text"
-            class="edit-input"
-          >
         </p>
         <p v-if="employee.state">
           <b>State:</b>
-          <span v-if="!editModeEnabled">
-            {{ employee.state }}
-          </span>
           <input
-            v-else
+            v-if="editModeEnabled"
             v-model="editedEmployee.state"
             type="text"
             class="edit-input"
           >
+          <span v-else>
+            {{ employee.state }}
+          </span>
         </p>
       </div>
     </div>
