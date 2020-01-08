@@ -62,12 +62,7 @@
         },
         mounted() {
             this.getPageCount();
-            if(this.$route.query.page && this.$route.query.page > 0) {
-              this.selectPageHandler(this.$route.query.page);
-            }
-            else {
-              this.selectPageHandler(1);
-            }
+            this.selectPageHandler(this.$route.query.page);
             this.$store.commit('setHeader', 'Employees');
         },
         beforeDestroy() {
@@ -81,17 +76,13 @@
             },
 
             selectPageHandler(pageNumber) {
+              PaginateService.validatePageNumber('employees' , pageNumber);
               ApiService.getEmployeesWithPagination(PaginateService.getPageSize(), PaginateService.getOffset(pageNumber))
                       .then(e => {
                         this.employees = e;
                         this.setSearch();
                       });
-              this.currentPage = parseInt(pageNumber);
-
-              if (this.$route.query.page !== pageNumber) {
-                this.$router.push({ name: 'employees', query: { page: pageNumber }});
-              }
-
+              this.currentPage = parseInt(PaginateService.getCurrentPage());
             },
 
             setSearch() {

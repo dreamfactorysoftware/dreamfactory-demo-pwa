@@ -82,24 +82,17 @@
                 ApiService.getEmployeesByDeptId(this.$router.currentRoute.params.id).then(dept => {
                     this.department = dept;
                     this.allDeptEmployees = dept.employees_by_dept_emp;
-                    this.pageCount = Math.floor(this.allDeptEmployees.length / PaginateService.pageSize);
-                    if(this.$route.query.page && this.$route.query.page > 0) {
-                      this.selectPageHandler(this.$route.query.page);
-                    }
-                    else {
-                      this.selectPageHandler(1);
-                    }
+                    this.pageCount = Math.floor(this.allDeptEmployees.length / PaginateService.getPageSize());
+                    this.selectPageHandler(this.$route.query.page);
                     this.$store.commit('setHeader', dept.dept_name);
                 });
             },
 
             selectPageHandler(pageNumber) {
-                this.currentPage = parseInt(pageNumber);
+                PaginateService.validatePageNumber('department' , pageNumber);
+                this.currentPage = parseInt(PaginateService.getCurrentPage());
                 this.pageEmployees = PaginateService.getDeptEmployeesForPage(this.allDeptEmployees, pageNumber);
                 this.setSearch();
-                if (this.$route.query.page !== pageNumber) {
-                  this.$router.push({ name: 'department', query: { page: pageNumber }});
-                }
             },
 
             setSearch() {
