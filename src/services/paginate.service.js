@@ -24,13 +24,15 @@ const PaginateService = {
     validatePageNumber(routeName, pageNumber) {
         let isEmptyPage = typeof pageNumber === 'undefined' || !pageNumber;
 
-        if(isEmptyPage || (pageNumber && pageNumber < 0) || !Number.isInteger(pageNumber)) {
-            router.push({ name: routeName, query: { page: 1 }}).catch(err => {});
-            this.currentPage = 1;
-            return;
+        if(isEmptyPage || pageNumber < 0 || !Number.isInteger(pageNumber)) {
+          this.currentPage = 1;
+          router.push({ name: routeName, query: { page: 1 }}).catch(err => {});
+          return 1;
         }
+
         this.currentPage = pageNumber;
         router.push({ name: routeName, query: { page: pageNumber }}).catch(err => {});
+        return pageNumber;
     }
 };
 

@@ -76,7 +76,7 @@
             },
 
             selectPageHandler(pageNumber) {
-              PaginateService.validatePageNumber('employees' , pageNumber);
+              pageNumber = PaginateService.validatePageNumber('employees' , pageNumber);
               ApiService.getEmployeesWithPagination(PaginateService.getPageSize(), PaginateService.getOffset(pageNumber))
                       .then(e => {
                         this.employees = e;

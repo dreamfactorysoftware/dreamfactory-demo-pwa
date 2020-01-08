@@ -68,7 +68,7 @@
                 department: {},
                 pageEmployees: [],
                 pageCount: 0,
-                currentPage: 0,
+                currentPage: 1,
             }
         },
         mounted() {
@@ -89,7 +89,7 @@
             },
 
             selectPageHandler(pageNumber) {
-                PaginateService.validatePageNumber('department' , pageNumber);
+                pageNumber = PaginateService.validatePageNumber('department' , pageNumber);
                 this.currentPage = parseInt(PaginateService.getCurrentPage());
                 this.pageEmployees = PaginateService.getDeptEmployeesForPage(this.allDeptEmployees, pageNumber);
                 this.setSearch();
