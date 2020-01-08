@@ -107,6 +107,19 @@
             @click="showSidebar = false"
           >
             <router-link
+              :to="{name: 'home'}"
+              class="sidebar-link"
+              active-class="sidebar-active"
+            >
+              <md-icon>home</md-icon>
+              Home
+            </router-link>
+          </div>
+          <div
+            class="sidebar-item sidebar-link-item"
+            @click="showSidebar = false"
+          >
+            <router-link
               :to="{name: 'departments'}"
               class="sidebar-link"
               active-class="sidebar-active"
