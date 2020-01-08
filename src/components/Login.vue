@@ -6,7 +6,7 @@
     <div class="login-form">
       <div class="form-button-row">
         <a
-          href="http://excel.staging-spg.dreamfactory.com/api/v2/okta_sso/sso"
+          :href="loginUrl"
           class="signin-button btn btn-primary"
         >Sign in with okta</a>
       </div>
@@ -16,7 +16,12 @@
 
 <script>
     export default {
-        name: "Login"
+        name: "Login",
+        data() {
+          return {
+            loginUrl: process.env.VUE_APP_LOGIN_URL,
+        }
+      },
     }
 </script>
 
