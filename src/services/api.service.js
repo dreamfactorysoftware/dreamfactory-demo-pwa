@@ -4,8 +4,8 @@ import store from "../store/main.store";
 import router from "../router";
 
 const ApiService = {
-    API_KEY: 'ff53688348ae43bfab920d08dd7bbe1379b63dba31f7067b840b77d094ac0e2c',
-    API_URL: 'http://excel.staging-spg.dreamfactory.com/api/v2',
+    API_KEY: 'd39e1f8298086d2c7b3dcf578bd743a4d2edc68bd6c602a3d27ad493792aff53',
+    API_URL: 'http://pwa-df.demo.dreamfactory.com/api/v2',
 
     getDepartments() {
         return this._getFromMysql('/departments', true)
