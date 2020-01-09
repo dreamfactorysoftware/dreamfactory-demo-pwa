@@ -27,7 +27,7 @@
             <p>{{ header }}</p>
           </div>
         </div>
-        <div class="searchbar dropdown">
+        <div class="searchbar dropdown" v-if="!searchIsNotAllowed">
           <input
             v-model="searchQuery"
             type="text"
