@@ -27,6 +27,10 @@ Now you have employees database in you docker container.
 
 **If you dont want install mysql you can just use 4, 7 and 8 commands.**   
 
+### Environment:
+There is a **.env.example** file in the root of the app. You would need to copy it and name it **.env** (for development) and **.env.production** (for production).
+Then open them and fill all env variables with respective values.
+
 ### Setup in dev mode:
 1. Install all modules for app:
     ```
