@@ -7,8 +7,8 @@ const ApiService = {
     API_KEY: process.env.VUE_APP_API_KEY,
     API_URL: process.env.VUE_APP_API_URL,
 
-    getDepartments() {
-        return this._getFromMysql('/departments', true)
+    getDepartments(search='') {
+        return this._getFromMysql(`/departments?filter=(dept_name like %${search}%)`, true)
             .then(response => {
                 this.departments = response.data.resource;
                 return response.data.resource;
@@ -26,16 +26,16 @@ const ApiService = {
             })
     },
 
-    getEmployeesByDeptId(id) {
-        return this._getFromMysql(`/departments/${id}`, true, 'employees_by_dept_emp')
+    getEmployeesByDeptId(id, search='') {
+        return this._getFromMysql(`/departments/${id}?filter=(first_name like %${search}%) or (last_name like %${search}%)`, true, 'employees_by_dept_emp')
             .then(response => response.data)
             .catch(e => {
                 return this._errorHandler(e);
             })
     },
 
-    getAllEmployeesCount() {
-        return this._getFromMysql('/employees?count_only=true')
+    getAllEmployeesCount(search='') {
+        return this._getFromMysql(`/employees?count_only=true&filter=(first_name like %${search}%) or (last_name like %${search}%)`)
             .then(response => {
                 return response.data;
             })
@@ -43,9 +43,9 @@ const ApiService = {
                 return this._errorHandler(e);
             })
     },
-
-    getEmployeesWithPagination(pageSize, offset) {
-        return this._getFromMysql('/employees', true, '', pageSize, offset)
+    //filter=(first_name like %Geor%) or (last_name like %Geor%)
+    getEmployeesWithPagination(pageSize, offset, search='') {
+        return this._getFromMysql(`/employees?filter=(first_name like %${search}%) or (last_name like %${search}%)`, true, '', pageSize, offset)
             .then(response => {
                 return response.data.resource;
             })

@@ -94,12 +94,6 @@
 
             setSearch() {
                 SearchService.clearSearchList();
-                SearchService.setSearchList(this.customers.map(c => {
-                    return {
-                        id: c.Id,
-                        search_item: `${c.Name}`
-                    }
-                }), 'customer');
             },
 
           redirectToWebsite(url) {

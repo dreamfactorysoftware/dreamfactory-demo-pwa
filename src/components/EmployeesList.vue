@@ -4,11 +4,11 @@
       Employee directory
     </h2>
     <div
-      v-if="employees.length > 0"
+      v-if="this.employees.length > 0"
       class="employees-list"
     >
       <div
-        v-for="employee in employees"
+        v-for="employee in this.employees"
         class="employee"
       >
         <router-link :to="{ name: 'employee', params: { eid: employee.emp_no} }">
@@ -50,6 +50,7 @@
     import SearchService from "../services/search.service";
     import ApiService from "../services/api.service";
     import PaginateService from "../services/paginate.service";
+    import {mapGetters} from "vuex";
 
     export default {
         name: "EmployeesList",
@@ -59,6 +60,20 @@
                 pageCount: 0,
                 currentPage: 1,
             }
+        },
+        computed: {
+            ...mapGetters([
+            'getEmployees',
+            'getSearch'
+            ])
+        },
+        watch: {
+          getSearch() {
+            console.log(!this.getSearch.empty);
+            if (!this.getSearch.empty) {
+              this.pageCount = this.getSearch.count;
+            }
+          }
         },
         mounted() {
             this.getPageCount();
@@ -76,24 +91,17 @@
             },
 
             selectPageHandler(pageNumber) {
-              pageNumber = PaginateService.validatePageNumber('employees' , pageNumber);
-              ApiService.getEmployeesWithPagination(PaginateService.getPageSize(), PaginateService.getOffset(pageNumber))
-                      .then(e => {
-                        this.employees = e;
-                        this.setSearch();
-                      });
-              this.currentPage = parseInt(PaginateService.getCurrentPage());
-            },
+              pageNumber = PaginateService.validatePageNumber(this.$route , pageNumber);
 
-            setSearch() {
-                SearchService.clearSearchList();
-                SearchService.setSearchList(this.employees.map(e => {
-                    return {
-                        id: e.emp_no,
-                        search_item: `${e.first_name} ${e.last_name}`
-                    }
-                }), 'employee');
-            },
+
+                ApiService.getEmployeesWithPagination(PaginateService.getPageSize(), PaginateService.getOffset(pageNumber))
+                    .then(employees => {
+                        this.employees = employees;
+                        this.$store.commit('setEmployees', employees);
+                    });
+
+              this.currentPage = parseInt(PaginateService.getCurrentPage());
+            }
         }
     }
 </script>

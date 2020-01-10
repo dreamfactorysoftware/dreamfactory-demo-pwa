@@ -97,12 +97,6 @@
 
             setSearch() {
                 SearchService.clearSearchList();
-                SearchService.setSearchList(this.pageEmployees.map(e => {
-                    return {
-                        id: e.emp_no,
-                        search_item: `${e.first_name} ${e.last_name}`
-                    }
-                }), 'employee');
             }
         }
     }

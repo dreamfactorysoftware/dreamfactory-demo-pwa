@@ -21,17 +21,17 @@ const PaginateService = {
         return employees.slice(this.pageSize * (pageNumber-1), this.pageSize * (pageNumber));
     },
 
-    validatePageNumber(routeName, pageNumber) {
+    validatePageNumber(route, pageNumber, count=0) {
         let isEmptyPage = typeof pageNumber === 'undefined' || !pageNumber;
 
-        if(isEmptyPage || pageNumber < 0 || !Number.isInteger(pageNumber)) {
+        if(isEmptyPage || pageNumber < 0 || !Number.isInteger(parseInt(pageNumber)) || (count !== 0 && count < pageNumber)) {
           this.currentPage = 1;
-          router.push({ name: routeName, query: { page: 1 }}).catch(err => {});
+          router.push({ name: route.name, query: { ...route.query, page: 1 }}).catch(err => {});
           return 1;
         }
 
         this.currentPage = pageNumber;
-        router.push({ name: routeName, query: { page: pageNumber }}).catch(err => {});
+        router.push({ name: route.name, query: { ...route.query, page: pageNumber }}).catch(err => {});
         return pageNumber;
     }
 };

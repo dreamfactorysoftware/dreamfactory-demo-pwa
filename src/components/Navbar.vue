@@ -33,43 +33,8 @@
             type="text"
             :placeholder="`Search ${searchPlaceholder}`"
             :disabled="searchIsNotAllowed"
+            @input="search(searchQuery)"
           >
-          <button
-            id="dropdownMenuButton1"
-            class="dropdown-toggle"
-            :disabled="searchQuery.length < 4"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-            @click="search(searchQuery)"
-          >
-            <md-icon class="search-icon">
-              search
-            </md-icon>
-          </button>
-          <div
-            class="search-result dropdown-menu dropdown-menu-right"
-            aria-labelledby="dropdownMenuButton1"
-          >
-            <div
-              v-if="searchResult.list && searchResult.list.length === 0"
-              class="dropdown-item"
-            >
-              <p>No result</p>
-            </div>
-            <router-link
-              v-for="item in searchResult.list"
-              :to="{ name: searchResult.routeName, params: { eid: item.id } }"
-              class="dropdown-item"
-            >
-              <p>{{ item.search_item }}</p>
-              <img
-                class="right-arrow-icon"
-                src="../assets/right-arrow-icon.svg"
-                alt=">"
-              >
-            </router-link>
-          </div>
         </div>
       </div>
     </div>
@@ -205,7 +170,6 @@
         data() {
             return {
                 searchQuery: '',
-                searchResult: [],
                 currentUser: {},
                 showSidebar: false,
                 searchIsNotAllowed: true,
@@ -215,15 +179,18 @@
         },
         computed: {
         ...mapGetters([
-            'getHeader'
+            'getHeader',
+            'getSearch'
         ])
         },
         watch: {
             $route(to, from) {
-                this.searchQuery = '';
-                this.showSidebar = false;
-
-                this.setSearchPlaceholder(to);
+              this.showSidebar = false;
+              if (to.query.search) {
+                this.searchQuery = to.query.search;
+                SearchService.searchHandler(to, this.searchQuery);
+              }
+              this.setSearchPlaceholder(to);
             },
 
             getHeader() {
@@ -237,18 +204,25 @@
                       this.currentUser = user;
                     }
                 });
-            this.setSearchPlaceholder(this.$route);
+          if (this.$route.query.search) {
+            this.searchQuery = this.$route.query.search;
+            SearchService.searchHandler(this.$route, this.searchQuery);
+          }
+          this.setSearchPlaceholder(this.$route);
         },
         methods: {
             search(query) {
-                this.searchResult = SearchService.searchHandler(query);
+              this.debounce(this.$route, query);
             },
+            debounce: SearchService.debounce((route, _query) => {
+              SearchService.searchHandler(route, _query);
+            }, 1000),
             logout() {
                 AuthService.logout();
                 this.$router.push({name: 'login'});
             },
             setSearchPlaceholder(route) {
-                if (route.name === 'employees' || route.name === 'department' || route.name === 'departments' || route.name === 'customers') this.searchIsNotAllowed = false;
+                if (route.name === 'employees' || route.name === 'department' || route.name === 'departments') this.searchIsNotAllowed = false;
                 else this.searchIsNotAllowed = true;
 
                 if(route.name === 'employees' || route.name === 'department') this.searchPlaceholder = 'for employees';
@@ -334,7 +308,7 @@
 
         &>input {
             background-color: $white;
-            width: 80%;
+            width: 90%;
             border: none;
             padding: 6px;
             font-size: $default-text-size;

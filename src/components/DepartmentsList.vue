@@ -62,12 +62,6 @@
     },
     setSearch() {
       SearchService.clearSearchList();
-      SearchService.setSearchList(this.departments.map(d => {
-          return {
-              id: d.dept_no,
-              search_item: `${d.dept_name}`
-          }
-      }), 'department');
     }
   }
 }
