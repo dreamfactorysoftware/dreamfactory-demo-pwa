@@ -8,6 +8,13 @@ const store = new Vuex.Store({
         header: 'Header',
         loading: false,
         departments: [],
+        employees: [],
+        search: {
+            empty: true,
+            count: 0,
+            query: '',
+            searchResult: [],
+        },
         mapEmployees: [],
         newestEmployees: [],
         isAdmin: false,
@@ -25,6 +32,10 @@ const store = new Vuex.Store({
             return state.departments;
         },
 
+        getEmployees(state) {
+            return state.employees;
+        },
+
         getEmployeesForMap(state) {
             return state.mapEmployees;
         },
@@ -35,6 +46,10 @@ const store = new Vuex.Store({
 
         getIsAdmin(state) {
           return state.isAdmin;
+        },
+
+        getSearch(state) {
+          return state.search;
         },
     },
     mutations: {
@@ -48,6 +63,14 @@ const store = new Vuex.Store({
 
         setDepartments(state, departments) {
             state.departments = departments;
+        },
+
+        setEmployees(state, employees) {
+            state.employees = employees;
+        },
+
+        setSearch(state, search) {
+            state.search = search;
         },
 
         setEmployeesForMap(state, employees) {
