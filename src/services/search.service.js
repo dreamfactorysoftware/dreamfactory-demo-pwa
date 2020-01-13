@@ -1,12 +1,10 @@
 import store from "../store/main.store";
-import router from "../router";
 import ApiService from "./api.service";
 import PaginateService from "./paginate.service";
 
 const SearchService = {
 
     searchHandler(route, query) {
-      router.push({ query: { ...route.query, search: query }}).catch(err => {});
       if(query === '') {
         store.commit('setSearch', {empty: true, searchResult: [], query: query});
         return;
@@ -14,13 +12,17 @@ const SearchService = {
 
       switch (route.name) {
         case 'employees':{
-          let dataPromise = ApiService.getEmployeesWithPagination(PaginateService.getPageSize(), PaginateService.getOffset(route.query.page), query);
-          let countPromise = ApiService.getAllEmployeesCount(query);
-
-          Promise.all([countPromise, dataPromise]).then(([count, data]) => {
-            let pageCount = Math.floor(count / PaginateService.getPageSize());
-            store.commit('setSearch', {empty: false, searchResult: data, query: query, count: pageCount});
-          });
+          let page = route.query.page;
+          let pageCount = 0;
+          ApiService.getAllEmployeesCount(query)
+              .then(count => {
+                pageCount = Math.floor(count / PaginateService.getPageSize());
+                page = PaginateService.validatePageNumber(route, page, pageCount);
+                return ApiService.getEmployeesWithPagination(PaginateService.getPageSize(), PaginateService.getOffset(page), query)
+              })
+              .then( result => {
+                store.commit('setSearch', {empty: false, searchResult: result, query: query, count: pageCount});
+              });
           break;
         }
         case 'departments':{
@@ -30,8 +32,12 @@ const SearchService = {
           break;
         }
         case 'department': {
-          ApiService.getEmployeesByDeptId(route.params.id, query).then((employees)=> {
-            store.commit('setSearch', {empty: false, searchResult: employees, query: query});
+          ApiService.getEmployeesByDeptId(route.params.id, query).then((dept)=> {
+            store.commit('setSearch',
+                { empty: false,
+                  searchResult: dept.employees_by_dept_emp.hasOwnProperty('resource') ? dept.employees_by_dept_emp.resource : dept.employees_by_dept_emp,
+                  query: query
+                });
           });
           break;
         }
@@ -42,7 +48,7 @@ const SearchService = {
       }
     },
 
-    clearSearchList() {
+    clearSearch() {
         store.commit('setSearch', {empty: true, searchResult: [], query: ''});
     },
 

@@ -59,6 +59,7 @@
     import ApiService from "../services/api.service";
     import SearchService from "../services/search.service";
     import PaginateService from "../services/paginate.service";
+    import {mapGetters} from "vuex";
 
     export default {
         name: "EmployeesByDepartmentList",
@@ -72,16 +73,42 @@
             }
         },
         mounted() {
-            this.getDeptEmployees();
+            this.getDeptEmployeesForPage();
         },
         beforeDestroy() {
-            SearchService.clearSearchList();
+            SearchService.clearSearch();
+        },
+        computed: {
+          ...mapGetters([
+            'getDeptEmployees',
+            'getSearch'
+          ])
+        },
+        watch: {
+          getSearch() {
+            if (!this.getSearch.empty) {
+              this.allDeptEmployees = this.getSearch.searchResult;
+              this.pageCount = Math.floor(this.allDeptEmployees.length / PaginateService.getPageSize());
+              this.selectPageHandler(this.$route.query.page);
+            } else {
+              this.allDeptEmployees = this.getDeptEmployees;
+              this.selectPageHandler(this.$route.query.page);
+            }
+          }
         },
         methods: {
-            getDeptEmployees() {
+            getDeptEmployeesForPage() {
                 ApiService.getEmployeesByDeptId(this.$router.currentRoute.params.id).then(dept => {
                     this.department = dept;
-                    this.allDeptEmployees = dept.employees_by_dept_emp;
+                    var allDeptEmployees = dept.employees_by_dept_emp.hasOwnProperty('resource') ? dept.employees_by_dept_emp.resource : dept.employees_by_dept_emp;
+                    this.$store.commit('setDeptEmployees', allDeptEmployees);
+
+                    if (this.getSearch.searchResult.length > 0) {
+                      this.allDeptEmployees = this.getSearch.searchResult;
+                    } else {
+                      this.allDeptEmployees = allDeptEmployees;
+                    }
+
                     this.pageCount = Math.floor(this.allDeptEmployees.length / PaginateService.getPageSize());
                     this.selectPageHandler(this.$route.query.page);
                     this.$store.commit('setHeader', dept.dept_name);
@@ -89,14 +116,9 @@
             },
 
             selectPageHandler(pageNumber) {
-                pageNumber = PaginateService.validatePageNumber('department' , pageNumber);
+                pageNumber = PaginateService.validatePageNumber(this.$route , pageNumber, this.pageCount);
                 this.currentPage = parseInt(PaginateService.getCurrentPage());
                 this.pageEmployees = PaginateService.getDeptEmployeesForPage(this.allDeptEmployees, pageNumber);
-                this.setSearch();
-            },
-
-            setSearch() {
-                SearchService.clearSearchList();
             }
         }
     }
