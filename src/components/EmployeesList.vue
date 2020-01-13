@@ -4,11 +4,11 @@
       Employee directory
     </h2>
     <div
-      v-if="this.employees.length > 0"
+      v-if="employees.length > 0"
       class="employees-list"
     >
       <div
-        v-for="employee in this.employees"
+        v-for="employee in employees"
         class="employee"
       >
         <router-link :to="{ name: 'employee', params: { eid: employee.emp_no} }">
@@ -69,9 +69,14 @@
         },
         watch: {
           getSearch() {
-            console.log(!this.getSearch.empty);
             if (!this.getSearch.empty) {
               this.pageCount = this.getSearch.count;
+              this.currentPage = parseInt(this.$route.query.page);
+              this.employees = this.getSearch.searchResult;
+            } else {
+              this.getPageCount();
+              this.currentPage = PaginateService.validatePageNumber(this.$route, parseInt(this.$route.query.page), this.pageCount);
+              this.employees = this.getEmployees;
             }
           }
         },
@@ -81,7 +86,7 @@
             this.$store.commit('setHeader', 'Employees');
         },
         beforeDestroy() {
-            SearchService.clearSearchList();
+            SearchService.clearSearch();
         },
         methods: {
             getPageCount() {
@@ -93,11 +98,15 @@
             selectPageHandler(pageNumber) {
               pageNumber = PaginateService.validatePageNumber(this.$route , pageNumber);
 
-
-                ApiService.getEmployeesWithPagination(PaginateService.getPageSize(), PaginateService.getOffset(pageNumber))
+              ApiService.getEmployeesWithPagination(PaginateService.getPageSize(), PaginateService.getOffset(pageNumber))
                     .then(employees => {
-                        this.employees = employees;
                         this.$store.commit('setEmployees', employees);
+
+                        if (this.getSearch.searchResult.length > 0) {
+                          this.employees = this.getSearch.searchResult;
+                        } else {
+                          this.employees = employees;
+                        }
                     });
 
               this.currentPage = parseInt(PaginateService.getCurrentPage());

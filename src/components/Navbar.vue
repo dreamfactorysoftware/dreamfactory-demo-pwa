@@ -27,14 +27,16 @@
             <p>{{ header }}</p>
           </div>
         </div>
-        <div class="searchbar dropdown" v-if="!searchIsNotAllowed">
-          <input
+        <div class="searchbar" v-if="!searchIsNotAllowed">
+          <md-field md-clearable >
+            <md-input
             v-model="searchQuery"
             type="text"
             :placeholder="`Search ${searchPlaceholder}`"
             :disabled="searchIsNotAllowed"
             @input="search(searchQuery)"
-          >
+            />
+          </md-field>
         </div>
       </div>
     </div>
@@ -186,11 +188,17 @@
         watch: {
             $route(to, from) {
               this.showSidebar = false;
-              if (to.query.search) {
-                this.searchQuery = to.query.search;
-                SearchService.searchHandler(to, this.searchQuery);
+              if (typeof to.query.search === 'undefined' || to.query.search === '') {
+                 this.searchQuery = '';
+                 SearchService.clearSearch();
               }
               this.setSearchPlaceholder(to);
+            },
+
+            searchQuery(){
+              if (this.searchQuery.length < 2) {
+                SearchService.clearSearch();
+              }
             },
 
             getHeader() {
@@ -212,10 +220,13 @@
         },
         methods: {
             search(query) {
+              this.$router.push({ query: { ...this.$route.query, search: query }});
               this.debounce(this.$route, query);
             },
             debounce: SearchService.debounce((route, _query) => {
-              SearchService.searchHandler(route, _query);
+              if (_query.length >= 2) {
+                SearchService.searchHandler(route, _query);
+              }
             }, 1000),
             logout() {
                 AuthService.logout();
@@ -300,80 +311,20 @@
 
     /* SEARCH BAR STYLES */
     .searchbar {
-        width: 100%;
+        width: 90%;
         margin: 0 0 0 15px;
         display: flex;
         justify-content: flex-start;
         align-items: center;
+    }
 
+    .md-field {
         &>input {
             background-color: $white;
             width: 90%;
             border: none;
             padding: 6px;
             font-size: $default-text-size;
-        }
-
-        &>button {
-            background-color: transparent;
-            border: none;
-            width: auto;
-            height: auto;
-            padding: 6px;
-            margin-left: 10px;
-            transition: .2s ease;
-
-            &:hover {
-              background-color: rgba(255,255,255,0.1);
-              border-radius: 50%;
-              cursor: pointer;
-            }
-        }
-    }
-
-    .search-icon {
-        color: $white !important;
-    }
-
-    .search-result {
-        width: 250px;
-        height: auto;
-        border: none;
-        border-radius: 6px;
-        box-shadow: 0 20px 10px -10px rgba(0,0,0,0.15), 0 0 10px 0 rgba(0,0,0,0.1);
-        padding: 10px 0;
-    }
-
-    .dropdown-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        color: $darkest-blue !important;
-
-        &:active {
-            background-color: $light-gray;
-        }
-
-        &:hover {
-            text-decoration: none;
-        }
-    }
-
-    .dropdown-toggle {
-
-        &::after {
-          display: none;
-        }
-    }
-
-    .right-arrow-icon {
-        width: 25px;
-        padding: 5px;
-        border-radius: 50%;
-        transition: 0.3s ease;
-
-        &:hover {
-          background-color: $light-gray;
         }
     }
 

@@ -40,13 +40,25 @@
   },
   computed: {
     ...mapGetters([
-      'getDepartments'
+      'getDepartments',
+      'getSearch'
     ])
+  },
+  watch: {
+    getSearch() {
+      if (!this.getSearch.empty) {
+        this.departments = this.getSearch.searchResult;
+      } else {
+        this.departments = this.getDepartments;
+      }
+    }
   },
   mounted() {
     this.getDepartmentsList();
-    this.setSearch();
     this.$store.commit('setHeader', 'Departments');
+  },
+  beforeDestroy() {
+    SearchService.clearSearch();
   },
   methods: {
     getDepartmentsList() {
@@ -55,13 +67,15 @@
       }
       else {
         ApiService.getDepartments().then(departments => {
-          this.departments = departments;
           this.$store.commit('setDepartments', departments);
+
+          if (this.getSearch.searchResult.length > 0) {
+            this.departments = this.getSearch.searchResult;
+          } else {
+            this.departments = departments;
+          }
         });
       }
-    },
-    setSearch() {
-      SearchService.clearSearchList();
     }
   }
 }

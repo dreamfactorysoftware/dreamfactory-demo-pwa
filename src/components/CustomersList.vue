@@ -56,7 +56,6 @@
 </template>
 
 <script>
-    import SearchService from "../services/search.service";
     import ApiService from "../services/api.service";
     import PaginateService from "../services/paginate.service";
 
@@ -73,9 +72,6 @@
             this.selectPageHandler(1);
             this.$store.commit('setHeader', 'Customers');
         },
-        beforeDestroy() {
-            SearchService.clearSearchList();
-        },
         methods: {
             getPageCount() {
                 ApiService.getAllCustomersCount().then(d => {
@@ -88,12 +84,7 @@
               ApiService.getCustomersWithPagination(PaginateService.getPageSize(), PaginateService.getOffset(pageNumber))
                       .then(customers => {
                         this.customers = customers;
-                        this.setSearch();
                       });
-            },
-
-            setSearch() {
-                SearchService.clearSearchList();
             },
 
           redirectToWebsite(url) {

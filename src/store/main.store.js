@@ -9,6 +9,7 @@ const store = new Vuex.Store({
         loading: false,
         departments: [],
         employees: [],
+        deptEmployees:[],
         search: {
             empty: true,
             count: 0,
@@ -30,6 +31,10 @@ const store = new Vuex.Store({
 
         getDepartments(state) {
             return state.departments;
+        },
+
+        getDeptEmployees(state) {
+            return state.deptEmployees;
         },
 
         getEmployees(state) {
@@ -63,6 +68,10 @@ const store = new Vuex.Store({
 
         setDepartments(state, departments) {
             state.departments = departments;
+        },
+
+        setDeptEmployees(state, deptEmployees) {
+            state.deptEmployees = deptEmployees;
         },
 
         setEmployees(state, employees) {

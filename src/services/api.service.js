@@ -8,7 +8,7 @@ const ApiService = {
     API_URL: process.env.VUE_APP_API_URL,
 
     getDepartments(search='') {
-        return this._getFromMysql(`/departments?filter=(dept_name like %${search}%)`, true)
+        return this._getFromMysql(`/departments?filter=(dept_name like ${search}%)`, true)
             .then(response => {
                 this.departments = response.data.resource;
                 return response.data.resource;
@@ -27,7 +27,7 @@ const ApiService = {
     },
 
     getEmployeesByDeptId(id, search='') {
-        return this._getFromMysql(`/departments/${id}?filter=(first_name like %${search}%) or (last_name like %${search}%)`, true, 'employees_by_dept_emp')
+        return this._getFromMysql(`/departments/${id}`, true, `employees_by_dept_emp&employees_by_dept_emp_filter=(first_name like %${search}%) or (last_name like %${search}%)`)
             .then(response => response.data)
             .catch(e => {
                 return this._errorHandler(e);
@@ -43,7 +43,7 @@ const ApiService = {
                 return this._errorHandler(e);
             })
     },
-    //filter=(first_name like %Geor%) or (last_name like %Geor%)
+
     getEmployeesWithPagination(pageSize, offset, search='') {
         return this._getFromMysql(`/employees?filter=(first_name like %${search}%) or (last_name like %${search}%)`, true, '', pageSize, offset)
             .then(response => {
