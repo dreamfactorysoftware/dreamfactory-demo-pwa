@@ -88,12 +88,12 @@
           getSearch() {
             if (!this.getSearch.isEmpty) {
               this.allDeptEmployees = this.getSearch.searchResult;
-              this.pageCount = Math.floor(this.allDeptEmployees.length / PaginateService.getPageSize());
-              this.selectPageHandler(this.$route.query.page);
             } else {
               this.allDeptEmployees = this.getDeptEmployees;
-              this.selectPageHandler(this.$route.query.page);
             }
+
+            this.pageCount = Math.floor(this.allDeptEmployees.length / PaginateService.getPageSize());
+            this.selectPageHandler(this.$route.query.page);
           }
         },
         methods: {
