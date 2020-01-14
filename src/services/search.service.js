@@ -6,7 +6,7 @@ const SearchService = {
 
     searchHandler(route, query) {
       if(query === '') {
-        store.commit('setSearch', {empty: true, searchResult: [], query: query});
+        store.commit('setSearch', {isEmpty: true, searchResult: [], query: query});
         return;
       }
 
@@ -21,20 +21,20 @@ const SearchService = {
                 return ApiService.getEmployeesWithPagination(PaginateService.getPageSize(), PaginateService.getOffset(page), query)
               })
               .then( result => {
-                store.commit('setSearch', {empty: false, searchResult: result, query: query, count: pageCount});
+                store.commit('setSearch', {isEmpty: false, searchResult: result, query: query, count: pageCount});
               });
           break;
         }
         case 'departments':{
           ApiService.getDepartments(query).then((depertments)=> {
-            store.commit('setSearch', {empty: false, searchResult: depertments, query: query});
+            store.commit('setSearch', {isEmpty: false, searchResult: depertments, query: query});
           });
           break;
         }
         case 'department': {
           ApiService.getEmployeesByDeptId(route.params.id, query).then((dept)=> {
             store.commit('setSearch',
-                { empty: false,
+                { isEmpty: false,
                   searchResult: dept.employees_by_dept_emp.hasOwnProperty('resource') ? dept.employees_by_dept_emp.resource : dept.employees_by_dept_emp,
                   query: query
                 });
@@ -42,14 +42,14 @@ const SearchService = {
           break;
         }
         default:{
-          store.commit('setSearch', {empty: true, searchResult: [], query: query});
+          store.commit('setSearch', {isEmpty: true, searchResult: [], query: query});
           break;
         }
       }
     },
 
     clearSearch() {
-        store.commit('setSearch', {empty: true, searchResult: [], query: ''});
+        store.commit('setSearch', {isEmpty: true, searchResult: [], query: ''});
     },
 
     debounce(func, wait, immediate) {

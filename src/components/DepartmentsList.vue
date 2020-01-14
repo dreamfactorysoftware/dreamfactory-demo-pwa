@@ -46,7 +46,7 @@
   },
   watch: {
     getSearch() {
-      if (!this.getSearch.empty) {
+      if (!this.getSearch.isEmpty) {
         this.departments = this.getSearch.searchResult;
       } else {
         this.departments = this.getDepartments;
