@@ -69,7 +69,7 @@
         },
         watch: {
           getSearch() {
-            if (!this.getSearch.empty) {
+            if (!this.getSearch.isEmpty) {
               this.pageCount = this.getSearch.count;
               this.currentPage = parseInt(this.$route.query.page);
               this.employees = this.getSearch.searchResult;

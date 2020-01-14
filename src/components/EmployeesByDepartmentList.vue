@@ -86,7 +86,7 @@
         },
         watch: {
           getSearch() {
-            if (!this.getSearch.empty) {
+            if (!this.getSearch.isEmpty) {
               this.allDeptEmployees = this.getSearch.searchResult;
               this.pageCount = Math.floor(this.allDeptEmployees.length / PaginateService.getPageSize());
               this.selectPageHandler(this.$route.query.page);

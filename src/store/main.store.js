@@ -11,7 +11,7 @@ const store = new Vuex.Store({
         employees: [],
         deptEmployees:[],
         search: {
-            empty: true,
+            isEmpty: true,
             count: 0,
             query: '',
             searchResult: [],
