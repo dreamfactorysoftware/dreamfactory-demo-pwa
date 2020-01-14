@@ -3,12 +3,13 @@ services:
   mysql:
     image: 'mysql:5.7'
     environment:
-      MYSQL_DATABASE: 'database'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: 'root'
+      MYSQL_DATABASE: 'employees'
+      MYSQL_USER: 'df-admin'
+      MYSQL_PASSWORD: 'df-admin'
       MYSQL_ROOT_PASSWORD: 'root'
     volumes:
     - my-db-2:/var/lib/mysql
+    - ./mysql-employee-example-database:/docker-entrypoint-initdb.d
     ports:
     - 3306:3306
     restart: always
