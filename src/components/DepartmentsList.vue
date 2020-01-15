@@ -23,6 +23,7 @@
         </router-link>
       </div>
     </div>
+    <div v-if="!getSearch.isEmpty && departments.length === 0" class="empty-search"> <h3>No result</h3></div>
   </div>
 </template>
 
@@ -69,7 +70,7 @@
         ApiService.getDepartments().then(departments => {
           this.$store.commit('setDepartments', departments);
 
-          if (this.getSearch.searchResult.length > 0) {
+          if (!this.getSearch.isEmpty) {
             this.departments = this.getSearch.searchResult;
           } else {
             this.departments = departments;

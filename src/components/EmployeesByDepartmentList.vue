@@ -39,6 +39,7 @@
         </router-link>
       </div>
     </div>
+    <div v-if="!getSearch.isEmpty && pageEmployees.length === 0" class="empty-search"> <h3>No result</h3></div>
     <div
       v-if="pageCount !== 0"
       class="pagination-container"
@@ -103,7 +104,7 @@
                     var allDeptEmployees = dept.employees_by_dept_emp.hasOwnProperty('resource') ? dept.employees_by_dept_emp.resource : dept.employees_by_dept_emp;
                     this.$store.commit('setDeptEmployees', allDeptEmployees);
 
-                    if (this.getSearch.searchResult.length > 0) {
+                    if (!this.getSearch.isEmpty) {
                       this.allDeptEmployees = this.getSearch.searchResult;
                     } else {
                       this.allDeptEmployees = allDeptEmployees;
