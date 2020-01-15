@@ -201,11 +201,11 @@ const ApiService = {
     },
 
     _getFromMysql(url, withLoading, related = '', limit = '', offset = '') {
-        return this._get(`${this.API_URL}/mysql/_table${url}${url.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}&related=${related}`, withLoading);
+        return this._get(`${this.API_URL}/${process.env.VUE_APP_MYSQL_NAMESPACE}/_table${url}${url.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}&related=${related}`, withLoading);
     },
 
     _getFromSalesforce(url, withLoading, related = '', limit = '', offset = '') {
-        return this._get(`${this.API_URL}/salesforce/_table${url}${url.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}&related=${related}`, withLoading);
+        return this._get(`${this.API_URL}/${process.env.VUE_APP_SALESFORCE_NAMESPACE}/_table${url}${url.includes('?') ? '&' : '?'}limit=${limit}&offset=${offset}&related=${related}`, withLoading);
     },
 
     _getApiHeaders() {
