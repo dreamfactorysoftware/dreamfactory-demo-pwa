@@ -142,6 +142,11 @@ Then open them and fill all env variables with respective values.
 
 More about environment variables [here](https://cli.vuejs.org/guide/mode-and-env.html#environment-variables). 
 
+#### PWA Functions:
+For PWA functionality to work app must be served over HTTPS. 
+In case you are using a Digital Ocean server, [this guide](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04) might come in handy.
+Or if you are using a reverse proxy see [this guide](https://www.digitalocean.com/community/tutorials/how-to-configure-nginx-with-ssl-as-a-reverse-proxy-for-jenkins) (but without Jenkins redirect). You can also use [NGROK](https://ngrok.com/) for development.
+
 ### Setup in dev mode:
 1. Install all modules for app:
     ```
@@ -154,8 +159,6 @@ More about environment variables [here](https://cli.vuejs.org/guide/mode-and-env
     ```
 
 ### Setup in Production mode:
-
-##### Be attention. For properly register Service Worker app must be served over HTTPS in production.
 
 #### First way - using serve package
 
