@@ -12,8 +12,12 @@ To set up the database follow these steps:
     ```
    Wait a bit for logs to full stop, then Ctrl + C and you are all set.
 4. Configure the database in your DF using [this guide](https://guide.dreamfactory.com/docs/chapter03.html#generating-a-mysql-backed-api).
+
 ### Configuring Okta
 To configuring Okta for your app use [this guide](https://guide.dreamfactory.com/docs/chapter04.html#authenticating-with-okta).
+
+### Configuring Salesforce service
+To configuring Salesforce service for your app use [this guide](https://guide.dreamfactory.com/docs/salesforce.html#configuring-the-salesforce-service).
 
 ### Environment:
 There is a **.env.example** file in the root of the app. You would need to copy it and name it **.env** (for development) and **.env.production** (for production).
