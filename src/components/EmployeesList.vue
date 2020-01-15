@@ -30,6 +30,7 @@
         </router-link>
       </div>
     </div>
+    <div v-if="!getSearch.isEmpty && employees.length === 0" class="empty-search"> <h3>No result</h3></div>
     <div
       v-if="pageCount !== 0"
       class="pagination-container"
@@ -102,7 +103,7 @@
                     .then(employees => {
                         this.$store.commit('setEmployees', employees);
 
-                        if (this.getSearch.searchResult.length > 0) {
+                        if (!this.getSearch.isEmpty) {
                           this.employees = this.getSearch.searchResult;
                         } else {
                           this.employees = employees;
