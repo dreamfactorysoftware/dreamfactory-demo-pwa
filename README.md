@@ -1,140 +1,19 @@
 # Demo PWA
-## Project setup
 
 ### Setup database:
-For this application was used [MySQL example employee database](https://dev.mysql.com/doc/employee/en/). In the default MySQL employees example database was changed some tables and added a few new tables.
+[MySQL example employee database](https://dev.mysql.com/doc/employee/en/) was used for this application, but with extra tables and fields.
 
-For setting up the database follow the next steps:
-1. Open docker-compose.yaml and change data for database if you need it. 
+To set up the database follow these steps:
+1. Unzip archive mysql-employee-example-database.zip that contains database.
 2. Open "database" folder path in shell.
-3. Execute next command for running mysql in docker
+3. Execute the next command to setup mysql in docker and see logs:
     ```
-    docker-compose up -d
+    docker-compose up -d && docker-compose logs -f
     ```
-   '-d' for detached mode. 
-4. Unzip archive mysql-employee-example-database.zip that contains database.
-5. Copy database into container with database
-    ```
-     docker cp mysql-employee-example-database/ <DATABASE CONTAINER NAME>:home/
-    ```
-6. Open container in bash
-    ```
-     docker exec -it <DATABASE CONTAINER NAME> bash
-    ```   
-7. Go inside folder with database.
-8. Execute the next command for creating employees database
-    ```
-    mysql -u <DATABASE USERNAME> -p -t < employees.sql
-    ```
-9. Configure the database in your DF using [this guide](https://guide.dreamfactory.com/docs/chapter03.html#generating-a-mysql-backed-api).
-
-**If you dont want install mysql you can just use 4, 7, 8 and 9 commands.**   
-
+   Wait a bit for logs to full stop, then Ctrl + C and you are all set.
+4. Configure the database in your DF using [this guide](https://guide.dreamfactory.com/docs/chapter03.html#generating-a-mysql-backed-api).
 ### Configuring Okta
 To configuring Okta for your app use [this guide](https://guide.dreamfactory.com/docs/chapter04.html#authenticating-with-okta).
-
-### DF Scripts
-Scripts are used to hiding the last 4 symbols in the phone numbers on the employee page and for search.
-
-First of all, go to the scripts tab in your DF.
-
-1. Script that will hide the last 4 symbols in phone number:
-    * Go to the next way to hide the last 4 symbols in number for all employees:
-        ```
-        mysql > mysql._table.{table_name} > mysql._table.{table_name}.get.post_process > mysql._table.employees.get.post_process
-        ```
-       Then configure a script:
-       
-       ![hide 4 symbol script config 1](readme/config-for-hiding-last-symbols-script-1.png)
-    
-        After that copy and paste this code in the script field:
-        ```
-        $records = $event['response']['content']['resource'];
-        
-        foreach($records as $index => $record){
-            $record['telephone'] = str_replace(substr($record['telephone'], -4), '****', $record['telephone']);
-            $records[$index] = $record;
-        }
-        
-        $event['response']['content']['resource'] = $records; 
-        ```
-   
-   * Go to the next way to hide the last 4 symbols in phone number for one employee:
-       ```
-       mysql > mysql._table.{table_name}.{id} > mysql._table.{table_name}.{id}.get.post_process > mysql._table.employees.{id}.get.post_process
-       ```
-       Then configure a script:
-       
-       ![hide 4 symbol script config 2](readme/config-for-hiding-last-symbols-script-2.png) 
-     
-       After that copy and paste this code in the script field:
-       ```
-       $record = $event['response']['content'];
-       $record['telephone'] = str_replace(substr($record['telephone'], -4), '****', $record['telephone']);
-       
-       $event['response']['content']= $record;
-       ```
-    
-2. To create a script for search go to the next way: 
-    ```
-    mysql > mysql._table.{table_name}.{id} > mysql._table.{table_name}.{id}.get.post_process > mysql._table.departments.{id}.get.post_process
-    ```
-    
-    Then configure a script:
-    
-    ![search script config](readme/config-for-search-script.png)
-    
-    After that copy and paste this code in the script field:
-    ```
-    $relationship_name = 'employees_by_dept_emp';
-    $related_filter_name = 'employees_by_dept_emp_filter';
-    $related_service_name = 'mysql';
-    $related_table_name = 'employees';
-    $related_id_field = 'emp_no';
-    $related_endpoint = $related_service_name . '/_table/' . $related_table_name;
-    $options = [];
-    $options['parameters'] = [];
-    $params = $event['request']['parameters'];
-    $get = $platform['api']->get;
-                
-    function map($record)
-    {
-        return $record['emp_no'];
-    }
-    
-    if (isset($params['related'])) {
-        if (isset($params[$related_filter_name])) {
-            if (isset($params['related'][$relationship_name])) {
-                $options['parameters']['fields'] = $related_id_field;
-                $options['parameters']['filter'] = $params[$related_filter_name];
-                $related_result = $get($related_endpoint, null, $options);
-    
-                $result = [];
-                $filteredEmployee = $related_result['content']['resource']; 
-                $deptEmp = $event['response']['content'][$relationship_name];
-                
-                preg_match('/.*\%(.*)\%/m', $options['parameters']['filter'], $matches);
-                
-                if ($matches[1] !== '') {
-                    foreach($deptEmp as $dEmployee){
-                    foreach($filteredEmployee as $fEmployee) {
-                        if($dEmployee['emp_no'] === $fEmployee['emp_no']) {
-                            $result [] = $dEmployee;
-                        }
-                    }
-                }
-                $event['response']['content'][$relationship_name] = $result;
-                }
-            }
-        }
-    }
-    ```
-   
-### DF Mailgun
-For send support email used DF Mailgun feature.
-
-1. Create Mailgun account [here](https://www.mailgun.com/).
-2. Create DF Mailgun connector using [this guide](http://wiki.dreamfactory.com/DreamFactory/Tutorials/Connecting_to_Email_Services#Mailgun_Email_Service).
 
 ### Environment:
 There is a **.env.example** file in the root of the app. You would need to copy it and name it **.env** (for development) and **.env.production** (for production).
@@ -142,25 +21,57 @@ Then open them and fill all env variables with respective values.
 
 More about environment variables [here](https://cli.vuejs.org/guide/mode-and-env.html#environment-variables). 
 
-#### PWA Functions:
-For PWA functionality to work app must be served over HTTPS. 
+### DF Scripts
+Event Scripts are used to hide the last 4 symbols of employee's phone number and for search employees on employees by department page
+
+First of all, go to the scripts tab in your DF.
+
+Add scripts for the next endpoints using related scripts from a df-script folder in the root path.
+
+1. Script that will hide the last 4 symbols of all employees phone numbers:
+    ```
+    mysql > mysql._table.{table_name} > mysql._table.{table_name}.get.post_process > mysql._table.employees.get.post_process
+    ```
+   
+    Script file: **hide-last-4-phone-symbols-for-all-employees.php**.
+
+2. Script that will hide the last 4 symbols of an employee phone number:
+    ```
+    mysql > mysql._table.{table_name}.{id} > mysql._table.{table_name}.{id}.get.post_process > mysql._table.employees.{id}.get.post_process
+    ```     
+   Script file: **hide-last-4-phone-symbols-for-one-employee.php**.
+   
+3. Scripts for the search feature on employees by department page:
+    ```
+    mysql > mysql._table.{table_name}.{id} > mysql._table.{table_name}.{id}.get.post_process > mysql._table.departments.{id}.get.post_process
+    ```
+   Script file: **search-employees-by-department.php**.
+   
+Configuration is the same for all scripts, to choose script from your desktop click "**Select file**" button in "**Import a script file**" area.   
+
+Example:
+
+![hide 4 symbol script config 1](readme/config-for-hiding-last-symbols-script-1.png) 
+
+#### Note: 
+In case you specify employees database DF service namespace something different from "mysql", you would need to change $related_service_name variable value to suitable service name in the **search-employees-by-department.php**. Also, you would need to change event scripts endpoints from "mysql" to your service name.
+
+Otherwise, search on employees by department page will not work because it is [using event scripts to filter related data](https://blog.dreamfactory.com/event-scripts-filter-related-data/).
+
+### DF Mailgun
+DF Mailgun feature used to send support emails.
+
+1. Create Mailgun account [here](https://www.mailgun.com/).
+2. Create DF Mailgun connector using [this guide](http://wiki.dreamfactory.com/DreamFactory/Tutorials/Connecting_to_Email_Services#Mailgun_Email_Service).
+
+### PWA Functions:
+For PWA functionality to work, the app must be served over HTTPS.
 In case you are using a Digital Ocean server, [this guide](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04) might come in handy.
 Or if you are using a reverse proxy see [this guide](https://www.digitalocean.com/community/tutorials/how-to-configure-nginx-with-ssl-as-a-reverse-proxy-for-jenkins) (but without Jenkins redirect). You can also use [NGROK](https://ngrok.com/) for development.
 
-### Setup in dev mode:
-1. Install all modules for app:
-    ```
-    npm install
-    ```
-
-2. Run app with compiles and hot-reloads:
-    ```
-    npm run serve
-    ```
-
 ### Setup in Production mode:
 
-#### First way - using serve package
+#### First way - using [serve](https://www.npmjs.com/package/serve) package
 
 1. Build app
     ```
@@ -182,7 +93,18 @@ Or if you are using a reverse proxy see [this guide](https://www.digitalocean.co
     docker run -d -p 8080:80 my-app
     ```
 
+### Setup in dev mode:
+1. Install all modules for app:
+    ```
+    npm install
+    ```
+
+2. Run app with compiles and hot-reloads:
+    ```
+    npm run serve
+    ```
+   
 #### ESLint
 Run ```eslint --ext .js,.vue src``` to see lint problems
 
-Add ```--fix``` flag to fix problems
+Add ```--fix``` flag to fix problems   
