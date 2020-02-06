@@ -17,6 +17,8 @@ To set up the database follow these steps:
 To configuring Okta for your app use [this guide](https://guide.dreamfactory.com/docs/chapter04.html#authenticating-with-okta).
 
 ### Configuring Salesforce service
+If you don't want to use Salesforce service, you can go to your `.env` file and change value from `true` to `false` in the `VUE_USE_SALESFORCE` field.
+ 
 To configuring Salesforce service for your app use [this guide](https://guide.dreamfactory.com/docs/salesforce.html#configuring-the-salesforce-service).
 
 ### Environment:

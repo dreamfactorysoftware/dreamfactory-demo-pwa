@@ -21,6 +21,7 @@
         md-icon="group"
       />
       <md-bottom-bar-item
+        v-if="salesforceIsEnabled"
         :to="{name: 'customers'}"
         md-label="Customers"
         md-icon="accessibility_new"
@@ -36,7 +37,16 @@
 
 <script>
     export default {
-        name: "BottomBar"
+        name: "BottomBar",
+        data() {
+          return {
+            salesforceIsEnabled: false,
+          };
+        },
+        mounted() {
+          this.salesforceIsEnabled = process.env.VUE_APP_USE_SALESFORCE === 'true';
+
+        }
     }
 </script>
 
