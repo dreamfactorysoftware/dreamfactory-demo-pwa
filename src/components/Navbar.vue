@@ -220,7 +220,7 @@
           }
           this.setSearchPlaceholder(this.$route);
 
-          this.salesforceIsEnabled = process.env.VUE_APP_USE_SALESFORCE === 'true';;
+          this.salesforceIsEnabled = process.env.VUE_APP_USE_SALESFORCE === 'true';
         },
         methods: {
             search(query) {
