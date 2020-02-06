@@ -109,6 +109,7 @@
             </router-link>
           </div>
           <div
+            v-if="salesforceIsEnabled"
             class="sidebar-item sidebar-link-item"
             @click="showSidebar = false"
           >
@@ -177,6 +178,7 @@
                 searchIsNotAllowed: true,
                 searchPlaceholder: '',
                 header: this.getHeader,
+                salesforceIsEnabled: true,
             }
         },
         computed: {
@@ -217,6 +219,8 @@
             SearchService.searchHandler(this.$route, this.searchQuery);
           }
           this.setSearchPlaceholder(this.$route);
+
+          this.salesforceIsEnabled = process.env.VUE_APP_USE_SALESFORCE === 'true';;
         },
         methods: {
             search(query) {
