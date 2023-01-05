@@ -24,7 +24,7 @@
     "@vue/cli-plugin-babel": "^4.1.0",
     "@vue/cli-plugin-pwa": "^4.1.0",
     "@vue/cli-plugin-router": "^4.1.0",
-    "@vue/cli-service": "^4.1.0",
+    "@vue/cli-service": "^5.0.8",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^6.0.2",
     "node-sass": "^4.12.0",
